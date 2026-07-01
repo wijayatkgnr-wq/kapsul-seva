@@ -9,7 +9,7 @@
 // 🔐 KONFIGURASI UTAMA SHEET ID & GITHUB - TERKUNCI AMAN DI MEMORI SCRIPT (.GS)
 // ============================================================================
 // ID Spreadsheet Utama untuk pengaturan, data pendaftaran, dan log kedatangan
-const ADMIN_SS_ID = "1iTqo83VqSQ8tnh8KGeZ4gHP3q6fYMbvQb7jqBWPokBw";
+const ADMIN_SS_ID = "1wgWLa8WevEFny6dyWMiITywUI6B1bHy9Jy1Jc-7zQ2c";
 const LAGU_SS_ID  = "1MoB0Yeydrf1yO6DmD2zvk2FyrgU7zuqzMIYJsr2xXPs"; 
 const ADMIN_PASSWORD = "8484";
 const GITHUB_USER  = "wijayatkgnr-wq";
@@ -50,6 +50,14 @@ function ambilVersiTerbaruServer() {
   return PropertiesService.getScriptProperties().getProperty('VERSION') || "3.18";
 }
 
+
+
+
+
+
+
+
+
 /**
  * DATABASE LAGU UTAMA
  * Tugas: Menarik seluruh daftar lagu dari semua sheet kecuali "Sheet1",
@@ -63,7 +71,7 @@ function getSemuaLagu() {
   if (!ssLagu) return [];
   
   const sheets = ssLagu.getSheets().sort((a, b) => a.getIndex() - b.getIndex());
-  const excludedSheets = ["Sheet1"];
+  const excludedSheets = ["Pemicu"];
   let allSongs = [];
 
   sheets.forEach(sh => {
@@ -94,61 +102,291 @@ function getSemuaLagu() {
 }
 
 
-/**
- * TAHAP 1: ROMBAK BAGASI INITIAL (SINKRONISASI TAS DATA PRE-FETCH)
- * Tugas: Memaketkan data Vital sekaligus dalam satu kali perjalanan internet
- * Efisiensi: Memanfaatkan memori terpusat tunggal agar booting instan & hemat kuota
- */
-function getBundledInitialData() {
+function getBundledInitialData(idUserLogin, tokenStartupHp) {
   try {
-    var dataLiveDriveMentah = "";
+    // 🕒 1. Ambil waktu edit instan Admin dari memori RAM Server (Sistem Baru)
+    let versiSpreadsheetTerbaru = "0";
     try {
-      if (typeof ambilDaftarBlokirDriveSecaraLive === "function") {
-        dataLiveDriveMentah = ambilDaftarBlokirDriveSecaraLive();
+      var cache = CacheService.getScriptCache();
+      var nilaiCache = cache.get('VERSI_ADMIN_INSTAN');
+      if (nilaiCache) {
+        versiSpreadsheetTerbaru = nilaiCache;
+      } else {
+        var propertiVersi = PropertiesService.getScriptProperties().getProperty('VERSI_ADMIN_INSTAN');
+        if (propertiVersi) {
+          versiSpreadsheetTerbaru = propertiVersi;
+          cache.put('VERSI_ADMIN_INSTAN', versiSpreadsheetTerbaru, 21600);
+        } else {
+          versiSpreadsheetTerbaru = new Date().getTime().toString();
+          PropertiesService.getScriptProperties().setProperty('VERSI_ADMIN_INSTAN', versiSpreadsheetTerbaru);
+          cache.put('VERSI_ADMIN_INSTAN', versiSpreadsheetTerbaru, 21600);
+        }
       }
-    } catch (errDrive) {
-      console.log("Gagal prapemuatan bagasi Drive, dilewati aman: " + errDrive.message);
+    } catch (e) { 
+      versiSpreadsheetTerbaru = new Date().getTime().toString(); 
     }
 
-    // Mengambil data terpusat ke memori agar fungsi-fungsi di bawahnya tidak memanggil Sheet lagi
-    const dataSevaTerpusat = getDataLengkapSeva();
+    // 🕒 2. Ambil waktu edit Database Lagu murni dari DriveApp bulat menit (Sistem Asli Stabil)
+    let versiDbLaguTerbaru = "0";
+    try {
+      if (typeof LAGU_SS_ID !== "undefined" && LAGU_SS_ID && LAGU_SS_ID !== "" && LAGU_SS_ID !== "0") {
+        const waktuMentahLagu = DriveApp.getFileById(LAGU_SS_ID).getLastUpdated().getTime();
+        versiDbLaguTerbaru = (Math.floor(waktuMentahLagu / 60000) * 60000).toString();
+      }
+    } catch (e) { versiDbLaguTerbaru = "0"; }
 
+    // Pecah token yang dibawa oleh HP jemaat
+    var tokenHp = tokenStartupHp ? String(tokenStartupHp).split("_") : [];
+    var versiAdminHp = tokenHp[0] || "0";
+    var versiLaguHp = tokenHp[1] || "0";
+
+    // Bikin catatan status, mana yang berubah dan mana yang sama
+    var apakahAdminSama = (versiAdminHp === versiSpreadsheetTerbaru);
+    var apakahLaguSama  = (versiLaguHp === versiDbLaguTerbaru);
+
+    // Jika dua-duanya sama, langsung gembok! Jangan download apa-apa.
+    if (apakahAdminSama && apakahLaguSama) {
+      return { tidakAdaPerubahan: true };
+    }
+
+    // Siapkan wadah kosong untuk mengirim data secara cerdas (hanya yang berubah)
+    var paketKiriman = {
+      statusSplit: true, // Penanda untuk HP bahwa ini pengiriman jalur terpisah
+      adminBerubah: !apakahAdminSama,
+      laguBerubah: !apakahLaguSama,
+      songs: [],
+      seva: null,
+      riwayatRaw: []
+    };
+
+    // JALUR 1: Jika data Lagu berubah, ambil lagu saja!
+    if (!apakahLaguSama) {
+      paketKiriman.songs = typeof getSemuaLagu === "function" ? getSemuaLagu() : [];
+    }
+
+    // JALUR 2: Jika data Admin berubah, ambil Setting, Seva, dan Riwayat saja!
+    if (!apakahAdminSama) {
+      // Perbaikan Tegas: Memanggil tanpa parameter versi karena fungsi admin sudah 100% murni
+      paketKiriman.seva = getDataLengkapSeva(null, idUserLogin); 
+
+      // Ambil arsip riwayat
+      let seluruhRiwayatRaw = [];
+      const ss = SpreadsheetApp.openById(ADMIN_SS_ID);
+      const shRiwayat = ss.getSheetByName("Riwayat");
+      if (shRiwayat) {
+        const lastRowRiwayat = shRiwayat.getLastRow();
+        if (lastRowRiwayat >= 1) {
+          const matriksRiwayat = shRiwayat.getRange(1, 1, lastRowRiwayat, 1).getValues();
+          seluruhRiwayatRaw = matriksRiwayat.map(baris => baris ? baris.toString().trim() : "").filter(str => str !== "");
+        }
+      }
+      paketKiriman.riwayatRaw = seluruhRiwayatRaw;
+    }
+
+    // Selipkan nomor versi terbaru ke dalam objek pembungkus agar HP bisa memperbarui tokennya
+    paketKiriman.versiSpreadsheetTerbaru = versiSpreadsheetTerbaru;
+    paketKiriman.versiDbLaguTerbaru = versiDbLaguTerbaru;
+
+    return paketKiriman;
+  } catch (e) {
+    return { error: e.message };
+  }
+}
+
+// 🎯 FUNGSI BARU INDEPENDEN: Satpam khusus untuk mengunci polling data admin (setting & seva)
+function cekDanAmbilAdminPolling(versiAdminHp, idUserLogin) {
+  try {
+    // 🕒 1. AMBIL WAKTU EDIT SPREADSHEET TERAKHIR MENGGUNAKAN LOGIKA CACHE 1 MENIT
+    let versiSpreadsheetTerbaru = "0";
+    try {
+      const cache = CacheService.getScriptCache();
+      const cacheKeyAdmin = "versi_admin_terakhir_" + ADMIN_SS_ID;
+      
+      // Cek apakah data waktu modifikasi file masih tersimpan di RAM Server
+      let waktuMentahAdmin = cache.get(cacheKeyAdmin);
+
+      if (!waktuMentahAdmin) {
+        // Jika cache kosong, baru tembak ke DriveApp (Memakan waktu 1-3 detik)
+        waktuMentahAdmin = DriveApp.getFileById(ADMIN_SS_ID).getLastUpdated().getTime().toString();
+        // 🔥 DISET 60 DETIK (1 MENIT) agar hemat kuota Drive API dan aplikasi super cepat
+        cache.put(cacheKeyAdmin, waktuMentahAdmin, 60);
+      }
+      
+      // Ambil versi pembulatan menit yang stabil sesuai standard aplikasi Anda
+      versiSpreadsheetTerbaru = (Math.floor(Number(waktuMentahAdmin) / 60000) * 60000).toString();
+      
+    } catch (errDrive) { 
+      // Cadangan darurat jika server Google Drive API sedang sibuk
+      versiSpreadsheetTerbaru = new Date().getTime().toString(); 
+    }
+
+    // =====================================================================
+    // 📝 2. OTOMATISASI PENCATATAN KE TAB "PEMICU" BERDASARKAN HASIL SCAN VERSI
+    // =====================================================================
+    try {
+      const ss = SpreadsheetApp.openById(ADMIN_SS_ID);
+      const propertiVersi = PropertiesService.getScriptProperties().getProperty('VERSI_ADMIN_INSTAN');
+
+      // Jika versi di server berubah dibanding versi yang tersimpan sebelumnya (Artinya ada input dari HP jemaat)
+      if (propertiVersi !== versiSpreadsheetTerbaru) {
+        
+        let sheetPemicu = ss.getSheetByName("Pemicu");
+        if (!sheetPemicu) {
+          sheetPemicu = ss.insertSheet("Pemicu");
+          sheetPemicu.appendRow(["Waktu Perubahan", "Versi Spreadsheet (Menit)", "Nama Tab", "Grup Kolom", "Baris Ke", "Nilai Lama", "Nilai Baru"]);
+          sheetPemicu.getRange("A1:G1").setFontWeight("bold");
+        }
+
+        // Jalankan perlindungan agar tidak mencatat ulang jika jemaat sedang membuka tab log/pemicu itu sendiri
+        const sheetAktif = ss.getActiveSheet();
+        const namaSheetAsal = sheetAktif ? sheetAktif.getName() : "DataSeva";
+
+        if (namaSheetAsal !== "Pemicu" && namaSheetAsal !== "log") {
+          // Tulis riwayat versi perubahan baru ke tab Pemicu secara bersih
+          sheetPemicu.appendRow([
+            new Date(),
+            versiSpreadsheetTerbaru,
+            namaSheetAsal,
+            "Grup Terpantau (A-E)",
+            "Baris Ter-update",
+            "[Diubah via HP]",
+            "Data Segar Berhasil Masuk"
+          ]);
+
+          // Kunci token terbaru ke dalam Properti Proyek sebagai acuan validasi berikutnya
+          PropertiesService.getScriptProperties().setProperty('VERSI_ADMIN_INSTAN', versiSpreadsheetTerbaru);
+        }
+      }
+    } catch (errLog) {
+      // Mengabaikan error pencatatan jurnal agar tidak mengganggu transaksi data jemaat
+    }
+
+    // 🕒 3. GERBANG TOL OTOMATIS SINKRONISASI HP JEMAAT
+    // Jika token versi di HP jemaat masih cocok dengan server, kunci gerbang tol senyap!
+    if (String(versiAdminHp).trim() === versiSpreadsheetTerbaru) {
+      return { tidakAdaPerubahan: true, versiSpreadsheet: versiSpreadsheetTerbaru };
+    }
+
+    // JIKA MEMANG BERUBAH: Baru bangunkan fungsi ekstraktor utama untuk ambil data 2,9 kB
+    const dataTeranyar = getDataLengkapSeva(null, idUserLogin);
+    
     return {
-      songs: typeof getSemuaLagu === "function" ? getSemuaLagu() : [],
-      seva: dataSevaTerpusat,
-      liveBlokirDrive: dataLiveDriveMentah 
+      tidakAdaPerubahan: false,
+      versiSpreadsheet: versiSpreadsheetTerbaru,
+      
+      // Salinkan seluruh isi objek dari getDataLengkapSeva ke sini
+      daftarLatihan: dataTeranyar.daftarLatihan || [],
+      slotTerisi: dataTeranyar.slotTerisi || [],
+      hari: dataTeranyar.hari,
+      waktu: dataTeranyar.waktu,
+      maxLagu: dataTeranyar.maxLagu,
+      autoSlot: dataTeranyar.autoSlot,
+      angkaFilterB10Bawaan: dataTeranyar.angkaFilterB10Bawaan,
+      bhajanSpesialB11Bawaan: dataTeranyar.bhajanSpesialB11Bawaan,
+      bhajanSpesialB12Bawaan: dataTeranyar.bhajanSpesialB12Bawaan,
+      members: dataTeranyar.members || {},
+      memberFavorites: dataTeranyar.memberFavorites || {},
+      memberSettings: dataTeranyar.memberSettings || {},
+      formasiGrupOtomatis: dataTeranyar.formasiGrupOtomatis || [],
+      versiDbLagu: dataTeranyar.versiDbLagu || "0",
+      
+      // 🚀 SUNTIKAN UTAMA: Kirimkan objek utuh ini agar mesin sinkronisasi HP jemaat bisa meremajakan menu setting instan
+      seva: dataTeranyar
     };
   } catch (e) {
     return { error: e.message };
   }
 }
+
+
+
+
+// 🎯 FUNGSI BARU INDEPENDEN: Khusus melayani mesin polling jemaat untuk cek & unduh lagu secara mandiri
+function cekDanAmbilLaguPolling(versiLaguHp) {
+  try {
+    let versiDbLaguTerbaru = "0";
+    try {
+      if (typeof LAGU_SS_ID !== "undefined" && LAGU_SS_ID && LAGU_SS_ID !== "" && LAGU_SS_ID !== "0") {
+        
+        // --- AWAL MODIFIKASI CACHE ---
+        const cache = CacheService.getScriptCache();
+        const cacheKey = "versi_lagu_terakhir_" + LAGU_SS_ID;
+        let waktuMentahLagu = cache.get(cacheKey);
+
+        if (!waktuMentahLagu) {
+          // Jika cache kosong, baru ambil dari DriveApp (1-3 detik)
+          waktuMentahLagu = DriveApp.getFileById(LAGU_SS_ID).getLastUpdated().getTime().toString();
+          // Simpan di cache selama 60 detik (1 menit) agar tidak membebani kuota Drive
+          cache.put(cacheKey, waktuMentahLagu, 21600);
+        }
+        
+        versiDbLaguTerbaru = (Math.floor(Number(waktuMentahLagu) / 60000) * 60000).toString();
+        // --- AKHIR MODIFIKASI CACHE ---
+
+      }
+    } catch (e) {
+      versiDbLaguTerbaru = "0";
+    }
+    // Jika versi lagu di HP jemaat masih sama dengan server, kunci gerbang tol senyap!
+    if (String(versiLaguHp).trim() === versiDbLaguTerbaru) {
+      return { tidakAdaPerubahan: true, versiDbLagu: versiDbLaguTerbaru };
+    }
+    // JIKA BERUBAH: Langsung ambil dan kirim database lagu terbaru tanpa membawa data sheet lain
+    return { tidakAdaPerubahan: false, versiDbLagu: versiDbLaguTerbaru, songs: typeof getSemuaLagu === "function" ? getSemuaLagu() : [] };
+  } catch (e) {
+    return { error: e.message };
+  }
+}
+
+
+
 /**
  * DATA SEVA MURNI REAL-TIME & MASTER MEMORI PUSAT (SUPER FAST FETCH)
  * Tugas: Menarik seluruh parameter dari Sheets (DataSetting & DataSeva) dalam SATU KALI pengambilan data.
  * Efisiensi: Mengeliminasi pembacaan berulang, semua disimpan di memori objek config.
  */
-function getDataLengkapSeva(waktuAcak) {
+function getDataLengkapSeva(waktuAcak, idUserLogin) {
   const ss = SpreadsheetApp.openById(ADMIN_SS_ID);
   const shSet = ss.getSheetByName("DataSetting");
   const shSeva = ss.getSheetByName("DataSeva");
   
+  // 🕒 AMBIL WAKTU TERAKHIR SPREADSHEET DIEDIT (DIBULATKAN KE MENIT TERDEKAT AGAR STABIL)
+  let versiSpreadsheetTerbaru = "0";
+  try {
+    const waktuEditMentah = DriveApp.getFileById(ADMIN_SS_ID).getLastUpdated().getTime();
+    versiSpreadsheetTerbaru = (Math.floor(waktuEditMentah / 60000) * 60000).toString();
+  } catch (errDrive) {
+    versiSpreadsheetTerbaru = new Date().getTime().toString();
+  }
+
   let config = { 
-    hari: "4", waktu: "19:00", maxLagu: "", autoSlot: false, pwAdmin: "", 
-    backupFolderId: "", members: {}, memberFavorites: {}, quotes: [], warna: [], 
-    daftarLatihan: [], slotTerisi: [], logSuksesBackup: "",
+    hari: "4", 
+    waktu: "19:00", 
+    maxLagu: "", 
+    autoSlot: false, 
+
+    members: {}, 
+    memberFavorites: {}, 
+
+    daftarLatihan: [], 
+    slotTerisi: [], 
+
     angkaFilterB10Bawaan: "0",
     bhajanSpesialB11Bawaan: false,
-    bhajanSpesialB12Bawaan: false, 
+    bhajanSpesialB12Bawaan: false,
+
     memberSettings: {},
-    kamusNamaOtomatis: {},        
+    kamusNamaOtomatis: {},
     listMemberMandiriTampak: [],
+
     versiDbLagu: "0",
+    versiSpreadsheet: versiSpreadsheetTerbaru, 
+
     githubUser: GITHUB_USER,
     githubRepo: GITHUB_REPO,
-    // 🔥 SUNTIKAN SAKTI 1: Siapkan wadah grup teks murni agar aman dilewati gerbang Google Cloud
+
     formasiGrupOtomatis: []
   };
-
 
   // 1. MEMBACA TAB DATASETTING (B1-B12 dan Kolom F-G)
   if (shSet) {
@@ -157,9 +395,6 @@ function getDataLengkapSeva(waktuAcak) {
     config.waktu = (v[1] && v[1][0] != null) ? String(v[1][0]) : "19:00";
     config.maxLagu = (v[2] && v[2][0] != null) ? String(v[2][0]) : "";
     config.autoSlot = (v[3] && v[3][0] != null) ? String(v[3][0]).trim().toUpperCase() === "TRUE" : false;
-    config.pwAdmin = (v[4] && v[4][0] != null) ? String(v[4][0]).trim() : ""; 
-    config.backupFolderId = (v[5] && v[5][0] != null) ? String(v[5][0]).trim() : "";
-    config.logSuksesBackup = (v[8] && v[8][0] != null) ? String(v[8][0]) : "";
     config.angkaFilterB10Bawaan = (v[9] && v[9][0] != null) ? String(v[9][0]).trim() : "0";
     
     var nilaiB11Mentah = v[10] ? v[10][0] : false;
@@ -168,30 +403,11 @@ function getDataLengkapSeva(waktuAcak) {
     var nilaiB12Mentah = v[11] ? v[11][0] : false;
     config.bhajanSpesialB12Bawaan = nilaiB12Mentah === true || String(nilaiB12Mentah).trim().toUpperCase() === "TRUE";
 
-    // 🎯 SUNTIKAN SAKTI SERVER: Baca sel B15 agar data riwayat Drive ikut terkirim live ke HP jemaat
     var nilaiB15Mentah = shSet.getRange("B15").getValue();
     config.keranjangRiwayatDriveClean = (nilaiB15Mentah != null) ? String(nilaiB15Mentah).trim() : "";
-
-
-    const lastRowSet = shSet.getLastRow();
-    if (lastRowSet >= 2) {
-      const extraData = shSet.getRange(2, 6, lastRowSet - 1, 2).getValues();
-      extraData.forEach(r => {
-        if (r[0] && String(r[0]).trim() !== "") config.warna.push(String(r[0]).trim());
-        if (r[1] && String(r[1]).trim() !== "") {
-          const val = String(r[1]).trim();
-          const matches = [...val.matchAll(/"([^"]+)"/g)];
-          if (matches && matches.length >= 2) {
-            config.quotes.push({ text: matches[0][1], source: matches[1][1] });
-          } else {
-            config.quotes.push({ text: val.replace(/"/g, ""), source: "Anonim" });
-          }
-        }
-      });
-    }
   }
 
-  // 2. MEMBACA TAB DATASEVA (Kolom A sampai L - Disatukan Bersih & Tanpa Duplikasi)
+  // 2. MEMBACA TAB DATASEVA (Kolom A sampai L)
   if (shSeva) {
     const lastRowSeva = shSeva.getLastRow();
     if (lastRowSeva >= 2) {
@@ -199,7 +415,6 @@ function getDataLengkapSeva(waktuAcak) {
       
       totalDataSeva.forEach(baris => {
         if (baris) {
-          // A. Pemrosesan Data Slot Lagu (Kolom A - G / Indeks 0 - 6)
           let rowSlot = baris.slice(0, 7).map(cell => (cell == null ? "" : String(cell).trim()));
           
           if (rowSlot[0] !== "" && rowSlot[4] !== "" && rowSlot[4] !== "0") {
@@ -207,27 +422,23 @@ function getDataLengkapSeva(waktuAcak) {
             rowSlot[7] = linkAudioDinamis; 
             
             let dataFormatHP = {
-              "0": rowSlot[0], // Nomor Slot Physical
-              "1": rowSlot[1], // ID Member penyanyi
-              "2": rowSlot[2], // Nama penyanyi
-              "3": rowSlot[3], // Judul kategori
-              "4": rowSlot[4], // ID Lagu
-              "5": rowSlot[5], // Judul Lagu
-              "6": rowSlot[6], // Angka Nada Pengunci (-5 s/d +5)
-              "7": rowSlot[7]  // Link Transit Audio murni
+              "0": rowSlot[0],
+              "1": rowSlot[1],
+              "2": rowSlot[2],
+              "3": rowSlot[3],
+              "4": rowSlot[4],
+              "5": rowSlot[5],
+              "6": rowSlot[6],
+              "7": rowSlot[7]
             };
             
             config.daftarLatihan.push(dataFormatHP);
             config.slotTerisi.push(rowSlot[0]);
           }
 
-          // B. Pemrosesan Data Member & Akun Mandiri (Kolom H - L / Indeks 7 - 11)
-          if (baris.length >= 12) {
-            var kolomH_id      = baris[7];
-            var kolomI_nama    = baris[8];
-            var kolomJ_favorit = baris[9];
-            var kolomK_kunci   = baris[10];
-            var kolomL_default = baris[11];
+          if (baris.length >= 9) {
+            var kolomH_id   = baris[7];
+            var kolomI_nama = baris[8];
 
             if (kolomH_id && String(kolomH_id).trim() !== "") {
               const key = String(kolomH_id).toLowerCase().trim();
@@ -236,26 +447,30 @@ function getDataLengkapSeva(waktuAcak) {
               
               config.members[key] = namaClean;
               
-              config.memberFavorites[key] = [];
-              if (kolomJ_favorit && String(kolomJ_favorit).trim() !== "") {
-                config.memberFavorites[key] = String(kolomJ_favorit).split(",").map(id => id.trim()).filter(id => id !== "");
-              }
-
-              var cekK = kolomK_kunci === true || String(kolomK_kunci).trim().toUpperCase() === "TRUE";
-              var cekL = kolomL_default === true || String(kolomL_default).trim().toUpperCase() === "TRUE";
-
-              config.memberSettings[key] = { kunciFavorit: cekK, defaultKategori: cekL };
-              
               if (idUpper !== "ANONIM" && !idUpper.includes("ANONIM-")) {
                 config.kamusNamaOtomatis[idUpper] = namaClean;
                 config.listMemberMandiriTampak.push({ id: idUpper, nama: namaClean });
+              }
+
+              var userLoginBersih = (idUserLogin != null) ? String(idUserLogin).toLowerCase().trim() : "";
+              if (key === userLoginBersih && userLoginBersih !== "" && userLoginBersih !== "anonim") {
+                var kolomJ_favorit = baris[9];
+                var kolomK_kunci   = baris[10];
+                var kolomL_default = baris[11];
+
+                config.memberFavorites[key] = [];
+                if (kolomJ_favorit && String(kolomJ_favorit).trim() !== "") {
+                  config.memberFavorites[key] = String(kolomJ_favorit).split(",").map(id => id.trim()).filter(id => id !== "");
+                }
+
+                var cekK = kolomK_kunci === true || String(kolomK_kunci).trim().toUpperCase() === "TRUE";
+                var defaultKatTeks = kolomL_default ? String(kolomL_default).trim().toUpperCase() : "NONE";
+                config.memberSettings[key] = { kunciFavorit: cekK, defaultKategori: defaultKatTeks };
               }
             }
           }
         }
       });
-
-      // Hilangkan duplikasi nomor slot terisi dan urutkan nama member secara alfabetis alami
       config.slotTerisi = [...new Set(config.slotTerisi)];
       config.listMemberMandiriTampak.sort((a, b) => 
         a.id.toString().localeCompare(b.id.toString(), undefined, { numeric: true, sensitivity: 'base' })
@@ -263,32 +478,22 @@ function getDataLengkapSeva(waktuAcak) {
     }
   }
 
-  // 3. LOCK REFRESH ANTI-LOOP HANTU (Pembulatan Menit Terdekat)
-  try {
-    if (LAGU_SS_ID && LAGU_SS_ID !== "" && LAGU_SS_ID !== "0") {
-      const waktuMentah = DriveApp.getFileById(LAGU_SS_ID).getLastUpdated().getTime();
-      config.versiDbLagu = (Math.floor(waktuMentah / 60000) * 60000).toString();
-    } else {
-      config.versiDbLagu = "0";
-    }
-  } catch (errVersi) {
-    config.versiDbLagu = new Date().getTime().toString(); 
-  }
-
-  // 🔥 SUNTIKAN SAKTI 2: Lampirkan struktur formasi grup otomatis dari DataSetting A21-B21 ke bawah
+  // 🔥 SUNTIKAN SAKTI 2: Lampirkan struktur formasi grup otomatis
   try {
     const dataGrupAsli = getStrukturFormasiGrupSetting() || [];
     config.formasiGrupOtomatis = dataGrupAsli.map(function(grup) {
       return {
         indexBaris: grup.indexBaris,
         nama: grup.nama,
-        anggotaRaw: grup.anggotaRaw // Kirim Teks Murni murni, sangat aman bagi Google Cloud!
+        anggotaRaw: grup.anggotaRaw
       };
     });
   } catch(errGrup) { config.formasiGrupOtomatis = []; }
 
   return config;
 }
+
+
 
 
 // 🚀 SUNTIKAN PENYELAMAT ADMIN: Fungsi shortcut agar panel admin & daftar member langsung menggunakan data terpusat yang sama
@@ -339,6 +544,7 @@ function simpanSeva(obj) {
   const waktuSekarang = new Date(); 
   const idMember = obj.idMember.toString().toUpperCase().trim(); 
   const idLaguClean = obj.idLagu.toString().trim();
+  const nadaLagu = (obj.nada || "0").toString().trim();
   
   const locale = ss.getSpreadsheetLocale(); 
   const p = (locale.indexOf('id') !== -1 || locale.indexOf('ID') !== -1) ? ";" : ","; 
@@ -348,11 +554,20 @@ function simpanSeva(obj) {
   
   // 1. Catat data seva administrasi jemaat ke spreadsheet
   if (barisTarget > lastRow) { 
-    shSeva.appendRow([obj.nomor, idMember, rumusNama, obj.judul, obj.idLagu, waktuSekarang, "0"]); 
+    shSeva.appendRow([
+    obj.nomor,
+    idMember,
+    rumusNama,
+    obj.judul,
+    obj.idLagu,
+    waktuSekarang,
+    nadaLagu
+  ]);
   } else { 
     shSeva.getRange(barisTarget, 1, 1, 2).setValues([[obj.nomor, idMember]]); 
     shSeva.getRange(barisTarget, 3).setFormula(rumusNama); 
-    shSeva.getRange(barisTarget, 4, 1, 4).setValues([[obj.judul, obj.idLagu, waktuSekarang, "0"]]); 
+    shSeva.getRange(barisTarget, 4, 1, 4)
+      .setValues([[obj.judul, obj.idLagu, waktuSekarang, nadaLagu]]);
   } 
 
   // ============================================================================
@@ -525,8 +740,8 @@ function simpanMember(id, nama) {
     const barisBaru = lastRow + 1;
     
     // Mengisi 5 kolom sekaligus berdampingan: 
-    // Kolom H (ID), I (Nama), J (Favorit), K (True), L (True)
-    sh.getRange(barisBaru, kolomAwal, 1, 5).setValues([[idUpper, nama, favoritDefault, true, true]]);
+    // Kolom H (ID), I (Nama), J (Favorit), K ("FAVORIT_SAYA"), L (True)
+    sh.getRange(barisBaru, kolomAwal, 1, 5).setValues([[idUpper, nama, favoritDefault, "FAVORIT_SAYA", true]]);
     
     // Proses pengurutan (Sort) otomatis bawaan Anda
     const currentLastColumn = sh.getLastColumn();
@@ -683,10 +898,18 @@ function autoBackupDanResetSeva() {
           const idLg     = baris[4] ? baris[4].toString().trim() : "";
           
           let stampJam = baris[5] ? Utilities.formatDate(new Date(baris[5]), "GMT+08:00", "yyyy-MM-dd HH:mm") : tglFormatLog;
-          if (isBhajanSpesialAktif) stampJam += "::Spesial";
+          
+          // 🎯 PERBAIKAN STRUKTUR: Tambahkan tanggal H-1 murni (tglFormatLog) setelah stamp bawaan
+          let tokenAkhirBerantai = stampJam + ":::" + tglFormatLog;
+          
+          // Jika status spesial aktif, tempelkan kata ::Spesial di ujung paling akhir string
+          if (isBhajanSpesialAktif) {
+            tokenAkhirBerantai += "::Spesial";
+          }
 
           if (idLg && namaUmat && namaUmat !== "0" && namaUmat !== "ID Tidak Terdaftar") {
-            acc.push(`${slotNo}:::${namaUmat}:::${judulLg}:::${idLg}:::${stampJam}`);
+            // Menggunakan susunan token baru yang sudah disisipkan tanggal bhajan murni
+            acc.push(`${slotNo}:::${namaUmat}:::${judulLg}:::${idLg}:::${tokenAkhirBerantai}`);
           }
           return acc;
         }, []);
@@ -694,6 +917,9 @@ function autoBackupDanResetSeva() {
         if (arrayKapsulWaktuSesiIni.length > 0) {
           shRiwayat.appendRow([arrayKapsulWaktuSesiIni.join("|||")]);
           console.log("📝 Sukses menimbun sejarah sesi ini ke tab Riwayat Kolom A.");
+          
+          // 📍 DI PINDAH KE SINI: Menghubungkan langsung setelah proses arsip sukses
+          perbaruiDanKunciDaftarBlokirDrive();
         }
       }
       // ============================================================================
@@ -708,9 +934,6 @@ function autoBackupDanResetSeva() {
         shLog.getRange(2, 1, totalBarisLog - 1, 3).clearContent(); 
       }
       
-      // Segarkan proteksi internal drive
-      perbaruiDanKunciDaftarBlokirDrive();
-
       // Reset Pengaturan Sistem ke Kondisi Semula
       shSetting.getRange("B1:B2").setValues([["4"], ["19:00"]]);
       shSetting.getRange("B4").setValue(false);
@@ -725,6 +948,9 @@ function autoBackupDanResetSeva() {
     SpreadsheetApp.flush();
   } catch (e) { shSetting.getRange("B9").setValue("ERR: " + e.message); } 
 }
+
+
+
 
 
 
@@ -783,13 +1009,17 @@ function hapusDanBackupManual() {
           }
         }
 
-        // JALUR KHUSUS BHAJAN SPESIAL: Jika aktif, titipkan kata ::Spesial di ujung stamp waktu
+        // 🎯 DISANDINGKAN SAMA DENGAN AUTOBACKUP: Selipkan tanggal hari ini murni (tglHariIni) setelah stamp bawaan
+        let tokenAkhirBerantai = stampJam + ":::" + tglHariIni;
+
+        // JALUR KHUSUS BHAJAN SPESIAL: Jika aktif, titipkan kata ::Spesial di ujung paling akhir string baru
         if (isBhajanSpesialAktif) {
-          stampJam += "::Spesial";
+          tokenAkhirBerantai += "::Spesial";
         }
 
         if (idLg && namaUmat && namaUmat !== "0" && namaUmat !== "ID Tidak Terdaftar") {
-          acc.push(`${slotNo}:::${namaUmat}:::${judulLg}:::${idLg}:::${stampJam}`);
+          // Menggunakan susunan 6 komponen baru yang sinkron dengan aplikasi HP jemaat
+          acc.push(`${slotNo}:::${namaUmat}:::${judulLg}:::${idLg}:::${tokenAkhirBerantai}`);
         }
         return acc;
       }, []);
@@ -833,142 +1063,10 @@ function hapusDanBackupManual() {
 
 
 
-/**
- * ROMBAKAN FINAL: AMBIL DAFTAR BERKAS ARSIP MURNI DARI TAB RIWAYAT (PECAT GOOGLE DRIVE)
- */
-function getInitialData() {
-  try {
-    const ss = SpreadsheetApp.openById(ADMIN_SS_ID);
-    const shRiwayat = ss.getSheetByName("Riwayat");
-    if (!shRiwayat) return { files: [], firstFileData: [] };
 
-    const lastRowRiwayat = shRiwayat.getLastRow();
-    if (lastRowRiwayat < 1) return { files: [], firstFileData: [] };
 
-    // 1. Tarik seluruh baris string data dari tab Riwayat Kolom A
-    const seluruhDataKapsul = shRiwayat.getRange(1, 1, lastRowRiwayat, 1).getValues();
 
-    let fileListTiruan = [];
 
-    // 2. STRATEGI MONITOR BARIS: Buat manifest daftar file tiruan berdasarkan isi tab Riwayat
-    // Looping berjalan mundur dari baris paling bawah (paling baru) ke baris atas (lama)
-    for (let r = seluruhDataKapsul.length - 1; r >= 0; r--) {
-      let stringSesiPanjang = seluruhDataKapsul[r] ? seluruhDataKapsul[r].toString().trim() : "";
-      if (stringSesiPanjang === "") continue;
-
-      // Cari komponen Stamp/Tanggal di dalam teks baris tersebut untuk dijadikan Nama File
-      // Kita pecah pendaftar pertama (indeks 0) untuk mengintip tanggal sesinya
-      let listPendaftar = stringSesiPanjang.split("|||");
-      let pendaftarPertama = listPendaftar[0];
-      
-      let teksTanggalSesi = "Sesi Tidak Diketahui";
-      if (pendaftarPertama) {
-        let komponen = pendaftarPertama.split(":::");
-        if (komponen && komponen.length >= 5) {
-          // Ambil tanggal dari komponen Stamp (Indeks 4)
-          let stampMentah = komponen[4] ? komponen[4].toString().trim() : "";
-          if (stampMentah !== "") {
-            // Bersihkan teks ::Spesial jika ada agar visual nama file rapi
-            teksTanggalSesi = stampMentah.replace("::Spesial", " Sesi Spesial");
-          }
-        }
-      }
-
-      // Masukkan ke dalam list dengan ID samaran berupa nomor indeks barisnya
-      fileListTiruan.push({
-        id: String(seluruhDataKapsul.length - 1 - r), // Mengunci ID samaran urutan indeks HP (0, 1, 2, dst)
-        name: teksTanggalSesi // Menampilkan tanggal sesi yang riil sebagai nama berkas di layar
-      });
-    }
-
-    // 3. AMBIL DATA HALAMAN PERTAMA (TERBARU) SECARA INSTAN
-    // Karena halaman pertama (indeks 0) adalah baris paling bawah, kita panggil getSheetData(0)
-    let dataHalamanPertama = [];
-    if (fileListTiruan.length > 0) {
-      dataHalamanPertama = getSheetData(0); 
-    }
-
-    console.log("🏁 STARTUP RIWAYAT SUKSES: Berhasil merakit " + fileListTiruan.length + " sesi dari active sheet.");
-    return { 
-      files: fileListTiruan, 
-      firstFileData: dataHalamanPertama 
-    };
-
-  } catch (errInitData) {
-    console.log("❌ Gagal merakit data awal riwayat: " + errInitData.message);
-    return { files: [], firstFileData: [] };
-  }
-}
-
-/**
- * PERBAIKAN MUTLAK: HITUNG POSISI BARIS MURNI MULAI DARI BARIS 1 (ANTI-LOMPAT)
- */
-function getSheetData(indeksHalamanHP) {
-  try {
-    const ss = SpreadsheetApp.openById(ADMIN_SS_ID);
-    const shRiwayat = ss.getSheetByName("Riwayat");
-    if (!shRiwayat) return [];
-
-    const lastRowRiwayat = shRiwayat.getLastRow();
-    if (lastRowRiwayat < 1) return []; 
-
-    // Ambil angka kiriman halaman dari HP (0, 1, 2, dst)
-    var nomorHalaman = parseInt(indeksHalamanHP);
-    if (isNaN(nomorHalaman) || nomorHalaman < 0) {
-      nomorHalaman = 0;
-    }
-
-    // HITUNG BARIS MURNI: Baris terakhir dikurangi nomor halaman dari HP
-    let nomorBarisTarget = lastRowRiwayat - nomorHalaman;
-
-    // PENGAMAN BARIS 1: Batasi agar data paling lama berhenti tepat di Baris 1 murni
-    if (nomorBarisTarget < 1 || nomorBarisTarget > lastRowRiwayat) {
-      console.log("⚠️ Target baris (" + nomorBarisTarget + ") berada di luar jangkauan data fisik sheet.");
-      return [];
-    }
-
-    // ============================================================================
-    // 🚀 REVOLUSI INSTAN KILAT: AMBIL 1 BARIS TARGET LANGSUNG (ANTI-DOWNLOAD ULANG)
-    // Server dilarang mendownload ribuan baris dari atas, murni hanya sedot 1 sel kaku!
-    // ============================================================================
-    let stringSesiDipilih = shRiwayat.getRange(nomorBarisTarget, 1).getValue().toString().trim();
-    if (stringSesiDipilih === "") return [];
-    // ============================================================================
-
-    let arrayHasilFormatAsli = [];
-
-    // Bongkar string kapsul waktu sesi ini
-    let listPendaftar = stringSesiDipilih.split("|||");
-    for (let i = 0; i < listPendaftar.length; i++) {
-      let pendaftar = listPendaftar[i];
-      if (!pendaftar || pendaftar.trim() === "") continue;
-
-      let komponen = pendaftar.split(":::");
-      if (komponen && komponen.length >= 4) {
-        let slotNo   = komponen[0] ? komponen[0].toString().trim() : "";
-        let namaUmat = komponen[1] ? komponen[1].toString().trim() : "";
-        let judulLg  = komponen[2] ? komponen[2].toString().trim() : "";
-        let idLg     = komponen[3] ? komponen[3].toString().trim() : "";
-        
-        if (idLg !== "" && namaUmat !== "" && namaUmat !== "0" && namaUmat !== "ID Tidak Terdaftar") {
-          arrayHasilFormatAsli.push({
-            slot: slotNo,
-            nama: namaUmat,
-            judul: judulLg,
-            idLagu: idLg
-          });
-        }
-      }
-    }
-
-    console.log("🎯 SUKSES HITUNG BARIS KILAT: Membongkar data Baris ke-" + nomorBarisTarget + " untuk halaman HP: " + nomorHalaman);
-    return arrayHasilFormatAsli;
-
-  } catch (errGetSheet) {
-    console.log("Gagal mengambil data arsip dari tab Riwayat: " + errGetSheet.message);
-    return [];
-  }
-}
 
 
 /**
@@ -1113,27 +1211,6 @@ function getBundledAdminDataServer() {
     listMemberMandiriTampak: superData.listMemberMandiriTampak
   };
 }
-/**
- * LIVE ENGINE LIVE FILTER JALUR DRIVE (VERSI BERSIH TOTAL - TANPA CACHE)
- * Tugas: Menyisir berkas arsip secara kronologis langsung dari folder Google Drive fisik.
- */
-function ambilDaftarBlokirDriveSecaraLive() {
-  try {
-    const ss = SpreadsheetApp.openById(ADMIN_SS_ID);
-    const shSet = ss.getSheetByName("DataSetting");
-    if (!shSet) return "";
-
-    // PENGALIHAN STRATEGIS: Langsung ambil string yang sudah siap di sel B15
-    const hasilStringFinal = shSet.getRange("B15").getValue().toString().trim();
-    
-    return hasilStringFinal;
-
-  } catch (e) {
-    console.log("Gagal live filter jalur drive dari datasheet: " + e.message);
-    return "";
-  }
-}
-
 
 
 
@@ -1153,6 +1230,14 @@ function catatKedatanganOtomatis(idMember) {
   
   try {
     var idInput = idMember ? idMember.toString().trim() : "";
+    
+    // 🟢 SANGAT PRAKTIS: Hanya menyaring daftar ID VIP ini agar tidak masuk tab Log
+    var DAFTAR_ID_DIBLOKIR_LOG = ["GNP730210", "DFL123456"];
+    if (DAFTAR_ID_DIBLOKIR_LOG.includes(idInput.toUpperCase())) {
+      console.log("🔒 [LOG VIP] ID " + idInput + " dibebaskan dari pencatatan log.");
+      return "VIP_Bebas_Absen"; 
+    }
+
     let namaUmat = idInput !== "" ? idInput : "ANONIM"; 
     
     // Validasi & Konversi ID 9 Digit menjadi Nama Asli dari DataSeva
@@ -1175,7 +1260,7 @@ function catatKedatanganOtomatis(idMember) {
       }
     }
     
-    // 🚀 PROSES INSTAN: Langsung ambil waktu dan cetak ke baris paling bawah sheet Log
+    // 🚀 PROSES CETAK: Mengambil waktu nyata dan menulis ke baris terbawah tab Log
     const waktuSekarang = new Date();
     const tglSekarang = Utilities.formatDate(waktuSekarang, "GMT+08:00", "yyyy-MM-dd");
     const jamSekarang = Utilities.formatDate(waktuSekarang, "GMT+08:00", "HH:mm:ss");
@@ -1189,6 +1274,8 @@ function catatKedatanganOtomatis(idMember) {
     return "Error";
   }
 }
+
+
 
 
 // ====== GRUP_FAVORIT_BONGKAR_PASANG_START ======
@@ -1290,43 +1377,149 @@ function googleLoadGrupIndependen() {
 function leburHakFavoritKelompokMassal(arrayIdAnggotaBaru) {
   try {
     if (!arrayIdAnggotaBaru || !Array.isArray(arrayIdAnggotaBaru)) return;
+
     const ss = SpreadsheetApp.openById(ADMIN_SS_ID);
     const shSeva = ss.getSheetByName("DataSeva");
+
     if (!shSeva) return;
+
     const lastRowSeva = shSeva.getLastRow();
     if (lastRowSeva < 2) return;
-    var dataUmatDiSeva = shSeva.getRange(2, 8, lastRowSeva - 1, 3).getValues();
+
+    // Ambil H sampai J
+    // H = ID
+    // I = Nama
+    // J = Favorit
+    var dataUmatDiSeva = shSeva
+      .getRange(2, 8, lastRowSeva - 1, 3)
+      .getValues();
+
+
+    // ============================
+    // KUMPULKAN SEMUA FAVORIT GRUP
+    // ============================
+
     let keranjangLaguGabungan = [];
+
     arrayIdAnggotaBaru.forEach(function(idTarget) {
-      var targetClean = idTarget.toString().toUpperCase().trim();
+
+      var targetClean = idTarget
+        .toString()
+        .toUpperCase()
+        .trim();
+
+
       for (var i = 0; i < dataUmatDiSeva.length; i++) {
-        var idDiSheet = dataUmatDiSeva[i] ? dataUmatDiSeva[i].toString().toUpperCase().trim() : "";
-        var stringFavoritDiSheet = dataUmatDiSeva[i] ? dataUmatDiSeva[i].toString().trim() : "";
-        if (idDiSheet === targetClean && stringFavoritDiSheet !== "") {
+
+        // H (kolom pertama dari range H:J)
+        var idDiSheet = dataUmatDiSeva[i][0]
+          ? dataUmatDiSeva[i][0]
+              .toString()
+              .toUpperCase()
+              .trim()
+          : "";
+
+
+        // J (kolom ketiga dari range H:J)
+        var stringFavoritDiSheet = dataUmatDiSeva[i][2]
+          ? dataUmatDiSeva[i][2]
+              .toString()
+              .trim()
+          : "";
+
+
+        if (
+          idDiSheet === targetClean &&
+          stringFavoritDiSheet !== ""
+        ) {
+
           var arrayLaguFav = stringFavoritDiSheet.split(",");
+
+
           arrayLaguFav.forEach(function(idLagu) {
-            var idLgClean = idLagu.toString().trim();
-            if (idLgClean !== "" && keranjangLaguGabungan.indexOf(idLgClean) === -1) {
+
+            var idLgClean = idLagu
+              .toString()
+              .trim();
+
+
+            if (
+              idLgClean !== "" &&
+              keranjangLaguGabungan.indexOf(idLgClean) === -1
+            ) {
               keranjangLaguGabungan.push(idLgClean);
             }
+
           });
+
         }
+
       }
+
     });
-    var stringHasilLeberan = keranjangLaguGabungan.join(",");
+
+
+    // Hasil akhir favorit grup
+    var stringHasilLeburan =
+      keranjangLaguGabungan.join(",");
+
+
+
+    // ============================
+    // TULIS HASIL KE SEMUA ANGGOTA
+    // ============================
+
     arrayIdAnggotaBaru.forEach(function(idTarget) {
-      var targetClean = idTarget.toString().toUpperCase().trim();
+
+      var targetClean = idTarget
+        .toString()
+        .toUpperCase()
+        .trim();
+
+
       for (var j = 0; j < dataUmatDiSeva.length; j++) {
-        var idDiSheet = dataUmatDiSeva[j] ? dataUmatDiSeva[j].toString().toUpperCase().trim() : "";
+
+
+        var idDiSheet = dataUmatDiSeva[j][0]
+          ? dataUmatDiSeva[j][0]
+              .toString()
+              .toUpperCase()
+              .trim()
+          : "";
+
+
         if (idDiSheet === targetClean) {
-          shSeva.getRange(j + 2, 10).setValue(stringHasilLeberan);
+
+          // Kolom J
+          shSeva
+            .getRange(j + 2, 10)
+            .setValue(stringHasilLeburan);
+
           break;
         }
+
       }
+
     });
+
+
     SpreadsheetApp.flush();
-    console.log("✅ [MERGE SUCCESS] Folder favorit seluruh anggota diseragamkan.");
-  } catch (err) { console.log("Gagal melebur hak favorit kelompok massal: " + err.message); }
+
+
+    console.log(
+      "✅ MERGE FAVORIT BERHASIL. Total lagu: " +
+      keranjangLaguGabungan.length
+    );
+
+
+  } catch (err) {
+
+    console.log(
+      "❌ Gagal melebur favorit kelompok massal: " +
+      err.message
+    );
+
+  }
 }
 
 function eksekusiSapuJagatPembersihanIdGrupLokal(idMemberTerhapus) {
@@ -1661,15 +1854,23 @@ function perbaruiDanKunciDaftarBlokirDrive() {
         let komponen = pendaftar.split(":::");
         if (komponen && komponen.length >= 4) {
           let idLgValid = komponen[3] ? komponen[3].toString().trim() : "";
-          let stampWaktu = komponen[4] ? komponen[4].toString().trim() : "";
           let judulLg = komponen[2] ? komponen[2].toString().trim() : "";
+          
+          // 🎯 PENYESUAIAN KHUSUS: Prioritaskan mengambil Tanggal Bhajan murni di komponen[5]
+          // Jika tidak ada (data lama), otomatis fallback menggunakan stamp pendaftaran di komponen[4]
+          let stampWaktu = "";
+          if (komponen.length >= 6 && komponen[5]) {
+            stampWaktu = komponen[5].toString().trim(); // Mengambil murni "2026-06-18"
+          } else {
+            stampWaktu = komponen[4] ? komponen[4].toString().trim() : ""; // Fallback data lama "2026-06-19 06:19"
+          }
           
           let tglNormal = "";
           if (stampWaktu !== "") {
-            let hanyaTglTeks = stampWaktu.split(" ")[0]; // Ambil bagian tanggalnya saja (YYYY-MM-DD)
+            let hanyaTglTeks = stampWaktu.split(" ")[0]; // Mengisolasi tanggal murninya saja (YYYY-MM-DD)
             let pecahanTgl = hanyaTglTeks.split("-");
             if (pecahanTgl && pecahanTgl.length >= 3) {
-              tglNormal = pecahanTgl.reverse().join("-"); // Balik menjadi DD-MM-YYYY
+              tglNormal = pecahanTgl.reverse().join("-"); // Sukses dibalik menjadi DD-MM-YYYY murni!
             }
           }
 
@@ -1694,6 +1895,7 @@ function perbaruiDanKunciDaftarBlokirDrive() {
     console.log("❌ Gagal menyaring data untuk B15: " + e.message);
   }
 }
+
 
 
 
@@ -1774,5 +1976,78 @@ function simpanSetelanNadaPenyanyi(nomorSlot, angkaNadaBaru) {
   } catch (errSetel) {
     return "Gagal mengunci nada di server: " + errSetel.message;
   }
+}
+
+function tambahkanTanggalPadaRiwayatLamaKamisMurni() {
+  const ss = SpreadsheetApp.openById(ADMIN_SS_ID);
+  const shRiwayat = ss.getSheetByName("Riwayat");
+  if (!shRiwayat) {
+    console.log("❌ Tab Riwayat tidak ditemukan.");
+    return;
+  }
+
+  const lastRow = shRiwayat.getLastRow();
+  if (lastRow < 1) {
+    console.log("ℹ️ Tab Riwayat masih kosong.");
+    return;
+  }
+
+  const rangeRiwayat = shRiwayat.getRange(1, 1, lastRow, 1);
+  const dataRiwayat = rangeRiwayat.getValues();
+
+  // 📅 PATOKAN TANGGAL UTAMA: Kamis teranyar untuk baris paling bawah (25 Juni 2026)
+  let tanggalBerjalan = new Date(2026, 5, 25); 
+
+  console.log("🚀 Menyisipkan Tanggal Kamis pada " + lastRow + " baris data lama...");
+
+  for (let r = dataRiwayat.length - 1; r >= 0; r--) {
+    let stringSesiPanjang = dataRiwayat[r][0] ? dataRiwayat[r][0].toString().trim() : "";
+    if (stringSesiPanjang === "") continue;
+
+    let teksTglBhajan = Utilities.formatDate(tanggalBerjalan, "GMT+08:00", "yyyy-MM-dd");
+    let isSpesial = stringSesiPanjang.includes("::Spesial");
+
+    let listPendaftar = stringSesiPanjang.split("|||");
+    let arrayHasilInjeksiBaru = [];
+
+    for (let i = 0; i < listPendaftar.length; i++) {
+      let pendaftar = listPendaftar[i];
+      if (!pendaftar || pendaftar.trim() === "") continue;
+
+      let komponen = pendaftar.split(":::");
+      if (komponen && komponen.length >= 5) {
+        let slotNo   = komponen[0] ? komponen[0].toString().trim() : "";
+        let namaUmat = komponen[1] ? komponen[1].toString().trim() : "";
+        let judulLg  = komponen[2] ? komponen[2].toString().trim() : "";
+        let idLg     = komponen[3] ? komponen[3].toString().trim() : "";
+        let stampJam = komponen[4] ? komponen[4].toString().trim() : ""; 
+
+        stampJam = stampJam.replace("::Spesial", "").trim();
+
+        // 🎯 RAKIT KAKU: Selipkan tanggal Kamis murni sebagai komponen ke-6 (indeks ke-5)
+        let tokenAkhirBaru = stampJam + ":::" + teksTglBhajan;
+        
+        if (isSpesial) {
+          tokenAkhirBaru += "::Spesial";
+        }
+
+        arrayHasilInjeksiBaru.push(`${slotNo}:::${namaUmat}:::${judulLg}:::${idLg}:::${tokenAkhirBaru}`);
+      }
+    }
+
+    if (arrayHasilInjeksiBaru.length > 0) {
+      // 🎯 KUNCI MATRIKS BARU: Memaksa pengisian data masuk ke indeks [r][0] sesuai format asli getValues()
+      dataRiwayat[r][0] = arrayHasilInjeksiBaru.join("|||");
+    }
+
+    // Kurangi 7 hari untuk baris di atasnya (Kamis sebelumnya)
+    tanggalBerjalan.setDate(tanggalBerjalan.getDate() - 7);
+  }
+
+  // Timpa kembali ke Spreadsheet dalam satu kali eksekusi kaku
+  rangeRiwayat.setValues(dataRiwayat);
+  SpreadsheetApp.flush();
+  
+  console.log("🏁 SUKSES MURNI: Seluruh data riwayat berhasil ditimpa ke format baru!");
 }
 
