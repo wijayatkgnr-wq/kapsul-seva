@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <title>Laporan Log Kehadiran</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #ffffff; 
+      margin: 0 !important;      
+      padding: 10px !important;   
+      color: #333;
+    }
+    .kontainer-laporan {
+      width: 100% !important;    
+      max-width: 100% !important;
+      margin: 0 !important;
+      background: transparent !important; 
+      padding: 0 !important;     
+      border: none !important;   
+      box-shadow: none !important; 
+    }
+    h2 {
+      color: #1e3a60;
+      margin: 0 0 15px 0 !important;
+      border-bottom: 2px solid #abc4ff;
+      padding-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 16px; 
+    }
+    .status-badge {
+      font-size: 10px;
+      background: #e3f2fd;
+      color: #1565c0;
+      padding: 4px 8px;
+      border-radius: 20px;
+      font-weight: bold;
+    }
+    table {
+      width: 100% !important;
+      border-collapse: collapse;
+      margin-top: 5px;
+      font-size: 13px;
+    }
+    th {
+      background-color: #abc4ff;
+      color: #1e3a60;
+      text-align: left;
+      padding: 10px 8px;
+      font-weight: bold;
+      border-bottom: 2px solid #adcfff;
+    }
+    td {
+      padding: 10px 8px;
+      border-bottom: 1px solid #eee;
+      color: #444;
+    }
+    tr:nth-child(even) td {
+      background-color: #f9fbfd;
+    }
+    .text-center {
+      text-align: center;
+      padding: 30px;
+      color: #999;
+    }
+    .loading-info {
+      color: #1e3a60;
+      font-weight: bold;
+      animation: kedip 1s infinite alternate;
+    }
+    @keyframes kedip {
+      from { opacity: 0.5; } to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="kontainer-laporan">
+  <h2>
+    <span>📊 Log Aktivitas Kedatangan</span>
+    <span class="status-badge">Aplikasi Lagu Bhajan</span>
+  </h2>
+  <table id="tabel-log-umat">
+    <thead>
+      <tr>
+        <th>Nama</th>
+        <th>Tanggal Akses</th>
+        <th>Jam Masuk</th>
+      </tr>
+    </thead>
+    <tbody id="isi-tabel-log">
+      <tr>
+        <td colspan="3" class="text-center loading-info">⏳ Sedang menarik data log dari server Google Sheets...</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  window.addEventListener("DOMContentLoaded", function() {
+    google.script.run.withSuccessHandler(function(dataLog) {
+      var tbody = document.getElementById("isi-tabel-log");
+      if (!dataLog || dataLog.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" class="text-center">📭 Database kosong: Belum ada riwayat kedatangan umat yang tercatat minggu ini.</td></tr>';
+        return;
+      }
+      
+      var fragLog = document.createDocumentFragment();
+      
+      for (var i = 0; i < dataLog.length; i++) {
+        var rowSekarang = dataLog[i]; 
+        if (!rowSekarang) continue;
+        
+        var cellNama = rowSekarang[0]; 
+        var cellTgl  = rowSekarang[1]; 
+        var cellJam  = rowSekarang[2]; 
+        
+        var trLog = document.createElement('tr');
+        trLog.innerHTML = 
+          '<td style="font-weight: 600; color: #1e3a60;">' + (cellNama || "ANONIM") + '</td>' +
+          '<td>' + (cellTgl || "-") + '</td>' +
+          '<td style="font-family: monospace; font-weight: bold; color: #2e7d32;">' + (cellJam || "-") + '</td>';
+          
+        fragLog.appendChild(trLog);
+      }
+      
+      tbody.innerHTML = "";
+      tbody.appendChild(fragLog);
+    }).ambilSeluruhDataLog();
+  });
+</script>
+
+</body>
+</html>
