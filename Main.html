@@ -489,25 +489,41 @@
           <span id="hitung-lagu" style="position: absolute; right: 45px; color: #ff922b; font-weight: bold; pointer-events: none; font-size: 14px;"> 0 ♬ </span>
           <button id="btn-bersih-cari" onclick="hapusCari()" style="position: absolute; right: 10px; background: #ff5252; color: #ffffff; border: none; width: 20px; height: 20px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 5;">✕</button>
         </div>
-        <button class="btn-back" style="background:#007AFF; width: 82px !important; min-width: 82px !important; max-width: 82px !important; height: 30px !important; padding: 0 !important; border: none !important; border-radius: 10px !important; color: white !important; font-size: 12px !important; font-weight: bold !important; cursor: pointer !important; flex: none !important;" onclick="bukaHalamanLatihan()">♬ Latihan</button>
+        <button class="btn-back" style="background:#007AFF; width: 82px !important; min-width: 82px !important; max-width: 82px !important; height: 30px !important; padding: 0 !important; border: none !important; border-radius: 10px !important; color: white !important; font-size: 12px !important; font-weight: bold !important; cursor: pointer !important; flex: none !important;" onclick="bukaHalamanLatihan()">LATIHAN</button>
       </div>
 
-      <!-- 🔐 BARIS 3: LACI OPSI RAHASIA (SLIDING CONTAINER) -->
-      <div id="laci-opsi-rahasia" style="max-height: 0px; opacity: 0; overflow: hidden; transition: all 0.3s ease-out; display: flex; gap: 15px; align-items: center; justify-content: flex-start; padding: 0 5px; box-sizing: border-box;">
+            <!-- 🔐 BARIS 3: LACI OPSI RAHASIA (SISTEM AUTOGROW ANTI-TERPOTONG) -->
+      <div id="laci-opsi-rahasia" style="max-height: 0px; opacity: 0; overflow: hidden; transition: all 0.3s ease-out; display: flex; flex-wrap: wrap !important; gap: 0px 15px !important; align-items: center; justify-content: flex-start; padding: 0 5px; box-sizing: border-box; width: 100%;">
         
-        <!-- Opsi Sebelah Kiri: Default Seva Favorit (NAMA RESMI) -->
-        <label id="label-default-kategori" style="display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: bold; color: Black; cursor: pointer; margin-top: 8px; user-select: none; -webkit-tap-highlight-color: transparent;">
-          <input type="checkbox" id="centang-default-kategori" onchange="saatCentanganBerubah('KATEGORI')" style="width: 14px; height: 14px; cursor: pointer; margin: 0;">
-          🔥 Seva Favorit di awal
+        <!-- Opsi Sebelah Atas: Default Kategori Saat Buka Aplikasi -->
+        <label id="label-default-kategori" style="display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: bold; color: Black; cursor: pointer; margin-top: 8px; user-select: none; -webkit-tap-highlight-color: transparent; width: 100% !important;">
+          <select id="centang-default-kategori" onchange="saatCentanganBerubah('KATEGORI')" style="padding: 2px 6px; border-radius: 6px; border: 1px solid #BBDEFB; background: #ffffff; font-size: 11px; outline: none; font-weight: bold; color: #444; cursor: pointer; height: 24px; margin: 0;">
+            <option value="NONE">🌐 SEMUA KATAGORI</option>
+            <option value="FAVORIT_SAYA">❤️ FAVORIT SAYA</option>
+            <option value="SEVA_FAVORIT">🔥 SEVA FAVORIT SAYA</option>
+          </select>
+          di awal
         </label>
 
-        <!-- Opsi Sebelah Kanan: Kunci Favorit -->
-        <label id="label-kunci-favorit" style="display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: bold; color: Black; cursor: pointer; margin-top: 8px; user-select: none; -webkit-tap-highlight-color: transparent;">
+        <!-- Dinding Pembatas Tak Terlihat: Memaksa Kunci Favorit Turun Kaku -->
+        <div style="width: 100% !important; height: 0px !important; clear: both !important;"></div>
+
+        <!-- Opsi Sebelah Bawah: Kunci Favorit -->
+        <label id="label-kunci-favorit" style="display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: bold; color: Black; cursor: pointer; margin-top: 6px !important; user-select: none; -webkit-tap-highlight-color: transparent; margin-bottom: 6px !important; width: 100% !important;">
           <input type="checkbox" id="centang-kunci-favorit" onchange="saatCentanganBerubah('KUNCI')" style="width: 14px; height: 14px; cursor: pointer; margin: 0;">
           🔒 Kunci Favorit
         </label>
 
       </div>
+
+      <!-- 🎯 SUNTIKAN GAYA ANTI-POTONG: Memaksa animasi JavaScript melonggarkan tinggi laci ke 75px saat terbuka -->
+      <style>
+        #laci-opsi-rahasia[style*="max-height"][style*="opacity: 1"] {
+          max-height: 75px !important;
+        }
+      </style>
+
+
 
 
     </div>
@@ -549,7 +565,7 @@
     
     <!-- BAR MENU STICKY DETAIL LAGU -->
     <div class="header-sticky" style="background: #abc4ff !important; padding: 10px 15px !important; border-radius: 20px !important; border: 1px solid #ffd8a8 !important; margin: 0 !important; display: flex; align-items: center; box-sizing: border-box; width: 100%; position: relative;">
-      <button class="btn-back" onclick="tampilDaftar()">Kembali</button>
+      <button class="btn-back" onclick="tampilDaftar()">KEMBALI</button>
       <div style="flex: 1;"></div>
       
       <!-- IKON HATI BESAR INTERAKTIF TOGGLE FAVORIT DETAIL -->
@@ -558,7 +574,7 @@
       </div>
       
       <div style="display: flex; align-items: center; gap: 12px; flex: none;">
-        <button class="btn-back" onclick="bukaSeva()" style="background:#007AFF;">Daftar Seva</button>
+        <button class="btn-back" onclick="bukaSeva()" style="background:#007AFF;">DAFTAR SEVA</button>
       </div>
     </div>
 
@@ -603,7 +619,7 @@
   <div style="position: fixed; top: 0; left: 0; right: 0; z-index: 9999; background: #fff8e1; margin: auto; padding: 0px 15px 0px 15px;">
     <div class="header-sticky" style="background: #abc4ff !important; padding: 10px 15px !important; border-radius: 20px !important; border: 1px solid #BBDEFB !important; margin: 0 !important; display: flex; align-items: center; justify-content: space-between; height: 58px; box-sizing: border-box;">
       <div style="display: flex; align-items: center; gap: 6px; flex-shrink: 0;">
-        <button class="btn-back" onclick="tampilDaftar()">Kembali</button>
+        <button class="btn-back" onclick="tampilDaftar()">KEMBALI</button>
       </div>
       
       <!-- ENGINE TIMEOUT COUNTDOWN GRID -->
@@ -819,437 +835,7 @@
 
 
 
-<script>
-  // --- INTRALINK GLOBAL VARIABLES TANK ENGINE + CONTROL SAKELAR ---
-  window.bhjPlayerQueue = window.bhjPlayerQueue || [];
-  window.bhjActiveIndex = window.bhjActiveIndex !== undefined ? window.bhjActiveIndex : -1;
-  window.bhjRetryCount = window.bhjRetryCount || {};
-  
-  if (window.bhj_pitch_shifter_aktif === undefined) window.bhj_pitch_shifter_aktif = true;
-  if (window.bhj_auto_buka_lirik_aktif === undefined) window.bhj_auto_buka_lirik_aktif = true;
 
-  // INISIALISASI AUDIO TUNGGAL (Dengan Sensor Auto-Next Murni)
-  if (!window.bhjAudioMandiri) {
-    window.bhjAudioMandiri = new Audio();
-    window.bhjAudioMandiri.crossOrigin = "anonymous";
-    
-    window.bhjAudioMandiri.addEventListener('play', function() {
-      perbaruiTombolPlayVisual(true);
-      perbaruiVisualDaftarPlayer();
-      eksekusiPenerapanPitchShifterCore();
-      localStorage.setItem('bhj_interupsi_audio', 'latihan-' + Date.now());
-    });
-
-    window.bhjAudioMandiri.addEventListener('pause', function() {
-      perbaruiTombolPlayVisual(false);
-    });
-
-    // 🔄 AUTOMATION ENDED: Lagu selesai langsung otomatis melompat ke nomor berikutnya
-    window.bhjAudioMandiri.addEventListener('ended', function() {
-      console.log("Lagu selesai. Otomatis memicu antrean berikutnya...");
-      if (typeof aksiTombolNextPlayer === "function") {
-        aksiTombolNextPlayer();
-      }
-    });
-
-    window.bhjAudioMandiri.addEventListener('error', function() {
-      var urlGagal = window.bhjAudioMandiri.src;
-      if (!window.bhjRetryCount[urlGagal]) window.bhjRetryCount[urlGagal] = 0;
-      window.bhjRetryCount[urlGagal]++;
-      
-      if (window.bhjRetryCount[urlGagal] <= 2) {
-        window.bhjAudioMandiri.load();
-        window.bhjAudioMandiri.play().catch(function(e) { console.log(e.message); });
-      } else {
-        perbaruiTombolPlayVisual(false);
-      }
-    });
-  }
-
-  // 🛠️ PENYELAMAT SUARA MACET: Reset speaker instan saat Anda menghidupkan kembali layar HP
-  document.addEventListener('visibilitychange', function() {
-    if (document.visibilityState === 'visible') {
-      console.log("Layar bangun! Menyegarkan ulang koneksi suara browser...");
-      if (window.bhjAudioMandiri && window.bhjActiveIndex !== -1) {
-        var sedangMuterSebelumLayarMati = !window.bhjAudioMandiri.paused;
-        var srcLama = window.bhjAudioMandiri.src;
-        
-        if (srcLama && srcLama !== "") {
-          window.bhjAudioMandiri.load(); // Segarkan ulang instansi objek audio
-          if (sedangMuterSebelumLayarMati) {
-            window.bhjAudioMandiri.play().catch(function(e) {
-              console.log("Menunggu sentuhan user untuk pancingan suara pertama.");
-            });
-          }
-        }
-      }
-    }
-  });
-
-  // SENSOR INTERUPSI SILANG
-  window.removeEventListener('storage', window.bhjSinyalAudioListener);
-  window.bhjSinyalAudioListener = function(e) {
-    if (e.key === 'bhj-lirik-putar-sing-id') {
-      if (window.bhjAudioMandiri && !window.bhjAudioMandiri.paused) {
-        window.bhjAudioMandiri.pause();
-      }
-    }
-  };
-  window.addEventListener('storage', window.bhjSinyalAudioListener);
-  // ============================================================================
-  // PILAR 1: EKSTRAKSI DATA SPREADSHEET & SERAGAMISASI TEKS NADA
-  // ============================================================================
-    function muatDataLaguKePlayer() {
-    var uiList = document.getElementById('bhj-ui-list');
-    if (!uiList) return;
-
-    window.bhjPlayerQueue = [];
-    var t = window.cacheDataSevaLokal;
-    var dbLokal = (typeof databaseLaguHP !== "undefined" && databaseLaguHP) ? databaseLaguHP : ((typeof db !== "undefined" && db) ? db : []);
-
-    if (!t || !t.daftarLatihan || t.daftarLatihan.length === 0) {
-      uiList.innerHTML = '<li class="bhj-player-item"><p class="bhj-item-title" style="text-align:center;">Daftar Latihan Kosong</p></li>';
-      // 🛡️ SUNTIKAN PENGAMAN: Jika daftar latihan kosong, netralkan status mesin player
-      window.bhjActiveIndex = -1;
-      if (window.bhjAudioMandiri && window.bhjAudioMandiri.paused) {
-        window.bhjAudioMandiri.src = "";
-      }
-      return;
-    }
-
-    var htmlBarisLagu = "";
-    var nomorAntreanInternal = 0;
-
-    for (var idxS = 0; idxS < t.daftarLatihan.length; idxS++) {
-      var barisSlot = t.daftarLatihan[idxS];
-      if (!barisSlot) continue;
-
-      var idLaguDiSlot = barisSlot['4'] ? barisSlot['4'].toString().trim() : "";
-      var namaPenyanyiDiSlot = barisSlot['2'] ? barisSlot['2'].toString().trim() : "";
-      var nomorSlotUrut = barisSlot['0'] ? barisSlot['0'].toString().trim() : (idxS + 1).toString();
-
-      if (idLaguDiSlot === "" || idLaguDiSlot === "0" || namaPenyanyiDiSlot === "ID Tidak Terdaftar" || namaPenyanyiDiSlot === "") {
-        continue; 
-      }
-
-      var nilaiNadaKolomG = parseInt(barisSlot['6']);
-      if (isNaN(nilaiNadaKolomG)) nilaiNadaKolomG = 0;
-
-      var judulAsliLagu = "Judul Tidak Diketahui";
-      for (var d = 0; d < dbLokal.length; d++) {
-        if (dbLokal[d] && dbLokal[d].id && dbLokal[d].id.toString().trim() === idLaguDiSlot) {
-          judulAsliLagu = dbLokal[d].judul || dbLokal[d].Judul || "Tanpa Judul";
-          break;
-        }
-      }
-
-      window.bhjPlayerQueue.push({
-        index: nomorAntreanInternal,
-        id: idLaguDiSlot,
-        judul: judulAsliLagu,
-        penyanyi: namaPenyanyiDiSlot,
-        nomorSlot: nomorSlotUrut,
-        nadaAsliPenyanyi: nilaiNadaKolomG
-      });
-
-      var teksSignNada = nilaiNadaKolomG > 0 ? "+" + nilaiNadaKolomG : nilaiNadaKolomG.toString();
-      var labelInformasiNada = " (🎵 " + teksSignNada + ")";
-
-      htmlBarisLagu += 
-        '<li class="bhj-player-item' + (nomorAntreanInternal === window.bhjActiveIndex ? ' bhj-active' : '') + '" data-index="' + nomorAntreanInternal + '" onclick="eksekusiKlikLaguPlayer(' + nomorAntreanInternal + ')">' +
-          '<p class="bhj-item-title">' + nomorSlotUrut + '. ' + judulAsliLagu + '</p>' +
-          '<p class="bhj-item-singer">🎤 ' + namaPenyanyiDiSlot + labelInformasiNada + '</p>' +
-        '</li>';
-
-      nomorAntreanInternal++;
-    }
-
-    if (window.bhjPlayerQueue.length === 0) {
-      uiList.innerHTML = '<li class="bhj-player-item"><p class="bhj-item-title" style="text-align:center;">Tidak Ada Lagu Valid</p></li>';
-      // 🛡️ SUNTIKAN PENGAMAN: Netralkan status mesin player jika antrean kosong
-      window.bhjActiveIndex = -1;
-      if (window.bhjAudioMandiri && window.bhjAudioMandiri.paused) {
-        window.bhjAudioMandiri.src = "";
-      }
-      return;
-    }
-
-    uiList.innerHTML = htmlBarisLagu;
-
-    // ====================================================================
-    // 🛡️ START SUNTIKAN PENGAMAN LOGIKA INDEKS AKTIF USANG
-    // ====================================================================
-    if (window.bhjActiveIndex !== -1) {
-      // Periksa apakah lagu yang sedang aktif saat ini masih ada di dalam antrean baru
-      var masihAdaDiDaftarBaru = window.bhjPlayerQueue.some(function(item) {
-        return item.index === window.bhjActiveIndex;
-      });
-
-      // Jika lagu yang dipegang player sudah hilang dari daftar baru, reset indeksnya
-      if (!masihAdaDiDaftarBaru) {
-        console.log("⚠️ Lagu aktif player sudah tidak ada di daftar latihan baru. Menetralkan player.");
-        window.bhjActiveIndex = -1;
-        if (window.bhjAudioMandiri && window.bhjAudioMandiri.paused) {
-          window.bhjAudioMandiri.src = "";
-        }
-      }
-    }
-    // ====================================================================
-    // 🛡️ END SUNTIKAN PENGAMAN LOGIKA INDEKS AKTIF USANG
-    // ====================================================================
-
-    perbaruiTombolPlayVisual(!window.bhjAudioMandiri.paused);
-
-    if (typeof pulihkanSesiTerakhirPlayerJikaAda === "function") {
-      pulihkanSesiTerakhirPlayerJikaAda();
-    }
-  }
-
-
-  // ============================================================================
-  // PILAR 2: KONTROL NAVIGASI TOMBOL FISIK (ANTI-ERROR & INSTAN)
-  // ============================================================================
-  function aksiTombolNextPlayer() {
-    if (window.bhjPlayerQueue.length === 0) return;
-    var targetIndex = window.bhjActiveIndex + 1;
-    if (targetIndex >= window.bhjPlayerQueue.length) targetIndex = 0; 
-    eksekusiKlikLaguPlayer(targetIndex);
-  }
-
-  function aksiTombolBeforePlayer() {
-    if (window.bhjPlayerQueue.length === 0 || window.bhjActiveIndex === -1) return;
-    if (window.bhjAudioMandiri.currentTime > 3) {
-      window.bhjAudioMandiri.currentTime = 0;
-    } else {
-      var targetIndex = window.bhjActiveIndex - 1;
-      if (targetIndex < 0) targetIndex = window.bhjPlayerQueue.length - 1; 
-      eksekusiKlikLaguPlayer(targetIndex);
-    }
-  }
-
-  function aksiTombolPlayPlayer() {
-    if (window.bhjActiveIndex === -1) {
-      if (window.bhjPlayerQueue.length > 0) eksekusiKlikLaguPlayer(0);
-      return;
-    }
-    
-    if (window.bhjAudioMandiri.paused) {
-      localStorage.setItem('bhj_interupsi_audio', 'latihan-' + Date.now());
-      
-      window.bhjAudioMandiri.play().then(function() {
-        perbaruiTombolPlayVisual(true);
-        if (window.bhj_auto_buka_lirik_aktif && window.bhjPlayerQueue[window.bhjActiveIndex]) {
-          var laguSesiIni = window.bhjPlayerQueue[window.bhjActiveIndex];
-          if (typeof bukaLagu === "function") bukaLagu(laguSesiIni.id, 'latihan');
-        }
-      }).catch(function() { 
-        eksekusiKlikLaguPlayer(window.bhjActiveIndex); 
-      });
-    } else {
-      window.bhjAudioMandiri.pause();
-      perbaruiTombolPlayVisual(false);
-    }
-  }
-
-  function perbaruiTombolPlayVisual(sedangMuter) {
-    var btnPlay = document.getElementById('bhj-toggle-play');
-    if (btnPlay) btnPlay.innerText = sedangMuter ? "⏸" : "▶";
-  }
-
-  function perbaruiVisualDaftarPlayer(bolehScroll) {
-    if (bolehScroll === undefined) bolehScroll = true;
-    var semuaItem = document.querySelectorAll('.bhj-player-item');
-    semuaItem.forEach(function(el) { el.classList.remove('bhj-active'); });
-
-    var itemAktif = document.querySelector('.bhj-player-item[data-index="' + window.bhjActiveIndex + '"]');
-    if (itemAktif) {
-      itemAktif.classList.add('bhj-active');
-      if (bolehScroll) {
-        var jendelaList = document.querySelector('.bhj-player-window');
-        if (jendelaList) {
-          var posisiTopBaris = itemAktif.getBoundingClientRect().top - jendelaList.getBoundingClientRect().top + jendelaList.scrollTop;
-          var tinggiBaris = itemAktif.offsetHeight || 45;
-          var tinggiJendela = jendelaList.clientHeight || 135;
-          jendelaList.scrollTop = posisiTopBaris - (tinggiJendela / 2) + (tinggiBaris / 2);
-        }
-      }
-    }
-  }
-  // ============================================================================
-  // PILAR 4: JANTUNG UTAMA AUDIO CONTROLLER DENGAN INTEGRASI ANTIDOTE DEBUG
-  // ============================================================================
-  async function eksekusiKlikLaguPlayer(indexAntrean) {
-    if (window.bhjPlayerQueue.length === 0) return;
-    
-    window.bhjActiveIndex = indexAntrean;
-    var laguTerpilih = window.bhjPlayerQueue[indexAntrean];
-    if (!laguTerpilih) return;
-
-    if (window.bhj_auto_buka_lirik_aktif && typeof bukaLagu === "function") {
-      bukaLagu(laguTerpilih.id, 'latihan');
-    }
-
-    if (typeof window.simpanSesiKeLocalStorage === "function") {
-      window.simpanSesiKeLocalStorage();
-    }
-
-    var t = window.cacheDataSevaLokal;
-    var barisSlotMentah = (t && t.daftarLatihan) ? t.daftarLatihan.find(function(r) { return r && r['4'] === laguTerpilih.id; }) : null;
-    
-    var userDnm = (t && t.githubUser) ? t.githubUser.toString().trim() : "";
-    var repoDnm = (t && t.githubRepo) ? t.githubRepo.toString().trim() : "";
-    var urlCadangan = "https://" + userDnm + ".github.io/" + repoDnm + "/" + laguTerpilih.id + ".mp3";
-    
-    var urlAsliInternet = (barisSlotMentah && barisSlotMentah['7']) ? barisSlotMentah['7'].toString().trim() : urlCadangan;
-
-    console.log("🔗 Mengalirkan URL Standar Mandiri: " + urlAsliInternet);
-    window.bhjRetryCount[urlAsliInternet] = 0;
-
-    if (window.bhjAudioMandiri.src !== urlAsliInternet) {
-      window.bhjAudioMandiri.src = urlAsliInternet;
-    }
-
-    perbaruiVisualDaftarPlayer();
-
-    window.bhjAudioMandiri.play().catch(function(err) {
-      console.log("Menunggu sentuhan fisik user: " + err.message);
-      perbaruiTombolPlayVisual(false);
-    });
-  }
-
-  function eksekusiPenerapanPitchShifterCore() {
-    try {
-      var audioCore = window.bhjAudioMandiri;
-      if (!audioCore || window.bhjPlayerQueue.length === 0 || window.bhjActiveIndex === -1) return;
-
-      var laguAktif = window.bhjPlayerQueue[window.bhjActiveIndex];
-      if (!laguAktif) return;
-
-      if (window.bhj_pitch_shifter_aktif) {
-        var shiftSemitone = laguAktif.nadaAsliPenyanyi;
-        if (shiftSemitone === 0) {
-          audioCore.playbackRate = 1.0;
-          if ('preservesPitch' in audioCore) audioCore.preservesPitch = true;
-        } else {
-          var rasioPitchMatematis = Math.pow(2, shiftSemitone / 12);
-          if ('preservesPitch' in audioCore) {
-            audioCore.preservesPitch = false;
-            audioCore.playbackRate = rasioPitchMatematis;
-          }
-        }
-      } else {
-        audioCore.playbackRate = 1.0;
-        if ('preservesPitch' in audioCore) audioCore.preservesPitch = true;
-      }
-    } catch (e) { console.log("Gagal memproses pergeseran nada RAM: " + e.message); }
-  }
-  // ============================================================================
-  // MEMORI PENYELAMAT SAKELAR & PEMULIHAN SESI
-  // ============================================================================
-  window.simpanSesiKeLocalStorage = function() {
-    if (window.bhjActiveIndex === -1 || window.bhjPlayerQueue.length === 0) return;
-    var dataStatus = {
-      indexAktif: window.bhjActiveIndex,
-      idLagu: window.bhjPlayerQueue[window.bhjActiveIndex].id,
-      detikTerakhir: window.bhjAudioMandiri.currentTime || 0
-    };
-    localStorage.setItem('bhj_player_last_session', JSON.stringify(dataStatus));
-  };
-
-  if (!window.bhjIntervalSesi) {
-    window.bhjIntervalSesi = setInterval(function() {
-      if (window.bhjAudioMandiri && !window.bhjAudioMandiri.paused) window.simpanSesiKeLocalStorage();
-    }, 2000);
-  }
-
-    function pulihkanSesiTerakhirPlayerJikaAda() {
-    var dataSesiMentah = localStorage.getItem('bhj_player_last_session');
-    if (!dataSesiMentah) return;
-
-    try {
-      var sesi = JSON.parse(dataSesiMentah);
-      var indexCocok = -1;
-      
-      // Cari apakah lagu dari sesi lama masih ada di antrean player yang aktif saat ini
-      for (var i = 0; i < window.bhjPlayerQueue.length; i++) {
-        if (window.bhjPlayerQueue[i].id.toString().trim() === sesi.idLagu.toString().trim()) {
-          indexCocok = i;
-          break;
-        }
-      }
-
-      // 🛡️ JIKA COCOK (Lagu masih ada di daftar aktif baru): Pulihkan sesi seperti biasa
-      if (indexCocok !== -1) {
-        window.bhjActiveIndex = indexCocok;
-        setTimeout(function() { perbaruiVisualDaftarPlayer(false); }, 100);
-
-        var t = window.cacheDataSevaLokal;
-        var slotSesiMentah = (t && t.daftarLatihan) ? t.daftarLatihan.find(function(r) { return r && r['4'] === sesi.idLagu; }) : null;
-        
-        // Pastikan hanya mengambil URL jika slot latihan tersebut benar-to-benar ada
-        if (slotSesiMentah) {
-          var urlLokalSesi = slotSesiMentah['7'] ? slotSesiMentah['7'].toString().trim() : "";
-          if (urlLokalSesi !== "" && window.bhjAudioMandiri.src !== urlLokalSesi) {
-            window.bhjAudioMandiri.src = urlLokalSesi;
-            window.bhjAudioMandiri.currentTime = sesi.detikTerakhir || 0;
-            console.log("🛡️ RECOVERY OK: Sesi dipulihkan aman pada URL: " + urlLokalSesi);
-          }
-        }
-      } 
-      // 🚨 JIKA TIDAK COCOK (Lagu sudah hilang/data seva direset): Bersihkan memori usang
-      else {
-        console.log("🧹 Mendeteksi data seva direset/berubah. Menghapus sesi player lama.");
-        localStorage.removeItem('bhj_player_last_session');
-        window.bhjActiveIndex = -1;
-        if (window.bhjAudioMandiri) {
-          window.bhjAudioMandiri.src = ""; // Kosongkan player agar tidak memutar lagu salah
-        }
-      }
-    } catch (e) { localStorage.removeItem('bhj_player_last_session'); }
-  }
-
-
-  // ============================================================================
-  // PILAR 6: PENGUAT EVENT TOMBOL FISIK, SAKELAR KEMBAR EMAS, & APP INITIALIZATION
-  // ============================================================================
-  setTimeout(function() {
-    var btnPlay = document.getElementById('bhj-toggle-play');
-    var btnNext = document.getElementById('bhj-next-btn');
-    var btnPrev = document.getElementById('bhj-prev-btn');
-    var btnPitch = document.getElementById('bhj-toggle-pitch');
-    var btnBukaLirik = document.getElementById('bhj-btn-buka-lirik');
-
-    if (btnPlay) btnPlay.onclick = aksiTombolPlayPlayer;
-    if (btnNext) btnNext.onclick = aksiTombolNextPlayer;
-    if (btnPrev) btnPrev.onclick = aksiTombolBeforePlayer;
-
-    if (btnBukaLirik) {
-      btnBukaLirik.classList.toggle('lirik-aktif', window.bhj_auto_buka_lirik_aktif);
-      btnBukaLirik.onclick = function() {
-        window.bhj_auto_buka_lirik_aktif = !window.bhj_auto_buka_lirik_aktif;
-        this.classList.toggle('lirik-aktif', window.bhj_auto_buka_lirik_aktif);
-        if (window.bhj_auto_buka_lirik_aktif && window.bhjActiveIndex !== -1 && window.bhjPlayerQueue[window.bhjActiveIndex]) {
-          var idLaguMuter = window.bhjPlayerQueue[window.bhjActiveIndex].id;
-          if (typeof bukaLagu === "function") bukaLagu(idLaguMuter, 'latihan');
-        }
-      };
-    }
-
-    if (btnPitch) {
-      btnPitch.classList.toggle('pitch-aktif', window.bhj_pitch_shifter_aktif);
-      btnPitch.onclick = function() {
-        window.bhj_pitch_shifter_aktif = !window.bhj_pitch_shifter_aktif;
-        this.classList.toggle('pitch-aktif', window.bhj_pitch_shifter_aktif);
-        eksekusiPenerapanPitchShifterCore();
-      };
-    }
-    perbaruiTombolPlayVisual(!window.bhjAudioMandiri.paused);
-  }, 400);
-
-  setTimeout(function() {
-    pulihkanSesiTerakhirPlayerJikaAda();
-  }, 300);
-</script>
 
 
 
@@ -1371,7 +957,7 @@
     <!-- SAKELAR BOOT KOTAK CENTANG BHAJAN SPESIAL (SEL B11 SPREADSHEET) -->
     <div style="background: #ffffff; padding: 12px; border-radius: 10px; border: 1.5px solid #adcfff; margin-bottom: 16px; box-sizing: border-box;">
       <label style="display:flex; align-items:center; gap:10px; cursor:pointer; font-weight:700; color: #b71c1c; font-size: 13px; margin: 0;"> 
-        <input type="checkbox" id="set-spesial" style="width:18px; height:18px; margin: 0; accent-color: #b71c1c; cursor: pointer;">cara Bhajan Spesial (Abaikan Saringan)
+        <input type="checkbox" id="set-spesial" style="width:18px; height:18px; margin: 0; accent-color: #b71c1c; cursor: pointer;">Acara Bhajan Spesial (Abaikan Saringan)
       </label>
     </div>
 
@@ -1602,21 +1188,36 @@ function init() {
   }
 
   // ============================================================================
-  // 👑 FUNGSI ROBOT EKSTRAKTOR UTAMA (SATU KALI KERJA - ULTRA EFISIEN)
+  // 👑 FUNGSI ROBOT EKSTRAKTOR UTAMA (HANYA MENYEGARKAN DATA & FILTER BINTIK)
   // ============================================================================
   function uraiDanPetakanBundledData(sumberPaketData) {
     if (!sumberPaketData || sumberPaketData.error) return false;
 
-    window.db = sumberPaketData.songs || [];
-    db = window.db;
+    // 🎯 PERBAIKAN AI: Mendukung pembacaan terpisah (Split Sync) agar tidak menimpa data lama dengan array kosong
+    if (sumberPaketData.statusSplit === true) {
+      // Jika server bilang lagu berubah, perbarui database lagu di RAM
+      if (sumberPaketData.laguBerubah && sumberPaketData.songs) {
+        window.db = sumberPaketData.songs;
+      }
+      // Jika server bilang data panggung berubah, perbarui data seva & riwayat mentah di RAM
+      if (sumberPaketData.adminBerubah) {
+        if (sumberPaketData.seva) window.cacheDataSevaLokal = sumberPaketData.seva;
+        if (sumberPaketData.riwayatRaw) window.dbRiwayatRaw = sumberPaketData.riwayatRaw;
+      }
+    } else {
+      // Jalur cadangan / startup awal: isi semua data secara utuh
+      if (sumberPaketData.songs) window.db = sumberPaketData.songs;
+      if (sumberPaketData.riwayatRaw) window.dbRiwayatRaw = sumberPaketData.riwayatRaw;
+      if (sumberPaketData.seva) window.cacheDataSevaLokal = sumberPaketData.seva;
+    }
+    
+    // Sambungkan variabel global agar sinkron dengan fungsi filter bawaan aplikasi
+    db = window.db || [];
+    var sevaData = window.cacheDataSevaLokal || null;
 
-    var sevaData = sumberPaketData.seva || null;
     if (sevaData) {
-      window.cacheDataSevaLokal = sevaData;
       window.memberFavorites = sevaData.memberFavorites || {};
       window.dbMembers = sevaData.members || {};
-      window.daftarQuotesFromSheet = sevaData.quotes || [];
-      window.warnaFromSheet = sevaData.warna || [];
       if (sevaData.memberSettings) window.memberSettings = sevaData.memberSettings;
     }
 
@@ -1632,18 +1233,13 @@ function init() {
       });
     }
 
-    // 2. 🚀 GABUNGAN SUPER: Cukup sekali urai string, data Blokir B15 & Rotasi Drive terisi serentak!
-     // ====================================================================
-    // 🎯 PERBAIKAN SAKTI INIT(): Prioritaskan Data B15 Teranyar di Penyimpanan Lokal Perangkat
-    // ====================================================================
+    // 2. GABUNGAN SUPER: Cukup sekali urai string, data Blokir B15 & Rotasi Drive terisi serentak!
     var listBlokirDriveClean = [];
     window.keranjangRiwayatDriveClean = [];
     
-    // Prioritaskan mengambil string teks mentah B15 terbaru dari cache poling local storage, 
-    // jika kosong barulah gunakan data mentah awal dari paket server.
     var stringMentahDrive = (sevaData && sevaData.keranjangRiwayatDriveClean) 
       ? sevaData.keranjangRiwayatDriveClean.toString().trim() 
-      : (sumberPaketData.liveBlokirDrive ? sumberPaketData.liveBlokirDrive.toString().trim() : "");
+      : "";
     
     if (stringMentahDrive !== "") {
       stringMentahDrive.split("|||").forEach(function(barisTeks) {
@@ -1664,26 +1260,38 @@ function init() {
         }
       });
     }
-    // ====================================================================
-
 
     window.masterFilterSeva = {
       bhajanSpesialB11: (sevaData && sevaData.bhajanSpesialB11Bawaan === true),
       angkaFilterB10: (sevaData && sevaData.angkaFilterB10Bawaan) || "0",
       daftarBlokirDrive: listBlokirDriveClean,
-      laguTerisiMingguIni: listLaguMingguIni
+      laguTerisiMingguIni: listLaguMingguIni,
+      petaGrupAktif: (sevaData && sevaData.formasiGrupOtomatis) ? sevaData.formasiGrupOtomatis : []
     };
 
-    // 🔥 SUNTIKAN SAKTI STEP 4.5: Beri pelindung array kosong agar visual tidak crash saat cache kosong
-    if (sevaData) {
-      window.masterFilterSeva.petaGrupAktif = sevaData.formasiGrupOtomatis || [];
-    } else {
-      window.masterFilterSeva.petaGrupAktif = [];
+    if (typeof muatDataLaguKePlayer === "function") { try { muatDataLaguKePlayer(); } catch(e) {} }
+    if (typeof filterLagu === "function") { try { filterLagu(); } catch(e){} }
+    
+    if (typeof gambarDaftarUmatDanGrupVisual === "function") { 
+      try { 
+        gambarDaftarUmatDanGrupVisual(); 
+      } catch(errVisualDetik0) {
+        console.warn("⏳ Visual umat ditunda sekejap sampai data internet mendarat:", errVisualDetik0.message);
+      }
     }
+    return true;
+  }
 
-
-    // 3. Kelola Dropdown Kategori & Pasang Nilai Kolom K & L Asli
+  // ============================================================================
+  // 🎯 ROBO KHUSUS: HANYA DIEKSEKUSI SATU KALI DI AWAL RE-START STARTUP APLIKASI
+  // ============================================================================
+  // ============================================================================
+  // 🎯 ROBO KHUSUS: HANYA DIEKSEKUSI SATU KALI DI AWAL RE-START STARTUP APLIKASI
+  // ============================================================================
+  function inisialisasiAwalDropdownMenu(sumberPaketData) {
+    var sevaData = sumberPaketData.seva || null;
     var kats = [], sel = document.getElementById('selKat');
+    
     window.db.forEach(function(item) {
       if(item && item.kategori && kats.indexOf(item.kategori) === -1) kats.push(item.kategori);
     });
@@ -1710,93 +1318,62 @@ function init() {
         }
         sel.appendChild(opt);
       });
+
       var savedIdUserCek = (localStorage.getItem('savedIdUser') || "").toLowerCase().trim();
       var laciSettingsCek = (sevaData && sevaData.memberSettings) ? sevaData.memberSettings : {};
-      var settingsDataCek = laciSettingsCek[savedIdUserCek] || { kunciFavorit: true, defaultKategori: false };
+      var settingsDataCek = laciSettingsCek[savedIdUserCek] || { kunciFavorit: true, defaultKategori: "NONE" };
       
       if (window.ramSetelanLokalJemaat && window.ramSetelanLokalJemaat.data !== null && Date.now() < window.ramSetelanLokalJemaat.waktuKunciHingga) {
         if (window.ramSetelanLokalJemaat.data.defaultKategori !== undefined) settingsDataCek.defaultKategori = window.ramSetelanLokalJemaat.data.defaultKategori;
         if (window.ramSetelanLokalJemaat.data.kunciFavorit !== undefined) settingsDataCek.kunciFavorit = window.ramSetelanLokalJemaat.data.kunciFavorit;
       }
 
-      sel.value = settingsDataCek.defaultKategori ? "SEVA_FAVORIT" : "SEMUA";
+      // SELEKSI LOGIKAL NILAI STARTUP:
+      var nilaiDefaultDariServer = String(settingsDataCek.defaultKategori).toUpperCase().trim();
+      
+      if (nilaiDefaultDariServer === "NONE" || nilaiDefaultDariServer === "FALSE" || nilaiDefaultDariServer === "") {
+        sel.value = "SEMUA"; 
+      } else if (nilaiDefaultDariServer === "TRUE") {
+        sel.value = "SEVA_FAVORIT"; 
+      } else {
+        sel.value = nilaiDefaultDariServer; 
+      }
 
       var centangKunci = document.getElementById('centang-kunci-favorit');
       var centangDefault = document.getElementById('centang-default-kategori');
       if (!savedIdUserCek || savedIdUserCek === "anonim") {
-        if (centangKunci) { centangKunci.checked = false; centangKunci.disabled = true; }
-        if (centangDefault) { centangDefault.checked = false; centangDefault.disabled = true; }
-        statusFavoritTerkunci = (settingsDataCek.kunciFavorit !== false);
-        if (sel.value !== "SEMUA") sel.value = "SEMUA";
+          if (centangKunci) { centangKunci.checked = false; centangKunci.disabled = true; }
+          if (centangDefault) { centangDefault.value = "NONE"; centangDefault.disabled = true; }
+          statusFavoritTerkunci = (settingsDataCek.kunciFavorit !== false);
+          if (sel.value !== "SEMUA") sel.value = "SEMUA";
       } else {
-        if (centangKunci) { centangKunci.disabled = false; centangKunci.checked = settingsDataCek.kunciFavorit; }
-        if (centangDefault) { centangDefault.disabled = false; centangDefault.checked = settingsDataCek.defaultKategori; }
-        statusFavoritTerkunci = settingsDataCek.kunciFavorit;
+          if (centangKunci) { centangKunci.disabled = false; centangKunci.checked = settingsDataCek.kunciFavorit; }
+        
+          // 🎯 PERBAIKAN SAKTI SINKRONISASI DROPDOWN LACI (LANGKAH AKHIR):
+          // Mengganti pengisian .checked lama menjadi pengisian .value kaku agar tulisan menu laci sinkron dengan server
+          if (centangDefault) { 
+              centangDefault.disabled = false; 
+              centangDefault.value = nilaiDefaultDariServer; // Sukses mengunci otomatis teks "FAVORIT_SAYA" atau "SEVA_FAVORIT" di laci!
+          }
+          statusFavoritTerkunci = settingsDataCek.kunciFavorit;
       }
-    }
 
-    if (typeof muatDataLaguKePlayer === "function") { try { muatDataLaguKePlayer(); } catch(e) {} }
-    if (typeof filterLagu === "function") { try { filterLagu(); } catch(e){} }
-    
-    // 🔥 SUNTIKAN SAKTI STEP 4.6: Kurung fungsi visual dengan try-catch agar jika eror, program utama TIDAK MATI dan poling bisa hidup!
-    if (typeof gambarDaftarUmatDanGrupVisual === "function") { 
-      try { 
-        gambarDaftarUmatDanGrupVisual(); 
-      } catch(errVisualDetik0) {
-        console.warn("⏳ Visual umat ditunda sekejap sampai data internet mendarat:", errVisualDetik0.message);
-      }
+      
+      if (typeof filterLagu === "function") filterLagu();
     }
-    return true;
   }
-
 
 
   // ============================================================================
   // 🎛️ SYSTEM REGISTER DETEKSI INPUT DATA & CEK VERSI
   // ============================================================================
   var sedangInputData = false;
-
   document.addEventListener('focusin', function(e) {
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') {
-      sedangInputData = true;
-    }
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') sedangInputData = true;
   });
-
   document.addEventListener('focusout', function(e) {
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') {
-      sedangInputData = false;
-    }
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') sedangInputData = false;
   });
-
-  console.log("🔍 [Pelatuk 1] Memulai pengecekan versi di awal masuk aplikasi...");
-  jalankanCekUpdate();
-
-  document.addEventListener('visibilitychange', function() {
-    if (document.visibilityState === 'visible') {
-      console.log("👀 [Pelatuk 2] Umat kembali ke aplikasi, mendeteksi ulang versi server...");
-      jalankanCekUpdate();
-    }
-  });
-
-  function jalankanCekUpdate() {
-    google.script.run.withSuccessHandler(function(versiTerbaruServer) {
-      var elemenVersi = document.getElementById('nomor-versi-sistem');
-      var versiSaatIniDiBrowser = elemenVersi ? elemenVersi.value : "";
-      
-      if (versiTerbaruServer !== versiSaatIniDiBrowser) {
-        if (sedangInputData) {
-          console.log("⏳ Umat sedang input data. Penyelarasan ditunda 30 detik...");
-          setTimeout(jalankanCekUpdate, 30000); 
-          return;
-        }
-        console.log("🔄 Versi baru terdeteksi! Menyegarkan sistem ke versi terbaru...");
-        window.location.reload();
-      } else {
-        console.log("✅ Versi sinkron. Mesin tidur sampai umat kembali dari aplikasi lain.");
-      }
-    }).ambilVersiTerbaruServer();
-  }
-
   // ============================================================================
   // PENGGERAK JALUR UTAMA (OFFLINE FIRST & SINKRONISASI SERVER)
   // ============================================================================
@@ -1805,29 +1382,143 @@ function init() {
     var localBundledData = localStorage.getItem('lastBundledData');
     if (localBundledData) {
       var parsedLocalData = JSON.parse(localBundledData);
+      
+      // 1. Ekstrak data lirik dan bintik panggung dari cache lokal
       if (uraiDanPetakanBundledData(parsedLocalData)) {
-        console.log("⚡ Data lokal HP & Kolom K/L asli sukses digambar instan di detik ke-0.");
-        if (typeof loading === "function") loading(false); // 🌟 Langsung instan tanpa jeda
+        if (typeof loading === "function") loading(false); 
         adaDataLokalAwal = true;
+        
+        // 2. 🎯 EKSEKUSI DROPDOWN KAKU HANYA SEKALI: Saat startup membaca cache lokal
+        inisialisasiAwalDropdownMenu(parsedLocalData);
       }
     }
   } catch (e) { console.log("⚠️ Gagal memuat data lokal awal:", e); }
 
-  if (navigator.onLine && typeof google !== 'undefined' && google.script && google.script.run) {
-    google.script.run.withSuccessHandler(function(bundledData) {
-      if (!bundledData || bundledData.error) { if (typeof loading === "function") loading(false); return; }
-      try { localStorage.setItem('lastBundledData', JSON.stringify(bundledData)); } catch(e) {}
-      
-      uraiDanPetakanBundledData(bundledData);
-      console.log("☁️ Data server Google sukses diselaraskan secara live.");
+  // 🎯 PERBAIKAN AI: Alur Offline-First Sejati (Gunakan data lokal dulu, cek versi kemudian)
+  var idUserActiveInit = (localStorage.getItem('savedIdUser') || "").toLowerCase().trim();
 
-      try { if (typeof aktifkanLivePollingSenyapAntarHP === "function") { aktifkanLivePollingSenyapAntarHP(); } } catch(errPoll) {}
-      if (!adaDataLokalAwal && typeof loading === "function") loading(false);
-    }).getBundledInitialData();
-  } else {
-    if (!adaDataLokalAwal && typeof loading === "function") loading(false);
+  // 🛠️ SISIPAN PERBAIKAN: Mengambil token versi lokal agar bisa dikirim ke baris bawah (.getBundledInitialData)
+  var vAdminLokal = "0";
+  var vLaguLokal  = "0";
+  try {
+    var localBundledData = localStorage.getItem('lastBundledData');
+    if (localBundledData) {
+      var parsed = JSON.parse(localBundledData);
+      if (parsed && parsed.seva) {
+        vAdminLokal = parsed.seva.versiSpreadsheet || "0";
+        vLaguLokal  = parsed.seva.versiDbLagu || "0";
+      }
+    }
+  } catch(e) {}
+  var tokenStartup = vAdminLokal + "_" + vLaguLokal;
+
+  // Skenario A: Jika data lokal SUDAH ADA, langsung matikan loading agar aplikasi siap pakai instan!
+
+  if (adaDataLokalAwal) {
+    if (typeof loading === "function") loading(false);
+    console.log("📱 [OFFLINE FIRST] Mengunci data lokal panggung, aplikasi siap digunakan.");
   }
+
+  // Cek ke server hanya jika browser terhubung internet dan fungsi Google script tersedia
+  if (navigator.onLine && typeof google !== 'undefined' && google.script && google.script.run) {
+    
+    // Kirim token versi ke server di latar belakang (senyap) tanpa menghalangi layar pengguna
+    google.script.run
+      .withFailureHandler(function(errStartup) {
+        console.warn("⚠️ [STARTUP] Gagal menghubungi server (sinyal lemah/macet). Tetap menggunakan data lokal.");
+        // Jika internet macet tapi data lokal kosong (pengguna baru), matikan loading agar tidak gantung selamanya
+        if (!adaDataLokalAwal && typeof loading === "function") loading(false);
+        // Tetap nyalakan mesin polling agar bisa dicoba otomatis beberapa saat lagi
+        try { if (typeof aktifkanLivePollingSenyapAntarHP === "function") { aktifkanLivePollingSenyapAntarHP(); } } catch(e) {}
+      })
+      .withSuccessHandler(function(bundledData) {
+        if (!bundledData || bundledData.error) { 
+          if (typeof loading === "function") loading(false); 
+          return; 
+        }
+        
+        // 🛡️ GERBANG TOL STARTUP: Jika server mendeteksi versi cocok, tidak ada download data besar!
+        if (bundledData.tidakAdaPerubahan === true) {
+          console.log("✅ [STARTUP SENYAP] Selesai cek versi. Data lokal Anda sudah yang paling update.");
+          try { if (typeof aktifkanLivePollingSenyapAntarHP === "function") { aktifkanLivePollingSenyapAntarHP(); } } catch(errPoll) {}
+          if (typeof loading === "function") loading(false);
+          return;
+        }
+
+        // 🎯 SUNTIKAN KOREKSI MUTLAK: Bongkar data segar dari cloud ke dalam memori RAM HP
+        if (uraiDanPetakanBundledData(bundledData)) {
+          // Begitu data mendarat, langsung paksa menu laci dan status favorit sinkron mengikuti data ID baru
+          var paketDataLokal = window.cacheDataSevaLokal;
+          if (typeof inisialisasiAwalDropdownMenu === "function" && paketDataLokal) {
+            inisialisasiAwalDropdownMenu({ seva: paketDataLokal });
+          }
+          // Segarkan visual panggung utama
+          if (typeof muatDataLaguKePlayer === "function") muatDataLaguKePlayer();
+          if (typeof filterLagu === "function") filterLagu();
+          console.log("📱 [SINKRONISASI SUKSES] Seluruh hak akses visual ID Baru resmi dikunci lurus!");
+        }
+
+        if (typeof loading === "function") loading(false);
+        try { if (typeof aktifkanLivePollingSenyapAntarHP === "function") { aktifkanLivePollingSenyapAntarHP(); } } catch(errPoll) {}
+
+
+        // Skenario B: Jika memang ada perubahan data nyata di server, gabungkan datanya secara cerdas
+        try {
+          var localBundledData = localStorage.getItem('lastBundledData');
+          var parsedLokal = localBundledData ? JSON.parse(localBundledData) : { songs: [], seva: {}, riwayatRaw: [] };
+
+          if (bundledData.statusSplit === true) {
+            // Jika yang berubah hanya lagu, timpa lagu lamanya saja
+            if (bundledData.laguBerubah && bundledData.songs) {
+              parsedLokal.songs = bundledData.songs;
+            }
+            // Jika yang berubah hanya data panggung, timpa data seva & riwayat lamanya saja
+            if (bundledData.adminBerubah) {
+              if (bundledData.seva) parsedLokal.seva = bundledData.seva;
+              if (bundledData.riwayatRaw) parsedLokal.riwayatRaw = bundledData.riwayatRaw;
+            }
+            
+            // Selipkan token versi terbaru yang dikirim oleh server ke dalam struktur internal cache
+            // 🎯 PERBAIKAN AI: Memastikan penulisan token ke kantong cache sinkron lahir batin dengan cara HP membaca versi
+            if (!parsedLokal.seva) parsedLokal.seva = {};
+            
+            // Amankan versi admin
+            parsedLokal.seva.versiSpreadsheet = bundledData.versiSpreadsheetTerbaru || parsedLokal.seva.versiSpreadsheet || "0";
+            
+            // Amankan versi lagu ke akar objek utama DAN ke dalam objek seva agar terbaca dari segala jalur
+            var versiLaguFinal = bundledData.versiDbLaguTerbaru || bundledData.versiDbLagu || parsedLokal.versiDbLagu || (parsedLokal.seva && parsedLokal.seva.versiDbLagu) || "0";
+            parsedLokal.versiDbLagu = versiLaguFinal;
+            parsedLokal.seva.versiDbLagu = versiLaguFinal;
+
+          } else {
+            // Jalur cadangan: Jika server mengirim data utuh (bukan mode split), langsung timpa total
+            parsedLokal = bundledData;
+          }
+
+          // Kunci kembali data yang sudah digabung ke dalam kantong localStorage
+          localStorage.setItem('lastBundledData', JSON.stringify(parsedLokal));
+        } catch(eCache) {
+          console.error("⚠️ Gagal menyelaraskan kantong localStorage:", eCache);
+        }
+        
+        // Perbarui data di RAM dan visual layar secara anggun
+        uraiDanPetakanBundledData(bundledData);
+        console.log("☁️ [STARTUP] Data terpisah dari server Google sukses digabungkan ke lokal.");
+
+
+        // Hidupkan roda polling setelah data utama diperbarui
+        try { if (typeof aktifkanLivePollingSenyapAntarHP === "function") { aktifkanLivePollingSenyapAntarHP(); } } catch(errPoll) {}
+        if (!adaDataLokalAwal && typeof loading === "function") loading(false);
+      })
+      .getBundledInitialData(idUserActiveInit, tokenStartup);
+  } else {
+    // Skenario jika HP benar-benar offline saat dibuka: pastikan loading mati dan polling bersiap hidup
+    if (!adaDataLokalAwal && typeof loading === "function") loading(false);
+    try { if (typeof aktifkanLivePollingSenyapAntarHP === "function") { aktifkanLivePollingSenyapAntarHP(); } } catch(e) {}
+  }
+
 }
+
 
 
 
@@ -1857,6 +1548,122 @@ function bersih(teks) {
     // 4. Buang tanda baca liar (petik awal, koma, titik, tanda tanya) tapi pertahankan huruf, angka, dan spasi murni
     .replace(/[^a-z0-9 ]/g, "");
 }
+
+
+function dapatkanStatusDanIndikatorLagu(idLg, cacheLokal, daftarLatihanServer, daftarDrive) {
+  var idLgRealtime = idLg.toString().trim();
+  var statusLolosDirect = true;
+  var angkaAntreanCek = 0;
+
+  // A. Cek apakah sudah dipilih bhakta lain
+  var sudahDipilihBhaktaLain = daftarLatihanServer.some(function(slotCek) {
+    return slotCek && slotCek['4'] && slotCek['4'].toString().trim() === idLgRealtime;
+  });
+
+  if (sudahDipilihBhaktaLain) {
+    statusLolosDirect = false;
+  } else {
+    // B. Cek bhajan spesial
+    var isBhajanSpesialAktif = (cacheLokal.bhajanSpesialB11Bawaan === true || cacheLokal.bhajanSpesialB11Bawaan === "TRUE" || (window.masterFilterSeva && window.masterFilterSeva.bhajanSpesialB11 === true));
+    
+    if (isBhajanSpesialAktif) {
+      statusLolosDirect = true;
+    } else {
+      // C. Cek kuota penuh sejati
+      var maxLaguVal = parseInt(cacheLokal.maxLagu) || 0;
+      var isAutoQuotaMati = (cacheLokal.autoSlot === false || cacheLokal.autoSlot === "FALSE");
+      var totalTerdaftarMingguIni = cacheLokal.slotTerisi ? cacheLokal.slotTerisi.length : 0;
+      var isSlotPenuhSejati = (totalTerdaftarMingguIni >= maxLaguVal && isAutoQuotaMati);
+
+      // D. Cek riwayat drive & ambil angka antrean murni
+      var adaDiRiwayatDrive = false;
+      if (daftarDrive && Array.isArray(daftarDrive)) {
+        for (var idx = 0; idx < daftarDrive.length; idx++) {
+          var itemDrive = daftarDrive[idx];
+          if (itemDrive && (itemDrive.idLagu === idLgRealtime || itemDrive.id === idLgRealtime)) {
+            adaDiRiwayatDrive = true; 
+            angkaAntreanCek = parseInt(itemDrive.sisaAntreanFiles || itemDrive.antrean) || 0; 
+            break;
+          }
+        }
+      }
+
+      if (adaDiRiwayatDrive) {
+        if (isSlotPenuhSejati) { 
+          if (angkaAntreanCek !== 1) statusLolosDirect = false; 
+        } else { 
+          statusLolosDirect = false; 
+        }
+      }
+    }
+  }
+
+  // E. Cari nilai antrean tertinggi dari data drive asli
+  var nilaiMaksimumAntrean = 0;
+  if (daftarDrive && Array.isArray(daftarDrive)) {
+    for (var i = 0; i < daftarDrive.length; i++) {
+      var koin = daftarDrive[i];
+      if (koin) {
+        var nilaiCekNomor = parseInt(koin.sisaAntreanFiles || koin.antrean) || 0;
+        if (nilaiCekNomor > nilaiMaksimumAntrean) nilaiMaksimumAntrean = nilaiCekNomor;
+      }
+    }
+  }
+
+  // F. 🔴 TENTUKAN ANGKA ANTREAN VISUAL SESUAI PRINSIP HITUNG ANDA
+  var htmlIndikator = "";
+  if (statusLolosDirect) {
+    htmlIndikator = '<span style="width:8px;height:8px;background-color:#4caf50;border-radius:50%;display:block;"></span>';
+  } else {
+    var antreanLokal = 0;
+    var nomorAntreanMurni = parseInt(angkaAntreanCek) || 0;
+    
+    // Penanda tambahan untuk mendeteksi apakah ini lagu baru
+    var isLaguBaru = (nomorAntreanMurni <= 0);
+
+    // 2. Ambil status full dari server
+    var maxLaguVal = parseInt(cacheLokal.maxLagu) || 0;
+    var isAutoQuotaMati = (cacheLokal.autoSlot === false || cacheLokal.autoSlot === "FALSE");
+    var totalTerdaftarMingguIni = cacheLokal.slotTerisi ? cacheLokal.slotTerisi.length : 0;
+    var isSlotPenuhSejati = (totalTerdaftarMingguIni >= maxLaguVal && isAutoQuotaMati);
+
+    // KONDISI BARU: Hanya tampilkan "⏳" merah tanpa huruf X saat masa transisi belum penuh
+    if (isLaguBaru && !isSlotPenuhSejati) {
+      htmlIndikator = '<span style="display:block;line-height:13px;font-weight:bold;color:#e53935;font-size:14px;">✔</span>';
+    } else {
+      // JALUR RUMUS LAMA: Berjalan untuk lagu lama saat belum penuh, ATAU semua lagu saat sudah penuh
+      
+      // 1. Tentukan angka dasar murni terlebih dahulu
+      if (nomorAntreanMurni > 0) {
+        antreanLokal = nomorAntreanMurni;
+      } else {
+        antreanLokal = 1 + nilaiMaksimumAntrean;
+      }
+
+      // 3. Potongan Massal: Begitu seva sudah mencapai FULL, semuanya serempak dikurangi 1
+      if (isSlotPenuhSejati) {
+        if (antreanLokal > 0) {
+          antreanLokal = antreanLokal - 1;
+        }
+      }
+
+      // Pengaman akhir agar tidak menyentuh angka 0 atau minus di layar
+      if (antreanLokal < 1) antreanLokal = 1;
+
+      htmlIndikator = '<span style="display:block;line-height:13px;">' + antreanLokal + '</span>' +
+                      '<span style="display:block;line-height:13px;">X</span>';
+    }
+  }
+
+  return {
+    lolos: statusLolosDirect,
+    html: htmlIndikator
+  };
+}
+
+
+
+
 
 
 
@@ -1911,51 +1718,17 @@ function filterLagu() {
     } else if (kat === "SEVA_FAVORIT") {
       if (!daftarFavoritUser.includes(idLg)) return false;
 
-      var laguTerisiMingguIni = (window.cacheDataSevaLokal && window.cacheDataSevaLokal.slotTerisi) ? window.cacheDataSevaLokal.slotTerisi : [];
-      var daftarLatihanServer = (window.cacheDataSevaLokal && window.cacheDataSevaLokal.daftarLatihan) ? window.cacheDataSevaLokal.daftarLatihan : [];
-      
-      var sudahDipilihBhaktaLain = daftarLatihanServer.some(function(slotCek) {
-        return slotCek && slotCek['4'] && slotCek['4'].toString().trim() === idLg;
-      });
-      if (sudahDipilihBhaktaLain) return false;
-
       var cacheLokal = window.cacheDataSevaLokal || {};
-      var isBhajanSpesialAktif = (cacheLokal.bhajanSpesialB11Bawaan === true || cacheLokal.bhajanSpesialB11Bawaan === "TRUE");
-      
-      var totalTerdaftarMingguIni = laguTerisiMingguIni.length;
-      var maxLaguVal = parseInt(cacheLokal.maxLagu) || 0;
-      var isAutoQuotaMati = (cacheLokal.autoSlot === false || cacheLokal.autoSlot === "FALSE");
-      var isSlotPenuhSejati = (totalTerdaftarMingguIni >= maxLaguVal && isAutoQuotaMati);
+      var daftarLatihanServer = cacheLokal.daftarLatihan || [];
+      var daftarDrive = window.keranjangRiwayatDriveClean || cacheLokal.keranjangRiwayatDriveClean || [];
 
-      if (isBhajanSpesialAktif) {
-        cocokKat = true;
-      } else {
-        var daftarDrive = window.keranjangRiwayatDriveClean || cacheLokal.keranjangRiwayatDriveClean;
-        var adaDiRiwayatDrive = false;
-        var angkaAntrean = 0;
+      // 🚀 Panggil otak pusat untuk mengecek kelolosan lagu secara ringkas
+      var hasilCek = dapatkanStatusDanIndikatorLagu(idLg, cacheLokal, daftarLatihanServer, daftarDrive);
+      if (!hasilCek.lolos) return false;
 
-        if (daftarDrive && Array.isArray(daftarDrive)) {
-          for (var idx = 0; idx < daftarDrive.length; idx++) {
-            var itemDrive = daftarDrive[idx];
-            if (itemDrive && (itemDrive.idLagu === idLg || itemDrive.id === idLg)) {
-              adaDiRiwayatDrive = true;
-              angkaAntrean = parseInt(itemDrive.sisaAntreanFiles || itemDrive.antrean) || 0;
-              break;
-            }
-          }
-        }
-
-        if (adaDiRiwayatDrive) {
-          if (isSlotPenuhSejati) {
-            if (angkaAntrean !== 1) return false;
-          } else {
-            return false;
-          }
-        }
-        cocokKat = true;
-      }
-
-    } else {
+      cocokKat = true;
+    }
+ else {
       cocokKat = (item.kategori === kat);
     }
     var apakahInputAngka =
@@ -2017,13 +1790,22 @@ function filterLagu() {
       listContainer.innerHTML = '<div style="text-align:center; padding:20px; color:#999;">Lagu tidak ditemukan.</div>';
     }
   } else {
-    var kamusWarnaBadge = {
-      "GANESHA": "#ffe0b2", "GURU": "#c8e6c9", "SHIVA": "#b3e5fc", "DEVI": "#ffbbf2",
-      "RAMAKRISHNA": "#b2dfdb", "SARVA DEVATA": "#fff9c4", "SARVA DHARMA": "#d7ccc8", 
-      "SAI":  "#d1c4e9", "BAHASA BALI": "#ffb3ba", "BAHASA INDONESIA": "#cfd8dc"
-    };
+var kamusWarnaBadge = {
+  "GNSH": "#FFD6D6", // Ganesha (Pink / Soft Rose)
+  "GURU": "#FFDAB3", // Guru (Peach)
+  "SHIV": "#FFF0A8", // Shiva (Yellow)
+  "DEVI": "#DDF5A2", // Devi (Lime)
+  "RMKR": "#BFE8B8", // Ramakrishna (Green)
+  "SDEV": "#B8F0D8", // Sarva Devata (Mint)
+  "SDHR": "#B8F3F3", // Sarva Dharma (Aqua)
+  "SAI":  "#C9E4FF", // Sai (Sky Blue)
+  "BALI": "#D6D6FF", // Bahasa Bali (Periwinkle)
+  "INGG": "#E8D0FF", // Bahasa Inggris (Lavender)
+  "INDO": "#E8DCCF"  // Bahasa Indonesia (Warm Sand / Almond)
+};
 
-    var fragment = document.createDocumentFragment();
+
+var fragment = document.createDocumentFragment();
     hasilSaring.forEach(function (item) {
       if (!item || !item.id) return;
 
@@ -2042,7 +1824,7 @@ function filterLagu() {
 
     // 🚀 SUNTIKAN UTAMA: Kunci indeks ke-1 [1] untuk mengambil 4 huruf singkatan murni!
     if (mapKat && mapKat[kunciAsliMapKat] && Array.isArray(mapKat[kunciAsliMapKat])) {
-      kodeSingkatanBadge = mapKat[kunciAsliMapKat][1]; // Menghasilkan "GNSH", "RMKR", "SDHR", dll.
+      kodeSingkatanBadge = mapKat[kunciAsliMapKat][1]; // 👈 Ini sudah dikembalikan ke kode asli Anda!
     }
 
     // Ambil warna latar belakang berdasarkan singkatan 4 huruf yang akurat
@@ -2067,57 +1849,26 @@ function filterLagu() {
       var bumbuKategoriCSS = (kataKunciAktif !== "") ? "GLOBAL" : item.kategori;
 
       // ====================================================================
-      // 🔴🟢🔘 ROBOT VISUAL MANDIRI: 100% INDEPENDEN DI KATEGORI MENU "SEMUA"
+      // 🔴🟢🔘 ROBOT VISUAL MANDIRI: SEKARANG 100% SINKRON MENGGUNAKAN FUNGSI UTAMA
       // ====================================================================
-      var warnaBulatanBlokir = "#9e9e9e"; // 🔘 Default Abu-abu jika belum login
+      var teksIndikatorBlokir = "";
+      
+      // 1. Deklarasikan cacheLokalCek di paling atas agar aman dibaca oleh baris kode di bawahnya
+      var cacheLokalCek = window.cacheDataSevaLokal || {}; 
 
       if (savedIdUser !== "" && savedIdUser !== "anonim") {
-        var statusBulatanLolosSevaFavorit = true;
-
-        var cacheLokalCek = window.cacheDataSevaLokal || {};
+        // Ambil data daftar latihan dan riwayat drive
         var daftarLatihanServerCek = cacheLokalCek.daftarLatihan || [];
+        var daftarDriveCek = window.keranjangRiwayatDriveClean || cacheLokalCek.keranjangRiwayatDriveClean;
+
+        // 2. PANGGIL FUNGSI UTAMA (Menggunakan simbol "⟳" merah yang sudah kita sepakati)
+        var hasilStatusLagu = dapatkanStatusDanIndikatorLagu(idLg, cacheLokalCek, daftarLatihanServerCek, daftarDriveCek);
         
-        var sudahDipilihBhaktaLainCek = daftarLatihanServerCek.some(function(slotCek) {
-          return slotCek && slotCek['4'] && slotCek['4'].toString().trim() === idLg;
-        });
-
-        if (sudahDipilihBhaktaLainCek) {
-          statusBulatanLolosSevaFavorit = false; 
-        } else {
-          var isBhajanSpesialAktifCek = (masterFilter.bhajanSpesialB11 === true || cacheLokalCek.bhajanSpesialB11Bawaan === true || cacheLokalCek.bhajanSpesialB11Bawaan === "TRUE");
-          
-          if (!isBhajanSpesialAktifCek) {
-            var laguTerisiMingguIniCek = cacheLokalCek.slotTerisi || [];
-            var totalTerdaftarMingguIniCek = laguTerisiMingguIniCek.length;
-            var maxLaguValCek = parseInt(cacheLokalCek.maxLagu) || 0;
-            var isAutoQuotaMatiCek = (cacheLokalCek.autoSlot === false || cacheLokalCek.autoSlot === "FALSE");
-            var isSlotPenuhSejatiCek = (totalTerdaftarMingguIniCek >= maxLaguValCek && isAutoQuotaMatiCek);
-
-            var daftarDriveCek = window.keranjangRiwayatDriveClean || cacheLokalCek.keranjangRiwayatDriveClean;
-            var adaDiRiwayatDriveCek = false;
-            var angkaAntreanCek = 0;
-
-            if (daftarDriveCek && Array.isArray(daftarDriveCek)) {
-              for (var idxCek = 0; idxCek < daftarDriveCek.length; idxCek++) {
-                var itemDriveCek = daftarDriveCek[idxCek];
-                if (itemDriveCek && (itemDriveCek.idLagu === idLg || itemDriveCek.id === idLg)) {
-                  adaDiRiwayatDriveCek = true;
-                  angkaAntreanCek = parseInt(itemDriveCek.sisaAntreanFiles || itemDriveCek.antrean) || 0;
-                  break;
-                }
-              }
-            }
-
-            if (adaDiRiwayatDriveCek) {
-              if (isSlotPenuhSejatiCek) {
-                if (angkaAntreanCek !== 1) statusBulatanLolosSevaFavorit = false;
-              } else {
-                statusBulatanLolosSevaFavorit = false;
-              }
-            }
-          }
-        }
-        warnaBulatanBlokir = statusBulatanLolosSevaFavorit ? "#4caf50" : "#e53935";
+        // 3. Masukkan HTML hasil hitungan fungsi utama ke variabel visual
+        teksIndikatorBlokir = hasilStatusLagu.html;
+      } else {
+        // Jika belum login, tampilkan bulatan abu-abu default
+        teksIndikatorBlokir = '<span style="width:8px;height:8px;background-color:#9e9e9e;border-radius:50%;display:block;"></span>';
       }
       // ====================================================================
 
@@ -2130,8 +1881,23 @@ function filterLagu() {
         '<b class="judul-teks" style="margin:0; flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-align:left;">' +
         item.judul +
         '</b>' +
-        '<span class="indikator-bulatan-blokir" style="position:absolute !important; right:22px !important; width:8px !important; height:8px !important; background-color:' + warnaBulatanBlokir + ' !important; border-radius:50% !important; display:inline-block !important; box-shadow: 0 0 2px rgba(0,0,0,0.3) !important;"></span>' +
-        '<span class="kat-badge" style="position:absolute !important; right:0 !important; top:0 !important; bottom:0 !important; height:100% !important; width:20px !important; display:flex !important; flex-direction:column !important; align-items:center !important; justify-content:center !important; font-size:8px !important; text-shadow: 0.4px 0 0 black, -0.4px 0 0 black; text-transform:uppercase !important; box-sizing:border-box !important; background-color:' + warnaBgDefault + ' !important; color:#000000 !important; padding:4px 0 !important; margin:0 !important; border-radius:0 4px 4px 0 !important;">' +
+        '<span class="indikator-bulatan-blokir" style="' +
+        'position:absolute !important;' +
+        'right:22px !important;' +
+        'top:50% !important;' +
+        'transform:translateY(-50%) !important;' +
+        'width:14px !important;' +
+        'height:28px !important;' +
+        'display:flex !important;' +
+        'flex-direction:column !important;' +
+        'align-items:center !important;' +
+        'justify-content:center !important;' +
+        'font-size:13px !important;' + 
+        'font-weight:bold !important;' +
+        'color:#e53935 !important;">' +
+        teksIndikatorBlokir + 
+        '</span>' +
+        '<span class="kat-badge" style="position:absolute !important; right:0 !important; top:0 !important; bottom:0 !important; height:100% !important; width:20px !important; display:flex !important; flex-direction:column !important; align-items:center !important; justify-content:center !important; font-size:8px !important; text-transform:uppercase !important; box-sizing:border-box !important; background-color:' + warnaBgDefault + ' !important; color:#000000 !important; padding:4px 0 !important; margin:0 !important; border-radius:0 4px 4px 0 !important;">' +
         teksVertikalHTML +
         '</span>' +
         '</div>';
@@ -2145,6 +1911,7 @@ function filterLagu() {
 
   labelHitung.innerText = hasilSaring.length + " ♬";
 }
+
 
 
 
@@ -2972,8 +2739,8 @@ function bukaHalamanLatihan() {
   // =========================================================
   var t = window.cacheDataSevaLokal;
   window.dbMembers = t.members || {};
-  window.daftarQuotesFromSheet = t.quotes || [];
-  window.warnaFromSheet = t.warna || [];
+
+
   
   if (typeof updateQuote === "function") updateQuote();
   if (bhj_interval) clearInterval(bhj_interval);
@@ -3069,11 +2836,14 @@ function bukaHalamanLatihan() {
  */
 function updateQuote() {
   // Data warna latar belakang (akan berulang jika jumlah teks lebih banyak dari warna)
-  const warnaSheet = [
-    "#E3F2FD", "#FFF3E0", "#F1F8E9", "#F3E5F5", "#FFFDE7", 
-    "#E0F2F1", "#FFEBEE", "#E8EAF6", "#F9FBE7", "#FCE4EC", 
-    "#E1F5FE", "#F1E7FE", "#EFEBE9", "#FFF8E1"
+  const warnaSheet = [ 
+  "#E3F2FD", "#FFF3E0", "#F1F8E9", "#F3E5F5", "#FFFDE7", 
+  "#E0F2F1", "#FFEBEE", "#E8EAF6", "#F9FBE7", "#FCE4EC", 
+  "#E1F5FE", "#F1E7FE", "#EFEBE9", "#FFF8E1", "#FFD6D6", 
+  "#FFDAB3", "#FFF0A8", "#DDF5A2", "#BFE8B8", "#B8F0D8", 
+  "#B8F3F3", "#C9E4FF", "#D6D6FF", "#E8D0FF", "#E8DCCF" 
   ];
+
 
   // Data teks arahan dan sumbernya
   const dataMahavakya = [
@@ -3394,8 +3164,12 @@ function pilihDanSubmitInstan(nomorSlot) {
     "⏳ Sedang diproses, mohon tunggu...",
     function(done) {
       google.script.run.withSuccessHandler(done).simpanSeva({
-        nomor: nomorSlot, idMember: idMember, nama: namaMember,
-        judul: (window.currentLagu ? window.currentLagu.judul : ""), idLagu: window.currentId
+        nomor: nomorSlot,
+        idMember: idMember,
+        nama: namaMember,
+        judul: (window.currentLagu ? window.currentLagu.judul : ""),
+        idLagu: window.currentId,
+        nada: (window.currentLagu ? (window.currentLagu.nada || "0") : "0")
       });
     },
     function() {
@@ -3674,91 +3448,112 @@ function eksekusiGantiLaguAdmin(idLaguBaru, judulLaguBaru) {
  */
 function simpanSettingWaktuAutoQuota() {
   loading(true);
-  
+
+  // Ambil elemen sekali saja
+  var elHari = document.getElementById("set-hari");
+  var elJam = document.getElementById("set-jam");
+  var elMaxLagu = document.getElementById("set-maxLagu");
+  var elAuto = document.getElementById("set-auto");
+  var elFilter = document.getElementById("set-filter-minggu");
+  var elSpesial = document.getElementById("set-spesial");
+  var elMultiDaftar = document.getElementById("set-multiDaftar");
+
   var dataForm = {
-    hari: document.getElementById('set-hari').value,
-    waktu: document.getElementById('set-jam').value,
-    maxLagu: document.getElementById('set-maxLagu').value,
-    autoSlot: document.getElementById('set-auto').checked,
-    angkaFilterB10: document.getElementById('set-filter-minggu') ? document.getElementById('set-filter-minggu').value : "0",
-    bhajanSpesialB11: document.getElementById('set-spesial') ? document.getElementById('set-spesial').checked : false,
-    
-    // 📍 BARU 1: Menangkap status centang checkbox "Boleh seva lebih dari sekali" (Sel B12)
-    bhajanSpesialB12: document.getElementById('set-multiDaftar') ? document.getElementById('set-multiDaftar').checked : false
+    hari: elHari.value,
+    waktu: elJam.value,
+    maxLagu: elMaxLagu.value,
+    autoSlot: elAuto.checked,
+    angkaFilterB10: elFilter ? elFilter.value : "0",
+    bhajanSpesialB11: elSpesial ? elSpesial.checked : false,
+    bhajanSpesialB12: elMultiDaftar ? elMultiDaftar.checked : false
   };
 
-  if (!window.cacheDataSevaLokal) window.cacheDataSevaLokal = {};
-  window.cacheDataSevaLokal.hari = dataForm.hari;
-  window.cacheDataSevaLokal.waktu = dataForm.waktu;
-  window.cacheDataSevaLokal.maxLagu = dataForm.maxLagu;
-  window.cacheDataSevaLokal.autoSlot = dataForm.autoSlot;
-  window.cacheDataSevaLokal.angkaFilterB10Bawaan = dataForm.angkaFilterB10;
-  window.cacheDataSevaLokal.bhajanSpesialB11Bawaan = dataForm.bhajanSpesialB11;
-  
-  // 📍 BARU 2: Sinkronisasi awal nilai B12 langsung ke memori RAM lokal HP
-  window.cacheDataSevaLokal.bhajanSpesialB12Bawaan = dataForm.bhajanSpesialB12;
-
-  // 📍 BARU 3: Dikirimkan menuju fungsi .simpanSetting(dataForm) di server Apps Script
-  google.script.run.withSuccessHandler(function(res) {
-    document.getElementById('dpJudul').innerText = "Konfigurasi Aplikasi";
-    document.getElementById('dpPesan').innerText = res.pesan || res;
-    document.getElementById('dpInput').style.display = "none";
-    document.getElementById('dpBtnBatal').style.display = "none";
-    
-    var btnY = document.getElementById('dpBtnYa');
-    btnY.innerText = "OK"; 
-    btnY.style.display = "block";
-    document.getElementById('dialogPintar').style.display = "block";
-    
-    btnY.onclick = function() { 
-      document.getElementById('dialogPintar').style.display = "none"; 
-      
-      // 📍 REKAM STATUS UTAMA HALAMAN SEBELUM RE-RENDER DIJALANKAN
-      var statusDaftarTampak  = document.getElementById("view-daftar") ? document.getElementById("view-daftar").style.display : "none";
-      var statusLatihanTampak = document.getElementById("view-latihan") ? document.getElementById("view-latihan").style.display : "none";
-      var statusSettingTampak = document.getElementById("view-setting") ? document.getElementById("view-setting").style.display : "none";
-      var posisiScroll = window.scrollY || document.documentElement.scrollTop || 0;
+  google.script.run
+    .withSuccessHandler(function (res) {
 
       if (res && res.status === "sukses") {
-        var stringMentahDrive = res.dataDrive || "";
-        window.keranjangRiwayatDriveClean = [];
-        if (stringMentahDrive !== "") {
-          var arrayBarisPipa = stringMentahDrive.split("|||");
-          arrayBarisPipa.forEach(function(barisTeks) {
-            if (barisTeks && barisTeks.trim() !== "") {
-              var pecahanKomponen = barisTeks.split(":::");
-              if (pecahanKomponen && pecahanKomponen.length >= 3) {
-                var idLgValid = pecahanKomponen[0] ? pecahanKomponen[0].toString().trim() : "";
-                var nomorAntreanValid = pecahanKomponen[2] ? parseInt(pecahanKomponen[2]) : 0;
-                if (idLgValid !== "") {
-                  window.keranjangRiwayatDriveClean.push({
-                    idLagu: idLgValid,
-                    sisaAntreanFiles: nomorAntreanValid
-                  });
-                }
-              }
-            }
-          });
+
+        if (!window.cacheDataSevaLokal) {
+          window.cacheDataSevaLokal = {};
         }
+
+        window.cacheDataSevaLokal.hari = dataForm.hari;
+        window.cacheDataSevaLokal.waktu = dataForm.waktu;
+        window.cacheDataSevaLokal.maxLagu = dataForm.maxLagu;
+        window.cacheDataSevaLokal.autoSlot = dataForm.autoSlot;
+        window.cacheDataSevaLokal.angkaFilterB10Bawaan = dataForm.angkaFilterB10;
+        window.cacheDataSevaLokal.bhajanSpesialB11Bawaan = dataForm.bhajanSpesialB11;
+        window.cacheDataSevaLokal.bhajanSpesialB12Bawaan = dataForm.bhajanSpesialB12;
+
+        window.keranjangRiwayatDriveClean = [];
+
+        var stringMentahDrive = res.dataDrive || "";
+
+        if (stringMentahDrive) {
+
+          stringMentahDrive.split("|||").forEach(function (barisTeks) {
+
+            if (!barisTeks || !barisTeks.trim()) return;
+
+            var pecahanKomponen = barisTeks.split(":::");
+
+            if (pecahanKomponen.length < 3) return;
+
+            var idLgValid = (pecahanKomponen[0] || "").trim();
+
+            if (!idLgValid) return;
+
+            window.keranjangRiwayatDriveClean.push({
+              idLagu: idLgValid,
+              sisaAntreanFiles: parseInt(pecahanKomponen[2], 10) || 0
+            });
+
+          });
+
+        }
+
       }
 
-      // Jalankan fungsi pembaru memori latar belakang
-      if (typeof filterLagu === "function") filterLagu();
-      if (typeof bukaHalamanLatihan === "function") bukaHalamanLatihan();
-      if (typeof gambarDaftarUmatDanGrupVisual === "function") gambarDaftarUmatDanGrupVisual();
-      
-      // 📍 PROTEKSI TOTAL: Paksa kunci kembali posisi menu layar ke kondisi aslinya agar tidak melompat/bocor
-      if (document.getElementById("view-daftar"))  document.getElementById("view-daftar").style.display = statusDaftarTampak;
-      if (document.getElementById("view-latihan")) document.getElementById("view-latihan").style.display = statusLatihanTampak;
-      if (document.getElementById("view-setting")) document.getElementById("view-setting").style.display = statusSettingTampak;
+      document.getElementById("dpJudul").innerText = "Konfigurasi Aplikasi";
+      document.getElementById("dpPesan").innerText = res.pesan || res;
+      document.getElementById("dpInput").style.display = "none";
+      document.getElementById("dpBtnBatal").style.display = "none";
 
-      setTimeout(function () { 
-        window.scrollTo(0, posisiScroll); 
-      }, 10);
+      var btnY = document.getElementById("dpBtnYa");
+      btnY.innerText = "OK";
+      btnY.style.display = "block";
+
+      document.getElementById("dialogPintar").style.display = "block";
+
+      btnY.onclick = function () {
+        document.getElementById("dialogPintar").style.display = "none";
+        loading(false);
+      };
+
+    })
+    .withFailureHandler(function (err) {
 
       loading(false);
-    };
-  }).simpanSetting(dataForm);
+
+      document.getElementById("dpJudul").innerText = "Gagal";
+      document.getElementById("dpPesan").innerText =
+        (err && err.message) ? err.message : String(err);
+
+      document.getElementById("dpInput").style.display = "none";
+      document.getElementById("dpBtnBatal").style.display = "none";
+
+      var btnY = document.getElementById("dpBtnYa");
+      btnY.innerText = "OK";
+      btnY.style.display = "block";
+
+      document.getElementById("dialogPintar").style.display = "block";
+
+      btnY.onclick = function () {
+        document.getElementById("dialogPintar").style.display = "none";
+      };
+
+    })
+    .simpanSetting(dataForm);
 }
 
 
@@ -3814,75 +3609,101 @@ function bukaRiwayat() {
   if (latEl) latEl.style.display = 'none';
   if (logViewEl) logViewEl.style.display = 'block';
   
-  if (!logF || logF.length === 0) {
+  var riwayatLokal = window.dbRiwayatRaw || [];
+  
+  if (!riwayatLokal || riwayatLokal.length === 0) {
     if (loadingLEl) {
       loadingLEl.style.display = 'block';
-      loadingLEl.innerText = "⏳ MEMUAT DAFTAR ARSIP BERKAS...";
+      loadingLEl.innerText = "📭 KOTAK ARSIP KOSONG DI SPREADSHEET";
     }
     if (headerBox) headerBox.style.display = 'none';
     if (wadahUtamaList) wadahUtamaList.innerHTML = "";
-    
-    google.script.run.withSuccessHandler(function(r) {
-      if (!r || !r.files || r.files.length === 0) {
-        if (loadingLEl) loadingLEl.innerText = "📭 KOTAK ARSIP KOSONG DI DRIVE";
-        if (typeof loading === "function") loading(false);
-        return;
-      }
-      
-      // Mengurutkan berkas arsip berdasarkan format tanggal dari yang terbaru ke terlama
-      r.files.sort(function(a, b) {
-        let matchA = a.name.match(/\d{4}-\d{2}-\d{2}/);
-        let matchB = b.name.match(/\d{4}-\d{2}-\d{2}/);
-        let dateA = matchA ? new Date(matchA) : new Date(a.name);
-        let dateB = matchB ? new Date(matchB) : new Date(b.name);
-        if (isNaN(dateA.getTime())) dateA = new Date(0);
-        if (isNaN(dateB.getTime())) dateB = new Date(0);
-        return dateB - dateA;
-      });
-      
-      logF = r.files; 
-      
-      // 📍 SINKRONISASI 1: Paksa reset indeks ke halaman pertama (0) saat startup awal
-      logI = 0; 
-      
-      google.script.run.withSuccessHandler(function(dataTerbaru) {
-        if (typeof renderLog === "function") renderLog(dataTerbaru);
-        if (typeof updateStatusTombol === "function") updateStatusTombol();
-        if (typeof loading === "function") loading(false);
-      }).withFailureHandler(function() {
-        if (typeof loading === "function") loading(false);
-        tampilkanPesanDialogPintar("Koneksi Bermasalah", "❌ Gagal menarik lembaran data dari file arsip terbaru.");
-      }).getSheetData(logI); // ✅ DISELARASKAN: Mengirimkan angka indeks murni (logI = 0) sesuai rumus baru server
-      
-    }).withFailureHandler(function() {
-      if (typeof loading === "function") loading(false);
-      tampilkanPesanDialogPintar("Koneksi Bermasalah", "❌ Gagal menghubungi server Google Drive.");
-    }).getInitialData();
-    
-  } else {
     if (typeof loading === "function") loading(false);
-    if (logF.length > 0) {
-      if (typeof updateStatusTombol === "function") updateStatusTombol();
-      if (typeof loading === "function") loading(true);
-      if (loadingLEl) {
-        loadingLEl.style.display = 'block';
-        loadingLEl.innerText = "⏳ MEMUAT DATA ARSIP AKTIF...";
+    return;
+  }
+  
+  if (loadingLEl) {
+    loadingLEl.style.display = 'block';
+    loadingLEl.innerText = "⏳ MEMUAT DAFTAR ARSIP LOKAL...";
+  }
+  if (headerBox) headerBox.style.display = 'none';
+  if (wadahUtamaList) wadahUtamaList.innerHTML = "";
+  
+  let fileListTiruan = [];
+  
+  // Perulangan mundur mundur dari baris paling bawah (paling baru) ke atas
+  for (let r = riwayatLokal.length - 1; r >= 0; r--) {
+    let stringSesiPanjang = riwayatLokal[r] ? riwayatLokal[r].toString().trim() : "";
+    if (stringSesiPanjang === "") continue;
+
+    // 🛡️ BENTENG FILTER: Jika terdeteksi bendera ::Spesial di dalam string baris, SKIP TOTAL!
+    if (stringSesiPanjang.indexOf("::Spesial") !== -1) {
+      continue;
+    }
+
+    let listPendaftar = stringSesiPanjang.split("|||");
+    let pendaftarPertama = listPendaftar[0]; 
+    let teksTanggalSesi = "Sesi Tidak Diketahui";
+    
+    if (pendaftarPertama) {
+      let komponen = pendaftarPertama.split(":::");
+      // 🎯 SINKRONISASI TANGGAL BHAJAN: Ambil komponen indeks ke-5 (elemen ke-6)
+      if (komponen && komponen.length >= 6) {
+        let tglMurni = komponen[5] ? komponen[5].toString().trim() : "";
+        if (tglMurni !== "") {
+          teksTanggalSesi = tglMurni; // Tampil bersih di layar HP: "2026-06-25"
+        }
       }
-      if (headerBox) headerBox.style.display = 'none';
-      if (wadahUtamaList) wadahUtamaList.innerHTML = "";
-      
-      // 📍 SINKRONISASI 2 (ANTI-KUMAT): Paksa reset indeks kembali ke halaman pertama (0) setiap kali menu dibuka ulang!
-      logI = 0;
-      
-      google.script.run.withSuccessHandler(function(dataSama) {
-        if (typeof renderLog === "function") renderLog(dataSama);
-        if (typeof loading === "function") loading(false);
-      }).withFailureHandler(function() {
-        if (typeof loading === "function") loading(false);
-      }).getSheetData(logI); // ✅ DISELARASKAN: Mengirimkan angka indeks murni (logI = 0) ke server
+    }
+
+    fileListTiruan.push({
+      id: String(riwayatLokal.length - 1 - r), // Index koordinat fisik di RAM lokal
+      name: teksTanggalSesi
+    });
+  }
+
+  logF = fileListTiruan;
+  logI = 0; // Kunci halaman pertama reguler teranyar
+
+  // Bongkar data baris halaman aktif secara offline instan dari RAM
+  var arrayHasilFormatAsli = [];
+  
+  if (logF[logI]) {
+    let indeksFisikArray = riwayatLokal.length - 1 - parseInt(logF[logI].id);
+    let stringSesiDipilih = riwayatLokal[indeksFisikArray] ? riwayatLokal[indeksFisikArray].toString().trim() : "";
+    
+    if (stringSesiDipilih !== "") {
+      let listPendaftar = stringSesiDipilih.split("|||");
+      for (let i = 0; i < listPendaftar.length; i++) {
+        let pendaftar = listPendaftar[i];
+        if (!pendaftar || pendaftar.trim() === "") continue;
+
+        let komponen = pendaftar.split(":::");
+        if (komponen && komponen.length >= 4) {
+          let slotNo   = komponen[0] ? komponen[0].toString().trim() : "";
+          let namaUmat = komponen[1] ? komponen[1].toString().trim() : "";
+          let judulLg  = komponen[2] ? komponen[2].toString().trim() : "";
+          let idLg     = komponen[3] ? komponen[3].toString().trim() : "";
+          
+          if (idLg !== "" && namaUmat !== "" && namaUmat !== "0" && namaUmat !== "ID Tidak Terdaftar") {
+            arrayHasilFormatAsli.push({
+              slot: slotNo,
+              nama: namaUmat,
+              judul: judulLg,
+              idLagu: idLg
+            });
+          }
+        }
+      }
     }
   }
+
+  if (typeof renderLog === "function") renderLog(arrayHasilFormatAsli);
+  if (typeof updateStatusTombol === "function") updateStatusTombol();
+  if (typeof loading === "function") loading(false);
 }
+
+
 
 
 
@@ -3906,33 +3727,57 @@ function navL(s) {
   if (headerBox) headerBox.style.display = 'none';
   if (wadahUtamaList) wadahUtamaList.innerHTML = "";
   
-  // ✅ KUNCI PERBAIKAN: Pisahkan muatan teks agar tidak terjadi visual dobel di layar
   if (txtFEl) {
     txtFEl.innerText = s > 0 ? "MENCARI BERKAS LAMA..." : "MENCARI BERKAS BARU...";
   }
   
   if (loadingLEl) {
     loadingLEl.style.display = 'block';
-    // Tulisan memuat tunggal murni hanya muncul di area tengah bodi kartu
     loadingLEl.innerText = s > 0 ? "⏳ Memuat data minggu lalu..." : "⏳ Memuat data minggu berikutnya...";
   }
   
-  // Jalankan tembakan data asinkronus ke server awan Google Drive
-  google.script.run.withSuccessHandler(function(dataArsipLama) {
-    if (typeof renderLog === "function") {
-      renderLog(dataArsipLama); 
-    }
-    if (typeof updateStatusTombol === "function") {
-      updateStatusTombol(); 
-    }
-  }).withFailureHandler(function() {
-    if (loadingLEl) {
-      loadingLEl.innerText = "❌ Gagal memuat data arsip minggu ini.";
-    }
-// KAPTEN BARU: Kirimkan nomor urut indeks murni (logI) agar server tahu baris yang dituju
-}).getSheetData(logI);
+  var riwayatLokal = window.dbRiwayatRaw || [];
+  var arrayHasilFormatAsli = [];
+  
+  if (logF[logI]) {
+    let indeksFisikArray = riwayatLokal.length - 1 - parseInt(logF[logI].id);
+    let stringSesiDipilih = riwayatLokal[indeksFisikArray] ? riwayatLokal[indeksFisikArray].toString().trim() : "";
+    
+    if (stringSesiDipilih !== "") {
+      let listPendaftar = stringSesiDipilih.split("|||");
+      for (let i = 0; i < listPendaftar.length; i++) {
+        let pendaftar = listPendaftar[i];
+        if (!pendaftar || pendaftar.trim() === "") continue;
 
+        let komponen = pendaftar.split(":::");
+        if (komponen && komponen.length >= 4) {
+          let slotNo   = komponen[0] ? komponen[0].toString().trim() : "";
+          let namaUmat = komponen[1] ? komponen[1].toString().trim() : "";
+          let judulLg  = komponen[2] ? komponen[2].toString().trim() : "";
+          let idLg     = komponen[3] ? komponen[3].toString().trim() : "";
+          
+          if (idLg !== "" && namaUmat !== "" && namaUmat !== "0" && namaUmat !== "ID Tidak Terdaftar") {
+            arrayHasilFormatAsli.push({
+              slot: slotNo,
+              nama: namaUmat,
+              judul: judulLg,
+              idLagu: idLg
+            });
+          }
+        }
+      }
+    }
+  }
+
+  if (typeof renderLog === "function") {
+    renderLog(arrayHasilFormatAsli); 
+  }
+  if (typeof updateStatusTombol === "function") {
+    updateStatusTombol(); 
+  }
 }
+
+
 
 
 
@@ -4018,96 +3863,143 @@ function handleKembaliKeLog() {
  */
 function bukaRekapTahunan() {
   amankanRiwayatBrowser('rekapbhajan');
-    // 📍 SISIPKAN SEBARIS KODE INI DI SINI:
+  
   sumberDetailLaguAktif = "rekap"; 
   scrollPosisiLatihan = window.scrollY || document.documentElement.scrollTop || window.pageYOffset;
 
-  if (typeof loading === "function") loading(true);
   window.scrollTo(0, 0);
   let lat = document.getElementById('view-latihan');
-  if(lat) lat.style.display = 'none';
-  document.getElementById('view-rekapbhajan').style.display = 'block';
-  document.getElementById('tblRekap').style.display = 'none';
-  document.getElementById('loadingRekap').style.display = 'block';
-  document.getElementById('loadingRekap').innerText = "MEMUAT DAFTAR TAHUN...";
+  if (lat) lat.style.display = 'none';
   
-  if (logF.length === 0) {
-    google.script.run.withSuccessHandler(function(r) {
-      if (!r.files || r.files.length === 0) {
-        if (typeof loading === "function") loading(false);
-        document.getElementById('loadingRekap').innerText = "ARSIP KOSONG";
-        return;
-      }
-      logF = r.files;
-      inisialisasiDropdownRekapTahun();
-      if (typeof loading === "function") loading(false);
-    }).withFailureHandler(function() {
-      if (typeof loading === "function") loading(false);
-      tampilkanPesanDialogPintar("Kesalahan Arsip", "❌ Gagal memproses data akumulasi tahunan dari sistem Drive.");
-    }).getInitialData();
-  } else {
-    inisialisasiDropdownRekapTahun();
-    if (typeof loading === "function") loading(false);
+  let rekapViewEl = document.getElementById('view-rekapbhajan');
+  if (rekapViewEl) rekapViewEl.style.display = 'block';
+
+  let tblRekap = document.getElementById('tblRekap');
+  let loadingRekap = document.getElementById('loadingRekap');
+  let dropdown = document.getElementById('selRekapTahun');
+
+  if (tblRekap) tblRekap.style.display = 'none';
+  if (loadingRekap) {
+    loadingRekap.style.display = 'block';
+    loadingRekap.innerText = "⏳ MEMUAT DAFTAR ARSIP LOKAL...";
   }
-}
 
+  // 1. GENERATE FILE LIST TIRUAN DARI DATA MENTAH LOKAL
+  var riwayatLokal = window.dbRiwayatRaw || [];
+  let fileListTiruan = [];
+  
+  for (let r = riwayatLokal.length - 1; r >= 0; r--) {
+    let stringSesiPanjang = riwayatLokal[r] ? riwayatLokal[r].toString().trim() : "";
+    if (stringSesiPanjang === "" || stringSesiPanjang.indexOf("::Spesial") !== -1) continue;
 
-/**
- * REKAP: MESIN FILTER EKSTRAKSI ANGKA TAHUN MUTLAK (ANTI DUPLIKAT & AUTO LOAD)
- * Tugas: Menyisir riwayat nama berkas arsip, menyaring duplikasi angka tahun (Unique Filter),
- * serta mengotomatiskan penunjukan data tahun berjalan (sekarang) agar langsung tampil otomatis.
- */
-function inisialisasiDropdownRekapTahun() {
-  if (!logF || logF.length === 0) return;
-  var dropdown = document.getElementById('selRekapTahun');
-  if (!dropdown) return;
-  
-  dropdown.innerHTML = '<option value="" style="background: white; color: black;">PILIH TAHUN...</option>';
-  var daftarTahun = [];
-  
-  // 1. Ambil angka tahun dari nama file arsip di Drive
-  logF.forEach(function(file) {
-    if (file && file.name) {
-      let cocok = file.name.match(/\d{4}/);
-      if (cocok) {
-        let tahunStr = cocok[0].toString().trim(); // Ambil string murni 4 digit tahun
-        
-        // ✅ SUNTIKAN ANTI DUPLIKAT: Masukkan tahun ke array HANYA jika belum terdaftar sebelumnya
-        if (daftarTahun.indexOf(tahunStr) === -1) { 
-          daftarTahun.push(tahunStr); 
+    let listPendaftar = stringSesiPanjang.split("|||");
+    let pendaftarPertama = listPendaftar[0]; // 🌟 FIX INDEKS: Harus pendaftar pertama
+    let teksTanggalSesi = "Sesi Tidak Diketahui";
+    
+    if (pendaftarPertama) {
+      let komponen = pendaftarPertama.split(":::");
+      if (komponen && komponen.length >= 6) {
+        let tglMurni = komponen[5] ? komponen[5].toString().trim() : ""; // 🌟 FIX INDEKS: Indeks ke-5 untuk tanggal
+        if (tglMurni !== "") teksTanggalSesi = tglMurni; 
+      }
+    }
+
+    fileListTiruan.push({
+      id: String(riwayatLokal.length - 1 - r), 
+      name: teksTanggalSesi
+    });
+  }
+
+  logF = fileListTiruan;
+  logI = 0; 
+
+  if (!logF || logF.length === 0) {
+    if (loadingRekap) loadingRekap.innerText = "📭 KOTAK ARSIP REKAP KOSONG";
+    return;
+  }
+
+  // 2. RAKIT DROPDOWN TAHUN SECARA OFFLINE
+  let daftarTahun = [];
+  if (dropdown) {
+    dropdown.innerHTML = '<option value="" style="background: white; color: black;">PILIH TAHUN...</option>';
+    
+    logF.forEach(function(file) {
+      if (file && file.name) {
+        let cocok = file.name.match(/\d{4}/);
+        if (cocok) {
+          let tahunStr = cocok[0].toString().trim();
+          if (daftarTahun.indexOf(tahunStr) === -1) { 
+            daftarTahun.push(tahunStr); 
+          }
+        }
+      }
+    });
+    
+    daftarTahun.sort(function(a, b) { return b - a; });
+    
+    daftarTahun.forEach(function(th) {
+      let opt = document.createElement('option');
+      opt.value = th; 
+      opt.innerText = "TAHUN " + th; 
+      opt.style.background = "white"; 
+      opt.style.color = "black";
+      dropdown.appendChild(opt);
+    });
+
+    // Pilih otomatis tahun berjalan atau data terbaru di urutan teratas
+    var tahunSekarang = new Date().getFullYear().toString();
+    if (daftarTahun.indexOf(tahunSekarang) !== -1) {
+      dropdown.value = tahunSekarang;
+    } else if (daftarTahun.length > 0) {
+      dropdown.value = daftarTahun[0];
+    }
+  }
+
+  // 3. BONGKAR DATA BARIS SESI TERPILIH SECARA INSTAN DARI RAM LOKAL
+  var arrayHasilFormatAsli = [];
+  if (logF[logI]) {
+    let indeksFisikArray = riwayatLokal.length - 1 - parseInt(logF[logI].id);
+    let stringSesiDipilih = riwayatLokal[indeksFisikArray] ? riwayatLokal[indeksFisikArray].toString().trim() : "";
+    
+    if (stringSesiDipilih !== "") {
+      let listPendaftar = stringSesiDipilih.split("|||");
+      for (let i = 0; i < listPendaftar.length; i++) {
+        let pendaftar = listPendaftar[i];
+        if (!pendaftar || pendaftar.trim() === "") continue;
+
+        let komponen = pendaftar.split(":::");
+        if (komponen && komponen.length >= 4) {
+          // 🌟 FIX INDEKS: Kembalikan nomor indeks array komponen [0] sampai [3]
+          let slotNo   = komponen[0] ? komponen[0].toString().trim() : "";
+          let namaUmat = komponen[1] ? komponen[1].toString().trim() : "";
+          let judulLg  = komponen[2] ? komponen[2].toString().trim() : "";
+          let idLg     = komponen[3] ? komponen[3].toString().trim() : "";
+          
+          if (idLg !== "" && namaUmat !== "" && namaUmat !== "0" && namaUmat !== "ID Tidak Terdaftar") {
+            arrayHasilFormatAsli.push({
+              slot: slotNo,
+              nama: namaUmat,
+              judul: judulLg,
+              idLagu: idLg
+            });
+          }
         }
       }
     }
-  });
-  
-  // 2. Urutkan angka tahun dari yang paling baru ke yang paling lama (Descending)
-  daftarTahun.sort(function(a, b) { return b - a; });
-  
-  // 3. Gambar baris pilihan option ke dalam selector dropdown di layar admin
-  daftarTahun.forEach(function(th) {
-    let opt = document.createElement('option');
-    opt.value = th; 
-    opt.innerText = "TAHUN " + th; 
-    opt.style.background = "white"; 
-    opt.style.color = "black";
-    dropdown.appendChild(opt);
-  });
-  
-  // 4. Deteksi tahun berjalan secara real-time berdasarkan jam kalender sistem saat ini
-  var tahunSekarang = new Date().getFullYear().toString();
-  
-  // ✅ KUNCI PERBAIKAN AUTO-LOAD: Paksa halaman menembak data ke Sheets saat pertama kali dibuka
-  if (daftarTahun.indexOf(tahunSekarang) !== -1) {
-    dropdown.value = tahunSekarang;
-    tampilkanAkumulasiTahun(tahunSekarang); // Tampilkan data tahun berjalan otomatis
-  } else if (daftarTahun.length > 0) {
-    // Jika tahun sekarang belum ada di file arsip, otomatis pilih tahun terbaru yang tersedia
-    dropdown.value = daftarTahun[0];
-    tampilkanAkumulasiTahun(daftarTahun[0]);
-  } else {
-    document.getElementById('loadingRekap').innerText = "SILAKAN PILIH TAHUN...";
   }
+
+  // 4. EKSEKUSI RENDER TABEL & MATIKAN LOADING VISUAL
+  // Sesuaikan nama fungsi di bawah ini dengan fungsi render visual tabel rekap Anda asli (misal: tampilkanAkumulasiTahun atau renderRekap)
+  if (typeof tampilkanAkumulasiTahun === "function") {
+    tampilkanAkumulasiTahun(dropdown.value); 
+  } else if (typeof renderLog === "function") {
+    renderLog(arrayHasilFormatAsli);
+  }
+  
+  if (loadingRekap) loadingRekap.style.display = 'none';
+  if (tblRekap) tblRekap.style.display = 'block';
 }
+
 
 /**
  * REKAP: KALKULATOR RIWAYAT DATA AKUMULASI POPULARITAS LAGU (VERSI MATRIKS SEJAJAR LURUS)
@@ -4126,55 +4018,97 @@ function tampilkanAkumulasiTahun(tahun) {
   document.getElementById('tblRekap').style.display = 'none';
   document.getElementById('loadingRekap').innerText = "MENGHITUNG DATA TAHUN " + tahun + "...";
   document.getElementById('loadingRekap').style.display = 'block';
-  document.getElementById('txtRekapTahun').innerText = "MENGHUBUNGKAN...";
+  document.getElementById('txtRekapTahun').innerText = "MENGHITUNG LOKAL...";
   
-  google.script.run.withSuccessHandler(function(arrayLagu) {
-    document.getElementById('loadingRekap').style.display = 'none';
-    document.getElementById('tblRekap').style.display = 'table';
-    document.getElementById('txtRekapTahun').innerText = "TAHUN " + tahun;
+  var riwayatLokal = window.dbRiwayatRaw || [];
+  var petaAkumulasiLagu = {};
+  
+  riwayatLokal.forEach(function(stringSesiPanjang) {
+    if (!stringSesiPanjang || stringSesiPanjang.trim() === "") return;
     
-    var wadahKonten = document.getElementById('contRekap');
-    if (!wadahKonten) return;
-    
-    if (!arrayLagu || arrayLagu.length === 0) {
-      wadahKonten.innerHTML = "<tr><td colspan='2' style='text-align:center; padding:20px;'>Data Kosong</td></tr>";
-    } else {
-      // Urutkan daftar lagu rekap berdasarkan abjad judul lagu A-Z
-      arrayLagu.sort(function(a, b) {
-        if (!a.judul) return 1;
-        if (!b.judul) return -1;
-        return a.judul.toString().localeCompare(b.judul.toString());
-      });
-      
-      // ⚡ OPTIMISASI FRAGMENT: Merangkai jajaran baris lagu rekap di memori RAM agar bebas efek patah-patah
-      var fragRekap = document.createDocumentFragment();
-      
-      arrayLagu.forEach(function(lagu) {
-        var trElement = document.createElement('tr');
-        // ✅ KUNCI MATRIKS LEBAR MUTLAK: Memaksa baris tabel mengisi 100% ruang secara kaku sejajar bar atas biru
-        trElement.style.cssText = 'background: transparent !important; display: table !important; width: 100% !important; box-sizing: border-box !important; margin-bottom: 8px !important; border: none !important;';
-        
-        trElement.innerHTML = 
-          '<td style="padding: 0px !important; border: none !important; display: block !important; width: 100% !important; box-sizing: border-box !important;">' +
-            '<div onclick="bukaLaguLogDariRekap(\'' + lagu.idLagu + '\')" ' +
-                 'style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 12px 15px; border-radius: 10px; border-left: 5px solid #007AFF; box-shadow: 0 2px 6px rgba(0,0,0,0.04); cursor: pointer; transition: transform 0.1s; box-sizing: border-box; width: 100% !important; margin: 0 !important;">' +
-               '<div style="flex: 1; min-width: 0; padding-right: 12px; text-align: left;">' +
-                 '<span style="display: block; font-weight: bold; font-size: 14px; color: #1e3a60; line-height: 1.4; word-break: break-word;">' + (lagu.judul || "-") + '</span>' +
-               '</div>' +
-               '<div style="flex: none; background: #fff3e0; border: 1px solid #ffcc80; padding: 4px 10px; border-radius: 8px; color: #e65100; font-size: 12px; font-weight: bold; text-align: center; white-space: nowrap;">' +
-                 lagu.jumlah + ' ×' +
-               '</div>' +
-             '</div>' +
-          '</td>';
-          
-        fragRekap.appendChild(trElement);
-      });
-      
-      wadahKonten.innerHTML = "";
-      wadahKonten.appendChild(fragRekap);
+    // 🛡️ SENSOR SPESIAL REKAP: Sesi spesial dilarang ikut dihitung ke rekap tahunan reguler
+    if (stringSesiPanjang.indexOf("::Spesial") !== -1) {
+      return;
     }
-  }).getAkumulasiDataTahunan(tahun);
+    
+    let listPendaftar = stringSesiPanjang.split("|||");
+    listPendaftar.forEach(function(pendaftar) {
+      if (!pendaftar || pendaftar.trim() === "") return;
+      
+      let komponen = pendaftar.split(":::");
+      // Membaca kaku komponen indeks ke-5 (Tanggal bhajan murni)
+      if (komponen && komponen.length >= 6) {
+        let namaUmat  = komponen[1] ? komponen[1].toString().trim() : "";
+        let judulLg   = komponen[2] ? komponen[2].toString().trim() : "";
+        let idLg      = komponen[3] ? komponen[3].toString().trim() : "";
+        let tglBhajan = komponen[5] ? komponen[5].toString().trim() : ""; 
+        
+        if (idLg !== "" && namaUmat !== "" && namaUmat !== "0" && namaUmat !== "ID Tidak Terdaftar") {
+          // Mencocokkan string tahun pelaksanaan di depan kalender kaku (Misal: "2026")
+          if (tglBhajan.indexOf(tahun.toString()) === 0) {
+            if (!petaAkumulasiLagu[idLg]) {
+              petaAkumulasiLagu[idLg] = {
+                idLagu: idLg,
+                judul: judulLg,
+                jumlah: 0
+              };
+            }
+            petaAkumulasiLagu[idLg].jumlah += 1; // Naikkan hitungan rekap lokal
+          }
+        }
+      }
+    });
+  });
+  
+  var arrayLagu = [];
+  Object.keys(petaAkumulasiLagu).forEach(function(key) {
+    arrayLagu.push(petaAkumulasiLagu[key]);
+  });
+  
+  document.getElementById('loadingRekap').style.display = 'none';
+  document.getElementById('tblRekap').style.display = 'table';
+  document.getElementById('txtRekapTahun').innerText = "TAHUN " + tahun;
+  
+  var wadahKonten = document.getElementById('contRekap');
+  if (!wadahKonten) return;
+  
+  if (arrayLagu.length === 0) {
+    wadahKonten.innerHTML = "<tr><td colspan='2' style='text-align:center; padding:20px;'>Data Kosong</td></tr>";
+  } else {
+    arrayLagu.sort(function(a, b) {
+      if (!a.judul) return 1;
+      if (!b.judul) return -1;
+      return a.judul.toString().localeCompare(b.judul.toString());
+    });
+    
+    var fragRekap = document.createDocumentFragment();
+    
+    arrayLagu.forEach(function(lagu) {
+      var trElement = document.createElement('tr');
+      trElement.style.cssText = 'background: transparent !important; display: table !important; width: 100% !important; box-sizing: border-box !important; margin-bottom: 8px !important; border: none !important;';
+      
+      trElement.innerHTML = 
+        '<td style="padding: 0px !important; border: none !important; display: block !important; width: 100% !important; box-sizing: border-box !important;">' +
+          '<div onclick="bukaLaguLogDariRekap(\'' + lagu.idLagu + '\')" ' +
+               'style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 12px 15px; border-radius: 10px; border-left: 5px solid #007AFF; box-shadow: 0 2px 6px rgba(0,0,0,0.04); cursor: pointer; transition: transform 0.1s; box-sizing: border-box; width: 100% !important; margin: 0 !important;">' +
+             '<div style="flex: 1; min-width: 0; padding-right: 12px; text-align: left;">' +
+               '<span style="display: block; font-weight: bold; font-size: 14px; color: #1e3a60; line-height: 1.4; word-break: break-word;">' + (lagu.judul || "-") + '</span>' +
+             '</div>' +
+             '<div style="flex: none; background: #fff3e0; border: 1px solid #ffcc80; padding: 4px 10px; border-radius: 8px; color: #e65100; font-size: 12px; font-weight: bold; text-align: center; white-space: nowrap;">' +
+               lagu.jumlah + ' ×' +
+             '</div>' +
+           '</div>' +
+        '</td>';
+        
+      fragRekap.appendChild(trElement);
+    });
+    
+    wadahKonten.innerHTML = "";
+    wadahKonten.appendChild(fragRekap);
+  }
 }
+
+
 
 /**
  * REKAP: PINTASAN KLIK MELOMPAT MELIHAT LIRIK DARI STRUKTUR REKAP
@@ -4212,60 +4146,68 @@ function bukaLaguLogDariRekap(id) {
 // DEBOUNCE BATCHING QUEUE ENGINE (ANTI BOCOR DATA CLOUD)
 // =========================================================================
 var timerAntreanFavoritSenyap = null; // Sakelar penghitung mundur detak jari jemaat
-// =========================================================================
-// 🌟 MODUL SELEKTOR FAVORIT DENGAN TEXT STANDAR & KATA AKSI KAPITAL (FINAL)
-// Tempat: Pasang di Main.html menggantikan kedua fungsi favorit sebelumnya.
-// Tugas: Memunculkan popup konfirmasi dengan kata MENAMBAH / MENGHAPUS kapital penuh.
-// =========================================================================
 
 /**
  * FAVORIT DEPAN: MEKANISME OPTIMISTIC BATCHING QUEUE (KATA AKSI KAPITAL)
  */
 function toggleFavoritDariDaftar(idLaguTarget) {
   // 🌟 SUNTIKAN MODAL PINTAR INFO DEPAN: Berikan edukasi lengkap cara buka gembok hati ❤️
-  if (statusFavoritTerkunci) { 
-document.getElementById('dpJudul').innerText = "Fitur Favorit Terkunci";
-document.getElementById('dpPesan').innerText = "🔒 Tombol Hati ❤️ Anda saat ini sedang dalam kondisi terkunci.\n\n" +
-                                               "💡 Cara Membuka Kunci:\n" +
-                                               "1. Tekan tombol Panah Turun (🔽) di sebelah kiri kotak pencarian lagu untuk membuka laci setelan\n" +
-                                               "2. Cari bagian tombol centang 'Kunci Favorit Saya'\n" +
-                                               "3. Hilangkan tanda centangnya untuk bebas mengatur kembali daftar lagu favorit Anda.";
+  if (typeof statusFavoritTerkunci !== 'undefined' && statusFavoritTerkunci) { 
+    if (document.getElementById('dpJudul')) document.getElementById('dpJudul').innerText = "Fitur Favorit Terkunci";
+    if (document.getElementById('dpPesan')) {
+      document.getElementById('dpPesan').innerText = "🔒 Tombol Hati ❤️ Anda saat ini sedang dalam kondisi terkunci.\n\n" +
+                                                     "💡 Cara Membuka Kunci:\n" +
+                                                     "1. Tekan tombol Panah Turun (🔽) di sebelah kiri kotak pencarian lagu untuk membuka laci setelan\n" +
+                                                     "2. Cari bagian tombol centang 'Kunci Favorit Saya'\n" +
+                                                     "3. Hilangkan tanda centangnya untuk bebas mengatur kembali daftar lagu favorit Anda.";
+    }
 
     if (document.getElementById('dpInput')) document.getElementById('dpInput').style.display = "none";
     
     var btnNo = document.getElementById('dpBtnBatal'); 
     var btnYa = document.getElementById('dpBtnYa'); 
     
-    if (btnNo) btnNo.style.display = "none"; // Matikan tombol No agar menjadi mode INFO OK
+    if (btnNo) btnNo.style.display = "none"; 
     if (btnYa) {
       btnYa.innerText = "OK";
       btnYa.style.display = "block";
-      btnYa.onclick = function() { document.getElementById('dialogPintar').style.display = "none"; };
+      btnYa.onclick = function() { 
+        if (document.getElementById('dialogPintar')) document.getElementById('dialogPintar').style.display = "none"; 
+      };
     }
-    document.getElementById('dialogPintar').style.display = "block";
+    if (document.getElementById('dialogPintar')) document.getElementById('dialogPintar').style.display = "block";
     return; 
   }
 
-  var savedIdUser = (localStorage.getItem('savedIdUser') || "").toUpperCase().trim();
+  var savedIdUser = (localStorage.getItem('savedIdUser') || "").trim();
   if (!savedIdUser) {
-    tampilkanPesanDialogPintar("Fitur Folder Favorit", "⚠ Hak Akses Terkunci:\n\nID Anda belum tersimpan. Silahkan masukkan ID anda dengan menekan plakat nama yang ada di atas tombol Latihan");
+    if (typeof tampilkanPesanDialogPintar === "function") {
+      tampilkanPesanDialogPintar("Fitur Folder Favorit", "⚠ Hak Akses Terkunci:\n\nID Anda belum tersimpan. Silahkan masukkan ID anda dengan menekan plakat nama yang ada di atas tombol Latihan");
+    }
     return;
   }
   
-  var keyLokal = savedIdUser.toLowerCase();
-  if (!window.memberFavorites[keyLokal]) window.memberFavorites[keyLokal] = [];
+  // Daftarkan memory RAM dua arah (Kapital & Kecil) agar filterLagu tidak bingung membaca ID
+  var keyLokalKecil = savedIdUser.toLowerCase();
+  var keyLokalBesar = savedIdUser.toUpperCase();
   
-  var targetStr = idLaguTarget.toString().trim();
-  var isCurrentlyFav = window.memberFavorites[keyLokal].includes(targetStr);
+  if (!window.memberFavorites) window.memberFavorites = {};
+  if (!window.memberFavorites[keyLokalKecil]) window.memberFavorites[keyLokalKecil] = [];
+  if (!window.memberFavorites[keyLokalBesar]) window.memberFavorites[keyLokalBesar] = [];
+  
+  var targetStr = idLaguTarget ? idLaguTarget.toString().trim() : "";
+  if (!targetStr) return;
+
+  var isCurrentlyFav = window.memberFavorites[keyLokalKecil].includes(targetStr);
 
   // 🚀 KATA AKSI DIBUAT KAPITAL PENUH AGAR LEBIH MENCOLOK & JELAS
   var teksPertanyaan = isCurrentlyFav 
     ? 'Apakah akan MENGHAPUS Lagu Ini dari daftar favorit?'
     : 'Apakah akan MENAMBAH Lagu Ini ke dalam daftar favorit?';
 
-  // SETEL DIALOG PINTAR MENJADI MODE KONFIRSAN "YES / NO"
-  document.getElementById('dpJudul').innerText = "Konfirmasi Favorit";
-  document.getElementById('dpPesan').innerText = teksPertanyaan;
+  // SETEL DIALOG PINTAR MENJADI MODE KONFIRMASI "YES / NO"
+  if (document.getElementById('dpJudul')) document.getElementById('dpJudul').innerText = "Konfirmasi Favorit";
+  if (document.getElementById('dpPesan')) document.getElementById('dpPesan').innerText = teksPertanyaan;
   if (document.getElementById('dpInput')) document.getElementById('dpInput').style.display = "none";
   
   var btnNo = document.getElementById('dpBtnBatal'); 
@@ -4275,7 +4217,7 @@ document.getElementById('dpPesan').innerText = "🔒 Tombol Hati ❤️ Anda saa
     btnNo.innerText = "No";
     btnNo.style.display = "block";
     btnNo.onclick = function() {
-      document.getElementById('dialogPintar').style.display = "none"; 
+      if (document.getElementById('dialogPintar')) document.getElementById('dialogPintar').style.display = "none"; 
     };
   }
   
@@ -4284,50 +4226,68 @@ document.getElementById('dpPesan').innerText = "🔒 Tombol Hati ❤️ Anda saa
     btnYa.style.display = "block";
     
     btnYa.onclick = function() {
-      document.getElementById('dialogPintar').style.display = "none";
+      if (document.getElementById('dialogPintar')) document.getElementById('dialogPintar').style.display = "none";
+      
       var posisiScrollSekarang = window.scrollY || document.documentElement.scrollTop || window.pageYOffset;
       
+      // Update RAM lokal seketika untuk kedua format ID jemaat (Kecil & Kapital)
       if (isCurrentlyFav) { 
-        window.memberFavorites[keyLokal] = window.memberFavorites[keyLokal].filter(id => id !== targetStr); 
+        window.memberFavorites[keyLokalKecil] = window.memberFavorites[keyLokalKecil].filter(id => id !== targetStr); 
+        window.memberFavorites[keyLokalBesar] = window.memberFavorites[keyLokalKecil];
       } else { 
-        window.memberFavorites[keyLokal].push(targetStr); 
+        window.memberFavorites[keyLokalKecil].push(targetStr); 
+        window.memberFavorites[keyLokalBesar] = window.memberFavorites[keyLokalKecil];
       }
       
-      // 🔥 SINKRONISASI HP: Kunci perubahan ke localStorage detik ini juga agar permanen di HP
+      // 🔥 GEMBOK SAKTI DI SINI: Paksa cache HP ikut update di detik ke-0 agar robot grup tidak membatalkan warna hati
+      if (!window.cacheDataSevaLokal) window.cacheDataSevaLokal = {};
+      if (!window.cacheDataSevaLokal.seva) window.cacheDataSevaLokal.seva = {};
+      window.cacheDataSevaLokal.seva.memberFavorites = window.memberFavorites;
+      
+      // Kunci perubahan ke localStorage detik ini juga agar permanen di HP jemaat
       try {
         var localBundledData = localStorage.getItem('lastBundledData');
         if (localBundledData) {
           var parsed = JSON.parse(localBundledData);
-          if (parsed && parsed.seva) {
+          if (parsed) {
+            if (!parsed.seva) parsed.seva = {};
             parsed.seva.memberFavorites = window.memberFavorites;
             localStorage.setItem('lastBundledData', JSON.stringify(parsed));
           }
         }
       } catch(e) { console.log("Gagal mencadangkan favorit baru ke HP:", e); }
       
-      filterLagu();
+      // Gambar ulang layar secara bersih menggunakan RAM yang sudah terkunci di atas
+      if (typeof filterLagu === "function") {
+        filterLagu();
+      }
+      
       window.scrollTo(0, posisiScrollSekarang);
       document.body.scrollTop = posisiScrollSekarang;
 
+      // Kumpulkan ketukan jari jemaat, tahan 3 detik baru kirim massal ke Google Sheets cloud
       if (timerAntreanFavoritSenyap) clearTimeout(timerAntreanFavoritSenyap);
-      var paketLaguTerbaruDiRAM = window.memberFavorites[keyLokal];
+      var paketLaguTerbaruDiRAM = window.memberFavorites[keyLokalKecil];
 
-      // JEDA SINKRONISASI 3 DETIK (3000 MS)
       timerAntreanFavoritSenyap = setTimeout(function() {
         console.log("🚀 Jari jemaat diam, mengirim paket massal anti-bocor ke Google Sheets...");
-        google.script.run
-          .withSuccessHandler(function(res) { console.log(res); })
-          .withFailureHandler(function(err) { console.log("Koneksi cloud gagal sinkron massal: " + err.message); })
-          .syncBatchFavoritServer(savedIdUser, paketLaguTerbaruDiRAM);
+        if (typeof google !== 'undefined' && google.script && google.script.run) {
+          google.script.run
+            .withSuccessHandler(function(res) { console.log(res); })
+            .withFailureHandler(function(err) { console.log("Koneksi cloud gagal sinkron massal: " + err.message); })
+            .syncBatchFavoritServer(savedIdUser, paketLaguTerbaruDiRAM);
+        }
       }, 3000);
 
+      // Jalankan robot visual grup massal tanpa takut warnanya berkedip lagi
       if (typeof perbaruiOtomatisHatiGrupMassal === "function") { 
         perbaruiOtomatisHatiGrupMassal(window.memberFavorites); 
       }
     };
   }
-  document.getElementById('dialogPintar').style.display = "block";
+  if (document.getElementById('dialogPintar')) document.getElementById('dialogPintar').style.display = "block";
 }
+
 
 
 /**
@@ -4338,42 +4298,55 @@ document.getElementById('dpPesan').innerText = "🔒 Tombol Hati ❤️ Anda saa
  */
 function eksekusiToggleFavorit() {
   // 🌟 SUNTIKAN MODAL PINTAR INFO DETAIL: Berikan edukasi lengkap cara buka gembok hati ❤️ dari lirik
-  if (statusFavoritTerkunci) { 
-document.getElementById('dpJudul').innerText = "Fitur Favorit Terkunci";
-document.getElementById('dpPesan').innerText = "🔒 Tombol Hati ❤️ Anda saat ini sedang dalam kondisi terkunci.\n\n" +
-                                               "💡 Cara Membuka Kunci:\n" +
-                                               "1. Tekan tombol Panah Turun (🔽) di sebelah kiri kotak pencarian lagu untuk membuka laci setelan\n" +
-                                               "2. Cari bagian tombol centang 'Kunci Favorit Saya'\n" +
-                                               "3. Hilangkan tanda centangnya untuk bebas mengatur kembali daftar lagu favorit Anda.";
+  if (typeof statusFavoritTerkunci !== 'undefined' && statusFavoritTerkunci) { 
+    if (document.getElementById('dpJudul')) document.getElementById('dpJudul').innerText = "Fitur Favorit Terkunci";
+    if (document.getElementById('dpPesan')) {
+      document.getElementById('dpPesan').innerText = "🔒 Tombol Hati ❤️ Anda saat ini sedang dalam kondisi terkunci.\n\n" +
+                                                     "💡 Cara Membuka Kunci:\n" +
+                                                     "1. Tekan tombol Panah Turun (🔽) di sebelah kiri kotak pencarian lagu untuk membuka laci setelan\n" +
+                                                     "2. Cari bagian tombol centang 'Kunci Favorit Saya'\n" +
+                                                     "3. Hilangkan tanda centangnya untuk bebas mengatur kembali daftar lagu favorit Anda.";
+    }
 
     if (document.getElementById('dpInput')) document.getElementById('dpInput').style.display = "none";
     
     var btnNo = document.getElementById('dpBtnBatal'); 
     var btnYa = document.getElementById('dpBtnYa'); 
     
-    if (btnNo) btnNo.style.display = "none"; // Matikan tombol No agar menjadi mode INFO OK
+    if (btnNo) btnNo.style.display = "none"; 
     if (btnYa) {
       btnYa.innerText = "OK";
       btnYa.style.display = "block";
-      btnYa.onclick = function() { document.getElementById('dialogPintar').style.display = "none"; };
+      btnYa.onclick = function() { 
+        if (document.getElementById('dialogPintar')) document.getElementById('dialogPintar').style.display = "none"; 
+      };
     }
-    document.getElementById('dialogPintar').style.display = "block";
+    if (document.getElementById('dialogPintar')) document.getElementById('dialogPintar').style.display = "block";
     return; 
   }
 
-  var savedIdUser = (localStorage.getItem('savedIdUser') || "").toUpperCase().trim();
+  var savedIdUser = (localStorage.getItem('savedIdUser') || "").trim();
   var idLaguTarget = window.currentId;
   
   if (!savedIdUser) {
-    tampilkanPesanDialogPintar("Fitur Folder Favorit", "⚠ Hak Akses Terkunci:\n\nID Anda belum tersimpan. Silahkan masukkan ID anda dengan menekan plakat nama yang ada di atas tombol Latihan");
+    if (typeof tampilkanPesanDialogPintar === "function") {
+      tampilkanPesanDialogPintar("Fitur Folder Favorit", "⚠ Hak Akses Terkunci:\n\nID Anda belum tersimpan. Silahkan masukkan ID anda dengan menekan plakat nama yang ada di atas tombol Latihan");
+    }
     return;
   }
   
-  var keyLokal = savedIdUser.toLowerCase();
-  if (!window.memberFavorites[keyLokal]) window.memberFavorites[keyLokal] = [];
+  // Daftarkan memory RAM dua arah (Kapital & Kecil) agar filterLagu tidak bingung membaca ID
+  var keyLokalKecil = savedIdUser.toLowerCase();
+  var keyLokalBesar = savedIdUser.toUpperCase();
   
-  var targetStr = idLaguTarget.toString().trim();
-  var isCurrentlyFav = window.memberFavorites[keyLokal].includes(targetStr);
+  if (!window.memberFavorites) window.memberFavorites = {};
+  if (!window.memberFavorites[keyLokalKecil]) window.memberFavorites[keyLokalKecil] = [];
+  if (!window.memberFavorites[keyLokalBesar]) window.memberFavorites[keyLokalBesar] = [];
+  
+  var targetStr = idLaguTarget ? idLaguTarget.toString().trim() : "";
+  if (!targetStr) return;
+
+  var isCurrentlyFav = window.memberFavorites[keyLokalKecil].includes(targetStr);
 
   // 🚀 KATA AKSI DIBUAT KAPITAL PENUH AGAR LEBIH MENCOLOK & JELAS
   var teksPertanyaan = isCurrentlyFav 
@@ -4381,8 +4354,8 @@ document.getElementById('dpPesan').innerText = "🔒 Tombol Hati ❤️ Anda saa
     : 'Apakah akan MENAMBAH Lagu Ini ke dalam daftar favorit?';
 
   // SETEL DIALOG PINTAR MENJADI MODE KONFIRMASI "YES / NO"
-  document.getElementById('dpJudul').innerText = "Konfirmasi Favorit";
-  document.getElementById('dpPesan').innerText = teksPertanyaan;
+  if (document.getElementById('dpJudul')) document.getElementById('dpJudul').innerText = "Konfirmasi Favorit";
+  if (document.getElementById('dpPesan')) document.getElementById('dpPesan').innerText = teksPertanyaan;
   if (document.getElementById('dpInput')) document.getElementById('dpInput').style.display = "none";
   
   var btnNo = document.getElementById('dpBtnBatal'); 
@@ -4392,7 +4365,7 @@ document.getElementById('dpPesan').innerText = "🔒 Tombol Hati ❤️ Anda saa
     btnNo.innerText = "No";
     btnNo.style.display = "block";
     btnNo.onclick = function() {
-      document.getElementById('dialogPintar').style.display = "none"; 
+      if (document.getElementById('dialogPintar')) document.getElementById('dialogPintar').style.display = "none"; 
     };
   }
   
@@ -4401,32 +4374,42 @@ document.getElementById('dpPesan').innerText = "🔒 Tombol Hati ❤️ Anda saa
     btnYa.style.display = "block";
     
     btnYa.onclick = function() {
-      document.getElementById('dialogPintar').style.display = "none";
+      if (document.getElementById('dialogPintar')) document.getElementById('dialogPintar').style.display = "none";
       var btnFavStar = document.getElementById('btn-fav-star');
       
+      // Update RAM lokal seketika untuk kedua format ID jemaat (Kecil & Kapital)
       if (isCurrentlyFav) {
-        window.memberFavorites[keyLokal] = window.memberFavorites[keyLokal].filter(id => id !== targetStr);
+        window.memberFavorites[keyLokalKecil] = window.memberFavorites[keyLokalKecil].filter(id => id !== targetStr);
+        window.memberFavorites[keyLokalBesar] = window.memberFavorites[keyLokalKecil];
       } else {
-        window.memberFavorites[keyLokal].push(targetStr);
+        window.memberFavorites[keyLokalKecil].push(targetStr);
+        window.memberFavorites[keyLokalBesar] = window.memberFavorites[keyLokalKecil];
       }
       
-      // 🔥 SINKRONISASI HP: Kunci perubahan ke localStorage detik ini juga agar permanen di HP
+      // 🔥 GEMBOK SAKTI DI SINI: Paksa cache HP ikut update di detik ke-0 agar robot grup tidak membatalkan warna hati
+      if (!window.cacheDataSevaLokal) window.cacheDataSevaLokal = {};
+      if (!window.cacheDataSevaLokal.seva) window.cacheDataSevaLokal.seva = {};
+      window.cacheDataSevaLokal.seva.memberFavorites = window.memberFavorites;
+      
+      // Kunci perubahan ke localStorage detik ini juga agar permanen di HP jemaat
       try {
         var localBundledData = localStorage.getItem('lastBundledData');
         if (localBundledData) {
           var parsed = JSON.parse(localBundledData);
-          if (parsed && parsed.seva) {
+          if (parsed) {
+            if (!parsed.seva) parsed.seva = {};
             parsed.seva.memberFavorites = window.memberFavorites;
             localStorage.setItem('lastBundledData', JSON.stringify(parsed));
           }
         }
       } catch(e) { console.log("Gagal mencadangkan favorit baru dari detail ke HP:", e); }
       
+      // Ubah visual bintang di halaman detail secara instan tanpa lag
       if (btnFavStar) {
         btnFavStar.style.transform = "scale(1.2)";
         setTimeout(function() { if(btnFavStar) btnFavStar.style.transform = "scale(1)"; }, 150);
         
-        if (window.memberFavorites[keyLokal].includes(targetStr)) {
+        if (window.memberFavorites[keyLokalKecil].includes(targetStr)) {
           btnFavStar.style.color = "#e53935"; 
           btnFavStar.style.opacity = "1";
         } else {
@@ -4435,23 +4418,29 @@ document.getElementById('dpPesan').innerText = "🔒 Tombol Hati ❤️ Anda saa
         }
       }
       
-      filterLagu();
+      // Jalankan filter pengurutan daftar di latar belakang
+      if (typeof filterLagu === "function") {
+        filterLagu();
+      }
 
+      // Kumpulkan ketukan jari jemaat, tahan 3 detik baru kirim massal ke Google Sheets cloud
       if (timerAntreanFavoritSenyap) clearTimeout(timerAntreanFavoritSenyap);
-      var paketLaguTerbaruDiRAM = window.memberFavorites[keyLokal];
+      var paketLaguTerbaruDiRAM = window.memberFavorites[keyLokalKecil];
       
-      // JEDA SINKRONISASI 3 DETIK (3000 MS)
       timerAntreanFavoritSenyap = setTimeout(function() {
         console.log("🚀 Sinkronisasi massal senyap dipicu dari halaman detail lirik...");
-        google.script.run
-          .withSuccessHandler(function(res) { console.log(res); })
-          .withFailureHandler(function(err) { console.log("Koneksi gagal: " + err.message); })
-          .syncBatchFavoritServer(savedIdUser, paketLaguTerbaruDiRAM);
+        if (typeof google !== 'undefined' && google.script && google.script.run) {
+          google.script.run
+            .withSuccessHandler(function(res) { console.log(res); })
+            .withFailureHandler(function(err) { console.log("Koneksi gagal: " + err.message); })
+            .syncBatchFavoritServer(savedIdUser, paketLaguTerbaruDiRAM);
+        }
       }, 3000);
     };
   }
-  document.getElementById('dialogPintar').style.display = "block";
+  if (document.getElementById('dialogPintar')) document.getElementById('dialogPintar').style.display = "block";
 }
+
 
 
 
@@ -4529,9 +4518,6 @@ if (!sessionStorage.getItem('activeSessionToken')) {
 var TOKEN_SESI_SEKARANG = sessionStorage.getItem('activeSessionToken');
 
 function prosesPengecekanDanTembakLog(apakahDariJalurKembali) {
-  // 🟢 DAFTAR VIP BEBAS ABSEN: ID Ajik otomatis disaring di HP tanpa mengotori spreadsheet
-  var DAFTAR_ID_DIBLOKIR_LOG = ["GNP730210", "XXX123456"];
-
   // SINKRONISASI IDENTITAS PERANGKAT AWAL (MEMBER / TAMU)
   var savedIdUserForLog = "";
   try { savedIdUserForLog = (localStorage.getItem('savedIdUser') || "").toUpperCase().trim(); } catch(e) {}
@@ -4548,12 +4534,7 @@ function prosesPengecekanDanTembakLog(apakahDariJalurKembali) {
     savedIdUserForLog = savedIdTamuAbadi;
   }
 
-  // 🛡️ SAKELAR ASLI: Kalimat ramah dan eksklusif ini sekarang resmi dikembalikan khusus di layar HP Ajik!
-  if (DAFTAR_ID_DIBLOKIR_LOG.indexOf(savedIdUserForLog) !== -1) {
-    console.log("🔒 [LOG VIP] ID " + savedIdUserForLog + " dilepaskan dari kewajiban absen.");
-    return; 
-  }
-
+  // LOGIKA PEMBATASAN SESI WAKTU (ANTI-SPAM REFRESH)
   var waktuSekarang = new Date().getTime();
   var waktuTerakhirAktif = localStorage.getItem('lastActiveTime');
   var batasSesiMenit = 10 * 60 * 1000; // 10 menit
@@ -4570,23 +4551,25 @@ function prosesPengecekanDanTembakLog(apakahDariJalurKembali) {
     }
   }
 
+  // KIRIM DATA KE SERVER (Penyaringan ID murni diurus oleh server Google Apps Script)
   if (navigator.onLine && typeof google !== 'undefined' && google.script && google.script.run) { 
     try {
       localStorage.setItem('lastActiveTime', waktuSekarang);
+      // Murni menembak satu parameter ID saja ke fungsi server
       google.script.run.catatKedatanganOtomatis(savedIdUserForLog); 
-      console.log("🚀 Sinyal kedatangan sukses terkirim: " + savedIdUserForLog);
+      console.log("🚀 Sinyal kedatangan terkirim ke server: " + savedIdUserForLog);
     } catch (erorStorage) {
       console.log("⚠️ Browser mendeteksi mode privat.");
     }
   }
 }
 
-// 2. Jalur A: Pemicu murni hanya untuk Log Kedatangan (Poling ganda liar dihapus total)
+// Jalur A: Pemicu murni saat halaman dimuat pertama kali
 window.addEventListener("load", function() {
   prosesPengecekanDanTembakLog(true); 
 });
 
-// 3. Jalur B: Pemicu otomatis dari sistem HP saat kembali dari WA/IG
+// Jalur B: Pemicu otomatis dari sistem HP saat kembali dari WA/IG
 document.addEventListener("visibilitychange", function() {
   if (document.visibilityState === "visible") {
     console.log("📱 Perangkat kembali mendeteksi aplikasi terbuka...");
@@ -4595,6 +4578,8 @@ document.addEventListener("visibilitychange", function() {
     try { localStorage.setItem('lastActiveTime', new Date().getTime()); } catch(e) {}
   }
 });
+
+
 
 /**
  * PEMBUKA POPUP MODAL LOGIN ID USER
@@ -4771,27 +4756,23 @@ function prosesSimpanVerifikasiIdAutentikasi() {
         selaraskanProteksiVisualIdUmat();
         tutupPopupPendaftaranIdAutentikasi();
         
-        // 🚀 SUNTIKAN SAKTI 1: Bongkar ulang seluruh paket data agar dropdown membaca hak akses & setelan ID baru
-        var paketDataLokal = window.cacheDataSevaLokal;
-        if (typeof uraiDanPetakanBundledData === "function" && paketDataLokal) {
-          uraiDanPetakanBundledData(paketDataLokal);
-        }
-        
-        // 🚀 SUNTIKAN SAKTI 2: Segarkan antrean lagu pemutar musik berdasarkan hak kepemilikan ID baru
-        if (typeof muatDataLaguKePlayer === "function") {
-          muatDataLaguKePlayer();
-        }
-        
-        // 🚀 SUNTIKAN SAKTI 3: Gambar ulang daftar lagu di layar agar menu Favorit & Seva Favorit langsung update
-        if (typeof filterLagu === "function") {
-          filterLagu();
-        }
-        
-        // Picu pemuatan init() senyap agar seluruh data bagasi ter-update bersih sesuai hak ID baru
+        // 🎯 SAPU BERSIH TOTAL VARIABEL RAM (Hancurkan sisa data jemaat sebelumnya dari memori HP)
+        localStorage.removeItem('lastBundledData');
+        window.cacheDataSevaLokal = null;
+        window.memberFavorites = {}; 
+        window.memberSettings = {};
+        window.ramSetelanLokalJemaat = { data: null, waktuKunciHingga: 0 };
+        window.statusFavoritTerkunci = false; 
+
+        // 🚀 EKSEKUSI: Panggil init() untuk mendownload data segar milik ID baru dari server cloud
+        // Sinyal internet mendarat nanti akan langsung menggambar menu secara otomatis via Langkah 23
         if (typeof init === "function") {
           init();
         }
       };
+
+
+
 
     }).withFailureHandler(function(err) {
       if (typeof loading === "function") loading(false);
@@ -5042,22 +5023,25 @@ function prosesHapusBersihIdDariDevice() {
 
 
 
+
 function aktifkanLivePollingSenyapAntarHP() {
   if (window.intervalLivePollingSenyapGlobal) {
     clearInterval(window.intervalLivePollingSenyapGlobal);
     window.intervalLivePollingSenyapGlobal = null;
   }
 
-  // Interseptor Sakti: Menahan semua fungsi bawaan lain agar tidak membuat layar lompat ke atas
-  var fungsiScrollAsliBrowser = window.scrollTo;
-  window.scrollTo = function(x, y) {
-    if (window.gembokScrollLive === true) {
-      return; // Abaikan perintah lompat ke atas saat proses update berjalan
-    }
-    if (typeof fungsiScrollAsliBrowser === "function") {
-      fungsiScrollAsliBrowser.call(window, x, y);
-    }
-  };
+  if (!window.__scrollInterceptorTerpasang) {
+    window.__scrollInterceptorTerpasang = true;
+    window.__scrollToAsli = window.scrollTo;
+    window.scrollTo = function(x, y) {
+      if (window.gembokScrollLive === true) {
+        return;
+      }
+      if (typeof window.__scrollToAsli === "function") {
+        window.__scrollToAsli.call(window, x, y);
+      }
+    };
+  }
 
   function hitungKuotaPenuh(objCache) {
     var slot = objCache.slotTerisi || [];
@@ -5075,14 +5059,24 @@ function aktifkanLivePollingSenyapAntarHP() {
         return;
       }
       
-      // 🔒 LOCK SCROLL: Catat koordinat murni piksel sebelum proses berjalan
       var koordinatScrollHP = window.scrollY || document.documentElement.scrollTop || 0;
-
       var master = window.masterFilterSeva = window.masterFilterSeva || {};
       var cacheLokal = window.cacheDataSevaLokal = window.cacheDataSevaLokal || {};
-      var bypassAwan = Number(new Date().getTime());
 
-      // Ambil ID User untuk kebutuhan filter bintik privat
+      var vAdminLokal = "0";
+      var vLaguLokal  = "0";
+      try {
+        var localBundledData = localStorage.getItem('lastBundledData');
+        if (localBundledData) {
+          var parsed = JSON.parse(localBundledData);
+          if (parsed && parsed.seva) {
+            vAdminLokal = parsed.seva.versiSpreadsheet || "0";
+            vLaguLokal  = parsed.seva.versiDbLagu || "0";
+          }
+        }
+      } catch(e) {}
+      var bypassAwan = vAdminLokal + "_" + vLaguLokal;
+
       var savedIdUserCekPoll = (localStorage.getItem('savedIdUser') || "").toLowerCase().trim();
       google.script.run
         .withFailureHandler(function (errSinyal) {
@@ -5093,34 +5087,53 @@ function aktifkanLivePollingSenyapAntarHP() {
         })
         .withSuccessHandler(function (confTeranyar) {
           try {
-            if (!confTeranyar || !confTeranyar.daftarLatihan) return;
+            if (!confTeranyar) return;
 
-            try {
-              var localBundledData = localStorage.getItem('lastBundledData');
-              if (localBundledData) {
-                var parsed = JSON.parse(localBundledData);
-                if (parsed) {
-                  parsed.seva = confTeranyar; 
-                  localStorage.setItem('lastBundledData', JSON.stringify(parsed));
-                }
+            // 🛡️ INTERCEPTOR SENYAP: Jika server bilang tidak ada perubahan, langsung stop proses!
+            if (confTeranyar.tidakAdaPerubahan === true) {
+              window.gembokScrollLive = false;
+              return;
+            }
+
+            // --- SYNC DATA RIWAYAT SECARA LIVE & SENYAP ---
+            if (confTeranyar.riwayatRaw && Array.isArray(confTeranyar.riwayatRaw)) {
+              var totalRawServer = confTeranyar.riwayatRaw.length;
+              var totalRawLokal  = window.dbRiwayatRaw ? window.dbRiwayatRaw.length : 0;
+              
+              if (totalRawServer !== totalRawLokal) {
+                window.dbRiwayatRaw = confTeranyar.riwayatRaw;
+                try {
+                  var localBundledData = localStorage.getItem('lastBundledData');
+                  if (localBundledData) {
+                    var parsed = JSON.parse(localBundledData);
+                    if (parsed) {
+                      parsed.riwayatRaw = confTeranyar.riwayatRaw;
+                      localStorage.setItem('lastBundledData', JSON.stringify(parsed));
+                    }
+                  }
+                } catch(eRiwayatCache) {}
+                console.log("🔄 [POLLING ARSIP] Sinkronisasi data tab Riwayat berhasil dimutakhirkan.");
               }
-            } catch(e) {}
+            }
 
-            var isKuotaTerkunciPenuh = hitungKuotaPenuh(confTeranyar);
-            var isKuotaTerkunciPenuhLokal = hitungKuotaPenuh(cacheLokal);
+            var elDropdownMenuAtas = document.getElementById('selKat');
+            var kategoriMenuSaatIni = elDropdownMenuAtas ? elDropdownMenuAtas.value : "SEMUA";
 
+            if (!cacheLokal.daftarLatihan) cacheLokal.daftarLatihan = [];
+            if (!cacheLokal.members) cacheLokal.members = {};
+            if (!window.memberFavorites) window.memberFavorites = {};
+            if (!window.memberSettings) window.memberSettings = {};
+
+            var dServer = confTeranyar.daftarLatihan || [];
+            var dLokal = cacheLokal.daftarLatihan || [];
+            
             var jumlahLaguSahServer = 0;
             var stringDataLatihanServer = "";
-            var listLaguMingguIniServer = []; 
+            var listLaguMingguIniServer = [];
 
-            var dServer = confTeranyar.daftarLatihan;
             for (var i = 0, len = dServer.length; i < len; i++) {
               var r = dServer[i];
-              if (!r) {
-                stringDataLatihanServer += "KOSONG|";
-                continue;
-              }
-              
+              if (!r) { stringDataLatihanServer += "KOSONG|"; continue; }
               var idLg  = (r['4'] !== undefined && r['4'] !== null) ? String(r['4']).trim() : ""; 
               var idMem = (r['1'] !== undefined && r['1'] !== null) ? String(r['1']).trim() : ""; 
               var nada  = (r['6'] !== undefined && r['6'] !== null) ? String(r['6']).trim() : ""; 
@@ -5131,74 +5144,127 @@ function aktifkanLivePollingSenyapAntarHP() {
               }
               stringDataLatihanServer += i + "-" + idLg + idMem + nada + "|";
             }
+
             var stringDataLatihanLokal = "";
-            var dLokal = cacheLokal.daftarLatihan;
-            if (dLokal) {
-              for (var j = 0, lenL = dLokal.length; j < lenL; j++) {
-                var rl = dLokal[j];
-                if (!rl) {
-                  stringDataLatihanLokal += "KOSONG|";
-                  continue;
-                }
-                var idLgLokal  = (rl['4'] !== undefined && rl['4'] !== null) ? String(rl['4']).trim() : "";
-                var idMemLokal = (rl['1'] !== undefined && rl['1'] !== null) ? String(rl['1']).trim() : "";
-                var nadaLokal  = (rl['6'] !== undefined && rl['6'] !== null) ? String(rl['6']).trim() : ""; 
-                stringDataLatihanLokal += j + "-" + idLgLokal + idMemLokal + nadaLokal + "|";
-              }
+            for (var j = 0, lenL = dLokal.length; j < lenL; j++) {
+              var rl = dLokal[j];
+              if (!rl) { stringDataLatihanLokal += "KOSONG|"; continue; }
+              var idLgLokal  = (rl['4'] !== undefined && rl['4'] !== null) ? String(rl['4']).trim() : "";
+              var idMemLokal = (rl['1'] !== undefined && rl['1'] !== null) ? String(rl['1']).trim() : "";
+              var nadaLokal  = (rl['6'] !== undefined && rl['6'] !== null) ? String(rl['6']).trim() : ""; 
+              stringDataLatihanLokal += j + "-" + idLgLokal + idMemLokal + nadaLokal + "|";
             }
-            
-            var jumlahLaguSahLokal = parseInt(localStorage.getItem('saved_jumlahLaguSahLokal')) || master.laguTerisiMingguIniLama || 0;
+
+            var isKuotaTerkunciPenuh = hitungKuotaPenuh(confTeranyar);
+            var isKuotaTerkunciPenuhLokal = hitungKuotaPenuh(cacheLokal);
+
+            var isBagian1PanggungBerubah = (stringDataLatihanServer !== stringDataLatihanLokal || isKuotaTerkunciPenuh !== isKuotaTerkunciPenuhLokal);
+
             var totalMemberServer = confTeranyar.members ? Object.keys(confTeranyar.members).length : 0;
             var totalMemberLokal  = cacheLokal.members ? Object.keys(cacheLokal.members).length : 0;
+            var isBagian2MemberBerubah = (totalMemberServer !== totalMemberLokal && totalMemberServer > 0);
+            var isBagian3PrivatBerubah = false;
+            if (savedIdUserCekPoll !== "" && savedIdUserCekPoll !== "anonim") {
+              var semuaKunciFavServerCek = Object.keys(confTeranyar.memberFavorites || {});
+              var kunciFavServerCocokCek = semuaKunciFavServerCek.find(function(k) { return k.toLowerCase() === savedIdUserCekPoll.toLowerCase(); }) || savedIdUserCekPoll;
+              
+              var semuaKunciSetServerCek = Object.keys(confTeranyar.memberSettings || {});
+              var kunciSetServerCocokCek = semuaKunciSetServerCek.find(function(k) { return k.toLowerCase() === savedIdUserCekPoll.toLowerCase(); }) || savedIdUserCekPoll;
 
-            if (totalMemberLokal === 0 && totalMemberServer > 0) {
-              try { cacheLokal.members = JSON.parse(JSON.stringify(confTeranyar.members)); } catch(e) { cacheLokal.members = confTeranyar.members; }
-              totalMemberLokal = totalMemberServer;
+              var favServer = confTeranyar.memberFavorites[kunciFavServerCocokCek] || [];
+              var favLokal  = window.memberFavorites[savedIdUserCekPoll] || [];
+              
+              var strFavServer = favServer.slice().sort().join(",");
+              var strFavLokal  = favLokal.slice().sort().join(",");
+              
+              var setServer = confTeranyar.memberSettings[kunciSetServerCocokCek] || { kunciFavorit: true, defaultKategori: false };
+              var setLokal  = window.memberSettings[savedIdUserCekPoll] || { kunciFavorit: true, defaultKategori: false };
+
+              if (strFavServer !== strFavLokal || setServer.kunciFavorit !== setLokal.kunciFavorit || setServer.defaultKategori !== setLokal.defaultKategori) {
+                isBagian3PrivatBerubah = true;
+              }
             }
 
+            var isVersiDbSama = (String(confTeranyar.versiDbLagu || "").trim() === String(cacheLokal.versiDbLagu || "").trim());
             var stringSettingServer = [
-              String(confTeranyar.hari || "").trim().toLowerCase(),
-              String(confTeranyar.waktu || "").trim().toLowerCase(),
-              String(parseInt(confTeranyar.maxLagu) || 0),
-              String(confTeranyar.autoSlot === true || confTeranyar.autoSlot === "TRUE" || confTeranyar.autoSlot === 1),
-              String(confTeranyar.angkaFilterB10Bawaan || "").trim().toLowerCase(),
-              String(confTeranyar.bhajanSpesialB11Bawaan === true || confTeranyar.bhajanSpesialB11Bawaan === "TRUE" || confTeranyar.bhajanSpesialB11Bawaan === 1),
+              String(confTeranyar.hari || "").trim().toLowerCase(), String(confTeranyar.waktu || "").trim().toLowerCase(),
+              String(parseInt(confTeranyar.maxLagu) || 0), String(confTeranyar.autoSlot === true || confTeranyar.autoSlot === "TRUE" || confTeranyar.autoSlot === 1),
+              String(confTeranyar.angkaFilterB10Bawaan || "").trim().toLowerCase(), String(confTeranyar.bhajanSpesialB11Bawaan === true || confTeranyar.bhajanSpesialB11Bawaan === "TRUE" || confTeranyar.bhajanSpesialB11Bawaan === 1),
               String(confTeranyar.bhajanSpesialB12Bawaan === true || confTeranyar.bhajanSpesialB12Bawaan === "TRUE" || confTeranyar.bhajanSpesialB12Bawaan === 1)
             ].join("_");
-
             var stringSettingLokal = [
-              String(cacheLokal.hari || "").trim().toLowerCase(),
-              String(cacheLokal.waktu || "").trim().toLowerCase(),
-              String(parseInt(cacheLokal.maxLagu) || 0),
-              String(cacheLokal.autoSlot === true || cacheLokal.autoSlot === "TRUE" || cacheLokal.autoSlot === 1),
-              String(cacheLokal.angkaFilterB10Bawaan || "").trim().toLowerCase(),
-              String(cacheLokal.bhajanSpesialB11Bawaan === true || cacheLokal.bhajanSpesialB11Bawaan === "TRUE" || cacheLokal.bhajanSpesialB11Bawaan === 1),
+              String(cacheLokal.hari || "").trim().toLowerCase(), String(cacheLokal.waktu || "").trim().toLowerCase(),
+              String(parseInt(cacheLokal.maxLagu) || 0), String(cacheLokal.autoSlot === true || cacheLokal.autoSlot === "TRUE" || cacheLokal.autoSlot === 1),
+              String(cacheLokal.angkaFilterB10Bawaan || "").trim().toLowerCase(), String(cacheLokal.bhajanSpesialB11Bawaan === true || cacheLokal.bhajanSpesialB11Bawaan === "TRUE" || cacheLokal.bhajanSpesialB11Bawaan === 1),
               String(cacheLokal.bhajanSpesialB12Bawaan === true || cacheLokal.bhajanSpesialB12Bawaan === "TRUE" || cacheLokal.bhajanSpesialB12Bawaan === 1)
             ].join("_");
+            var isSettingSama = (stringSettingServer === stringSettingLokal);
 
-            var isSettingSama  = (stringSettingServer === stringSettingLokal);
+            if (isBagian3PrivatBerubah && savedIdUserCekPoll !== "") {
+              var semuaKunciFavServer = Object.keys(confTeranyar.memberFavorites || {});
+              var kunciFavServerCocok = semuaKunciFavServer.find(function(k) { return k.toLowerCase() === savedIdUserCekPoll.toLowerCase(); }) || savedIdUserCekPoll;
+              var semuaKunciSetServer = Object.keys(confTeranyar.memberSettings || {});
+              var kunciSetServerCocok = semuaKunciSetServer.find(function(k) { return k.toLowerCase() === savedIdUserCekPoll.toLowerCase(); }) || savedIdUserCekPoll;
 
-            function cekApakahFavoritSamaPersis(objServer, objLokal) {
-              var s = objServer || {}; var l = objLokal || {};
-              var kunciServer = Object.keys(s); var kunciLokal = Object.keys(l);
-              if (kunciServer.length !== kunciLokal.length) return false;
-              for (var k = 0; k < kunciServer.length; k++) {
-                var key = kunciServer[k];
-                var keyLokalCocok = kunciLokal.find(function(kl) { return kl.toLowerCase() === key.toLowerCase(); }) || key;
-                var arrS = s[key] || []; var arrL = l[keyLokalCocok] || [];
-                if (arrS.length !== arrL.length) return false;
-                if (arrS.slice().sort().join(",") !== arrL.slice().sort().join(",")) return false;
-              }
-              return true;
+              window.memberFavorites[savedIdUserCekPoll] = confTeranyar.memberFavorites[kunciFavServerCocok] || [];
+              window.memberSettings[savedIdUserCekPoll] = confTeranyar.memberSettings[kunciSetServerCocok] || { kunciFavorit: true, defaultKategori: false };
             }
-            var isFavoritSama = cekApakahFavoritSamaPersis(confTeranyar.memberFavorites, window.memberFavorites);
 
-            var isDaftarLatihanSama = (jumlahLaguSahServer === jumlahLaguSahLokal && stringDataLatihanServer === stringDataLatihanLokal && totalMemberServer === totalMemberLokal && isKuotaTerkunciPenuh === isKuotaTerkunciPenuhLokal && isFavoritSama);
-            var isVersiDbSama  = (String(confTeranyar.versiDbLagu || "").trim() === String(cacheLokal.versiDbLagu || "").trim());
+            try {
+              var localBundledData = localStorage.getItem('lastBundledData');
+              if (localBundledData) {
+                var parsed = JSON.parse(localBundledData);
+                if (parsed && parsed.seva) {
+                  if (isBagian1PanggungBerubah) parsed.seva.daftarLatihan = confTeranyar.daftarLatihan;
+                  if (isBagian2MemberBerubah) parsed.seva.members = confTeranyar.members;
+                  if (isBagian3PrivatBerubah && savedIdUserCekPoll !== "") {
+                    if (!parsed.seva.memberFavorites) parsed.seva.memberFavorites = {};
+                    if (!parsed.seva.memberSettings) parsed.seva.memberSettings = {};
+                    var kFav = Object.keys(confTeranyar.memberFavorites || {}).find(function(k){ return k.toLowerCase() === savedIdUserCekPoll.toLowerCase(); }) || savedIdUserCekPoll;
+                    var kSet = Object.keys(confTeranyar.memberSettings || {}).find(function(k){ return k.toLowerCase() === savedIdUserCekPoll.toLowerCase(); }) || savedIdUserCekPoll;
+                    parsed.seva.memberFavorites[savedIdUserCekPoll] = confTeranyar.memberFavorites[kFav];
+                    parsed.seva.memberSettings[savedIdUserCekPoll] = confTeranyar.memberSettings[kSet];
+                  }
+                  parsed.seva.versiSpreadsheet = confTeranyar.versiSpreadsheet;
+                  localStorage.setItem('lastBundledData', JSON.stringify(parsed));
+                }
+              }
+            } catch(eCacheAdmin) {
+              console.error("⚠️ Gagal mengunci cache admin:", eCacheAdmin);
+            }
 
-            if (isDaftarLatihanSama && isSettingSama && isVersiDbSama) return; 
+            // ============================================================================
+            // 🎯 PERBAIKAN SAKLAR SIFAT RERENDER BERDASARKAN HALAMAN YANG SEDANG AKTIF
+            // ============================================================================
+            if (isBagian1PanggungBerubah) {
+              var koordinatScrollDarurat = window.scrollY || document.documentElement.scrollTop || 0;
+              var statusGembokLama = window.gembokScrollLive;
+              window.gembokScrollLive = false;
 
-            console.log("🔥 [LIVE DETEKSI] Perubahan data ditangkap! Menyegarkan antarmuka...");
+              // [SATPAM PENYARING]: Eksekusi gambar hanya jika halaman tersebut sedang ditonton jemaat
+              if (document.getElementById('view-latihan').style.display !== "none") {
+                if (typeof bukaHalamanLatihan === "function") bukaHalamanLatihan();
+                if (typeof gambarDaftarUmatDanGrupVisual === "function") gambarDaftarUmatDanGrupVisual();
+              } else if (document.getElementById('view-detail').style.display !== "none") {
+                var idLguSaatIni = window.currentId ? String(window.currentId).trim() : "";
+                var apakahLaguIniIkutBerubah = dServer.some(function(slot) {
+                  return slot && slot['4'] && slot['4'].toString().trim() === idLguSaatIni;
+                });
+                if (apakahLaguIniIkutBerubah && typeof bukaLagu === "function") {
+                  bukaLagu(window.currentId, 'latihan_live_refresh');
+                }
+              } else if (document.getElementById('view-daftar').style.display !== "none") {
+                try { suntikWarnaBintikLayarMulus(); } catch(eBintik) {}
+              }
+
+              if (typeof window.__scrollToAsli === "function") {
+                window.__scrollToAsli.call(window, 0, koordinatScrollDarurat);
+              } else {
+                window.scrollTo(0, koordinatScrollDarurat);
+              }
+              window.gembokScrollLive = statusGembokLama;
+              console.log("📺 [SMART RERENDER] Layar panggung sukses ter-update tenang pada koordinat: " + koordinatScrollDarurat);
+            }
 
             var panelAdminAktif = document.getElementById("set-hari");
             if (panelAdminAktif) {
@@ -5213,275 +5279,173 @@ function aktifkanLivePollingSenyapAntarHP() {
               } catch (errForm) {}
             }
 
-            if (confTeranyar.keranjangRiwayatDriveClean) {
-              var listBlokirDriveCleanRealtime = []; window.keranjangRiwayatDriveClean = [];
-              var stringMentahDriveRealtime = confTeranyar.keranjangRiwayatDriveClean.toString().trim();
-              if (stringMentahDriveRealtime !== "") {
-                stringMentahDriveRealtime.split("|||").forEach(function(barisTeks) {
-                  if (barisTeks && barisTeks.trim() !== "") {
-                    var komponen = barisTeks.split(":::");
-                    var idLaguValid = (komponen && komponen[0]) ? komponen[0].toString().trim() : "";
-                    var nomorAntreanValid = (komponen && komponen[2]) ? parseInt(komponen[2]) : 0;
-                    if (idLaguValid !== "") {
-                      if (listBlokirDriveCleanRealtime.indexOf(idLaguValid) === -1) listBlokirDriveCleanRealtime.push(idLaguValid);
-                      window.keranjangRiwayatDriveClean.push({ idLagu: idLaguValid, sisaAntreanFiles: nomorAntreanValid });
-                    }
-                  }
-                });
-              }
-              if (window.masterFilterSeva) window.masterFilterSeva.daftarBlokirDrive = listBlokirDriveCleanRealtime;
-            }
-            // ====================================================================
-            // 🚀 INTERSEPTOR GAIB UTAMA: MESIN SUNTIK BINTIK INSTAN MASSAL UNTUK SEMUA MENU
-            // ====================================================================
-            function suntikWarnaBintikLayarMulus() {
-              var elDropdownMenuAtas = document.getElementById('selKat');
-              var kategoriMenuSaatIni = elDropdownMenuAtas ? elDropdownMenuAtas.value : "SEMUA";
+            if (isBagian1PanggungBerubah || !isSettingSama) {
+              cacheLokal.daftarLatihan = confTeranyar.daftarLatihan;
+              cacheLokal.slotTerisi = confTeranyar.slotTerisi;
+              cacheLokal.hari = confTeranyar.hari; cacheLokal.waktu = confTeranyar.waktu;
+              cacheLokal.maxLagu = confTeranyar.maxLagu; cacheLokal.autoSlot = confTeranyar.autoSlot;
+              cacheLokal.angkaFilterB10Bawaan = confTeranyar.angkaFilterB10Bawaan;
+              cacheLokal.bhajanSpesialB11Bawaan = confTeranyar.bhajanSpesialB11Bawaan;
+              cacheLokal.bhajanSpesialB12Bawaan = confTeranyar.bhajanSpesialB12Bawaan;
               
-              var maxLaguValCek = parseInt(confTeranyar.maxLagu) || 0;
-              var isAutoQuotaMatiCek = (confTeranyar.autoSlot === false || confTeranyar.autoSlot === "FALSE");
-              var totalTerdaftarMingguIniCek = confTeranyar.slotTerisi ? confTeranyar.slotTerisi.length : 0;
-              var isSlotPenuhSejatiCek = (totalTerdaftarMingguIniCek >= maxLaguValCek && isAutoQuotaMatiCek);
-              
-              var daftarDriveCek = window.keranjangRiwayatDriveClean || [];
-              var daftarLatihanServerCek = confTeranyar.daftarLatihan || [];
-              var semuaKartuLaguDiLayar = document.querySelectorAll('.kontainer-kartu-favorit');
-              var jumlahLaguTersisaDiLayar = semuaKartuLaguDiLayar.length;
-
-              semuaKartuLaguDiLayar.forEach(function(kartuHTML) {
-                var tombolHatiInside = kartuHTML.querySelector('.ikon-hati-daftar');
-                if (tombolHatiInside) {
-                  var matchesId = tombolHatiInside.getAttribute('onclick').match(/'([^']+)'/);
-                  if (matchesId && matchesId) {
-                    var idLgRealtime = matchesId[1].toString().trim();
-                    var statusLolosDirect = true;
-                    var sudahDipilihBhaktaLainCek = daftarLatihanServerCek.some(function(slotCek) {
-                      return slotCek && slotCek['4'] && slotCek['4'].toString().trim() === idLgRealtime;
-                    });
-                    if (sudahDipilihBhaktaLainCek) {
-                      statusLolosDirect = false;
-                    } else {
-                      var isBhajanSpesialAktifCek = (confTeranyar.bhajanSpesialB11Bawaan === true || confTeranyar.bhajanSpesialB11Bawaan === "TRUE");
-                      if (!isBhajanSpesialAktifCek) {
-                        var adaDiRiwayatDriveCek = false; var angkaAntreanCek = 0;
-                        for (var idxCek = 0; idxCek < daftarDriveCek.length; idxCek++) {
-                          var itemDriveCek = daftarDriveCek[idxCek];
-                          if (itemDriveCek && itemDriveCek.idLagu === idLgRealtime) {
-                            adaDiRiwayatDriveCek = true; angkaAntreanCek = parseInt(itemDriveCek.sisaAntreanFiles) || 0; break;
-                          }
-                        }
-                        if (adaDiRiwayatDriveCek) {
-                          if (isSlotPenuhSejatiCek) { if (angkaAntreanCek !== 1) statusLolosDirect = false; } else { statusLolosDirect = false; }
-                        }
-                      }
-                    }
-                    var targetBintikBulatan = kartuHTML.querySelector('.indikator-bulatan-blokir');
-                    if (targetBintikBulatan) {
-                      if (savedIdUserCekPoll === "" || savedIdUserCekPoll === "anonim") {
-                        targetBintikBulatan.style.backgroundColor = "#9e9e9e";
-                      } else {
-                        if (statusLolosDirect) {
-                          targetBintikBulatan.style.backgroundColor = "#4caf50";
-                        } else {
-                          if (kategoriMenuSaatIni === "SEVA_FAVORIT") {
-                            kartuHTML.style.transition = "all 0.3s ease"; kartuHTML.style.opacity = "0";
-                            setTimeout(function() { if (kartuHTML.parentNode) kartuHTML.parentNode.removeChild(kartuHTML); }, 300);
-                            jumlahLaguTersisaDiLayar--;
-                          } else {
-                            targetBintikBulatan.style.backgroundColor = "#e53935";
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              });
-              if (kategoriMenuSaatIni === "SEVA_FAVORIT" && jumlahLaguTersisaDiLayar <= 0) {
-                var listContainerCek = document.getElementById('list-container');
-                if (listContainerCek) listContainerCek.innerHTML = '<div style="text-align:center; padding:40px 20px; color:#e65100; font-size:14px; font-weight:bold;">🔥 Tidak ada lagu Favorit Anda yang siap didaftarkan.<br><br><span style="font-weight:normal; color:#666; font-size:13px;">Lagu kesukaan Anda belum muncul? Bisa jadi lagu tersebut sudah dipilih bhakta lain, sudah pernah dipersembahkan sehingga masih dalam masa tenggang (cooldown), atau Anda belum menandainya sebagai favorit.</span></div>';
-              }
-              var labelHitungCek = document.getElementById('hitung-lagu');
-              if (labelHitungCek) labelHitungCek.innerText = Math.max(0, jumlahLaguTersisaDiLayar) + " ♬";
-            }
-            // KONDISI A: HANYA SETELAN FORM ADMIN YANG BERUBAH (B10/B11/B12 Geser)
-            if (isDaftarLatihanSama && isVersiDbSama && !isSettingSama) {
-              try { window.cacheDataSevaLokal = JSON.parse(JSON.stringify(confTeranyar)); } catch(e) { window.cacheDataSevaLokal = confTeranyar; }
-              
-              window.cacheDataSevaLokal.laguTerisiMingguIniLama = jumlahLaguSahServer;
-              master.laguTerisiMingguIniLama = jumlahLaguSahServer;
+              window.masterFilterSeva.bhajanSpesialB11 = (confTeranyar.bhajanSpesialB11Bawaan === true || confTeranyar.bhajanSpesialB11Bawaan === "TRUE");
+              window.masterFilterSeva.angkaFilterB10 = confTeranyar.angkaFilterB10Bawaan || "0";
+              window.masterFilterSeva.laguTerisiMingguIni = listLaguMingguIniServer;
+              if (confTeranyar.formasiGrupOtomatis) window.masterFilterSeva.petaGrupAktif = confTeranyar.formasiGrupOtomatis;
               localStorage.setItem('saved_jumlahLaguSahLokal', jumlahLaguSahServer);
 
-              var elDropdownMenuAtas = document.getElementById('selKat');
-              var kategoriMenuSaatIni = elDropdownMenuAtas ? elDropdownMenuAtas.value : "SEMUA";
-
-              // 🔒 Gembok scroll jemaat agar layar tidak membal saat di-render ulang
-              window.gembokScrollLive = true;
-
-              // 🔥 SUNTIKAN UTAMA: Jika sedang membuka SEVA_FAVORIT, paksa hitung ulang total & update layar!
-              if (kategoriMenuSaatIni === "SEVA_FAVORIT") {
+              var koordinatScrollDaruratGanda = window.scrollY || document.documentElement.scrollTop || 0;
+              
+              // [SATPAM PENYARING GANDA]: Mencegah pemanggilan massal berulang pada evaluasi setting
+              if (document.getElementById('view-latihan').style.display !== "none") {
                 if (typeof filterLagu === "function") filterLagu();
-              } else {
-                // Jika membuka kategori lain, gunakan suntikan bintik kilat agar ringan di HP
-                suntikWarnaBintikLayarMulus();
-              }
-
-              if (typeof fungsiScrollAsliBrowser === "function") {
-                fungsiScrollAsliBrowser.call(window, 0, koordinatScrollHP);
-              }
-              window.gembokScrollLive = false;
-
-              var panelSettingView = document.getElementById('view-setting');
-              if (panelSettingView && panelSettingView.style.display !== "none" && typeof muatDaftarMember === "function") {
-                muatDaftarMember();
-              }
-              return; 
-            }
-
-            // KONDISI B: JALUR OPERASIONAL UTAMA (Daftar pendaftar atau Data Favorit Berubah)
-            if (!isDaftarLatihanSama && isVersiDbSama) {
-              try {
-                try { window.cacheDataSevaLokal = JSON.parse(JSON.stringify(confTeranyar)); } catch(e) { window.cacheDataSevaLokal = confTeranyar; }
-                
-                if (confTeranyar.memberFavorites) window.memberFavorites = confTeranyar.memberFavorites;
-                if (confTeranyar.members) window.dbMembers = confTeranyar.members;
-                if (confTeranyar.memberSettings) window.memberSettings = confTeranyar.memberSettings;
-
-                window.masterFilterSeva = {
-                  bhajanSpesialB11: (confTeranyar.bhajanSpesialB11Bawaan === true || confTeranyar.bhajanSpesialB11Bawaan === "TRUE"),
-                  angkaFilterB10: confTeranyar.angkaFilterB10Bawaan || "0",
-                  daftarBlokirDrive: window.masterFilterSeva.daftarBlokirDrive || [],
-                  laguTerisiMingguIni: listLaguMingguIniServer
-                };
-                // 🔥 SUNTIKAN SAKTI STEP 3: Pastikan grup visual langsung terhubung live saat poling menangkap perubahan
-                if (confTeranyar.formasiGrupOtomatis) {
-                window.masterFilterSeva.petaGrupAktif = confTeranyar.formasiGrupOtomatis;
-                }
-
-                window.cacheDataSevaLokal.laguTerisiMingguIniLama = jumlahLaguSahServer;
-                master.laguTerisiMingguIniLama = jumlahLaguSahServer;
-                localStorage.setItem('saved_jumlahLaguSahLokal', jumlahLaguSahServer);
-
-                window.gembokScrollLive = true;
-                
-                // Pemicu gambar ulang daftar lagu utama bawaan Anda
-                if (typeof filterLagu === "function") filterLagu(); 
-                
-                // 🛡️ Hubungkan live polling ke audio player agar antrean lagu ikut diperbarui instan
                 if (typeof muatDataLaguKePlayer === "function") muatDataLaguKePlayer();
-                
-                if (typeof bukaHalamanLatihan === "function" && document.getElementById("view-latihan").style.display !== "none") {
-                  bukaHalamanLatihan();
-                }
                 if (typeof gambarDaftarUmatDanGrupVisual === "function") gambarDaftarUmatDanGrupVisual();
-                // 🎵 Penyelaras Nada Dasar (Pitch Dropdown) Realtime di Layar Lirik yang Sedang Terbuka
-                var idLguSaatIni = window.currentId ? String(window.currentId).trim() : "";
-                var elViewDetail = document.getElementById("view-detail");
-
-                if (elViewDetail && elViewDetail.style.display !== "none" && idLguSaatIni !== "") {
-                  var slotLaguTeranyar = confTeranyar.daftarLatihan.find(function(slot) {
-                    return slot && slot['4'] && slot['4'].toString().trim() === idLguSaatIni;
-                  });
-                  if (slotLaguTeranyar) {
-                    var nadaTerbaruServer = slotLaguTeranyar['6'] || "0";
-                    if (window.currentLagu && window.currentLagu.id === idLguSaatIni) {
-                      window.currentLagu.nada = nadaTerbaruServer;
-                    }
-                    var elDropdownPitchLive = document.getElementById("select-pitch-shifter");
-                    if (elDropdownPitchLive) elDropdownPitchLive.value = nadaTerbaruServer;
-                  }
+                if (typeof bukaHalamanLatihan === "function") bukaHalamanLatihan();
+              } else if (document.getElementById('view-detail').style.display !== "none") {
+                var idLguCekGanda = window.currentId ? String(window.currentId).trim() : "";
+                var apakahLaguIniBerubahGanda = confTeranyar.daftarLatihan.find(function(slot) {
+                  return slot && slot['4'] && slot['4'].toString().trim() === idLguCekGanda;
+                });
+                if (apakahLaguIniBerubahGanda && typeof muatDataLaguKePlayer === "function") {
+                  muatDataLaguKePlayer();
                 }
+              } else if (document.getElementById('view-daftar').style.display !== "none") {
+                if (typeof filterLagu === "function") filterLagu();
+              }
 
-                // Jalankan bintik kilat cadangan untuk menu selain Seva Favorit
-                suntikWarnaBintikLayarMulus();
-
-                setTimeout(function () { 
-                  if (typeof fungsiScrollAsliBrowser === "function") fungsiScrollAsliBrowser.call(window, 0, koordinatScrollHP);
-                  window.gembokScrollLive = false;
-                  console.log("💾 [LIVE SUCCESS] Tampilan Seva Favorit Saya sukses disinkronkan otomatis!");
-                }, 100);
-              } catch(e) { window.gembokScrollLive = false; }
-              return;
+              if (typeof window.__scrollToAsli === "function") {
+                window.__scrollToAsli.call(window, 0, koordinatScrollDaruratGanda);
+              } else {
+                window.scrollTo(0, koordinatScrollDaruratGanda);
+              }
             }
-            // KONDISI C: VERSI DATABASE LAGU DI GOOGLE DRIVE BERUBAH
-            if (google && google.script && google.script.run && !isVersiDbSama) {
-              var idLguSaatMulaiSync = window.currentId ? String(window.currentId).trim() : "";
+            
+            if (isBagian2MemberBerubah) {
+              cacheLokal.members = confTeranyar.members; window.dbMembers = confTeranyar.members;
+              if (document.getElementById('view-latihan').style.display !== "none" && typeof gambarDaftarUmatDanGrupVisual === "function") {
+                gambarDaftarUmatDanGrupVisual();
+              }
+            }
 
-              google.script.run
-                .withFailureHandler(function(errLirik) {
-                  try { window.cacheDataSevaLokal = JSON.parse(JSON.stringify(confTeranyar)); } catch(e) { window.cacheDataSevaLokal = confTeranyar; }
-                  window.cacheDataSevaLokal.laguTerisiMingguIniLama = jumlahLaguSahServer;
-                  master.laguTerisiMingguIniLama = jumlahLaguSahServer;
-                  localStorage.setItem('saved_jumlahLaguSahLokal', jumlahLaguSahServer);
-                  window.gembokScrollLive = false;
-                })
-                .withSuccessHandler(function(laguTerbaruServer) {
-                  try {
-                    if (laguTerbaruServer && Array.isArray(laguTerbaruServer)) {
-                      if (typeof db !== "undefined" && Array.isArray(db)) {
-                        try {
-                          db.length = 0;
-                          for (var k = 0; k < laguTerbaruServer.length; k++) db.push(laguTerbaruServer[k]);
-                        } catch (errAssign) { window.db = laguTerbaruServer; }
-                      } else { window.db = laguTerbaruServer; }
+            window.gembokScrollLive = true;
+            if (confTeranyar.versiSpreadsheet) cacheLokal.versiSpreadsheet = confTeranyar.versiSpreadsheet;
 
-                      try { window.cacheDataSevaLokal = JSON.parse(JSON.stringify(confTeranyar)); } catch(e) { window.cacheDataSevaLokal = confTeranyar; }
-                      if (confTeranyar.memberFavorites) window.memberFavorites = confTeranyar.memberFavorites;
-                      window.masterFilterSeva.laguTerisiMingguIni = listLaguMingguIniServer;
+            if (!isBagian1PanggungBerubah) {
+              try { suntikWarnaBintikLayarMulus(); } catch(eBintikSenyap) {}
+            }
+            var idLguSaatIni = window.currentId ? String(window.currentId).trim() : "";
+            if (document.getElementById("view-detail").style.display !== "none" && idLguSaatIni !== "") {
+              var slotLaguTeranyar = confTeranyar.daftarLatihan.find(function(slot) {
+                return slot && slot['4'] && slot['4'].toString().trim() === idLguSaatIni;
+              });
+              if (slotLaguTeranyar) {
+                var nadaTerbaruServer = slotLaguTeranyar['6'] || "0";
+                if (window.currentLagu && window.currentLagu.id === idLguSaatIni) window.currentLagu.nada = nadaTerbaruServer;
+                var elDropdownPitchLive = document.getElementById("select-pitch-shifter");
+                if (elDropdownPitchLive) elDropdownPitchLive.value = nadaTerbaruServer;
+              }
+            }
 
-                      window.cacheDataSevaLokal.laguTerisiMingguIniLama = jumlahLaguSahServer;
-                      master.laguTerisiMingguIniLama = jumlahLaguSahServer;
-                      localStorage.setItem('saved_jumlahLaguSahLokal', jumlahLaguSahServer);
-                      
-                      window.gembokScrollLive = true;
-                      if (typeof filterLagu === "function") filterLagu(); 
+            var panelSettingView = document.getElementById('view-setting');
+            if (panelSettingView && panelSettingView.style.display !== "none" && typeof muatDaftarMember === "function") {
+              muatDaftarMember();
+            }
 
-                      var idLguSaatIni = window.currentId ? String(window.currentId).trim() : "";
-                      if (document.getElementById("view-detail").style.display !== "none" && idLguSaatIni !== "" && idLguSaatIni === idLguSaatMulaiSync && typeof bukaLagu === "function") {
-                        var kancingSumber = "latihan_live_refresh"; 
-                        var memoriScrollLatihanLama = (typeof scrollPosisiLatihan !== "undefined") ? scrollPosisiLatihan : 0; 
-                        var memoriScrollDaftarLama = (typeof scrollPosisiDaftarUtama !== "undefined") ? scrollPosisiDaftarUtama : 0;
-
-                        var nadaDaruratJemaat = (window.currentLagu && window.currentLagu.id === window.currentId) ? (window.currentLagu.nada || "0") : "0";
-                        window.currentLagu = null; 
-                        bukaLagu(window.currentId, kancingSumber);
-
-                        if (window.currentLagu && nadaDaruratJemaat !== "0") {
-                          window.currentLagu.nada = nadaDaruratJemaat;
-                          var elDropdownPitchLive = document.getElementById("select-pitch-shifter");
-                          if (elDropdownPitchLive) elDropdownPitchLive.value = nadaDaruratJemaat;
-                        }
-                        if (typeof scrollPosisiLatihan !== "undefined" && kancingSumber === "latihan") scrollPosisiLatihan = memoriScrollLatihanLama;
-                        if (typeof scrollPosisiDaftarUtama !== "undefined" && kancingSumber === "daftar") scrollPosisiDaftarUtama = memoriScrollDaftarLama;
-                      }
-
-                      if (typeof gambarDaftarUmatDanGrupVisual === "function") gambarDaftarUmatDanGrupVisual();
-                      
-                      suntikWarnaBintikLayarMulus();
-
-                      setTimeout(function () { 
-                        if (typeof fungsiScrollAsliBrowser === "function") fungsiScrollAsliBrowser.call(window, 0, koordinatScrollHP);
-                        window.gembokScrollLive = false;
-                        console.log("💾 [LIVE SUCCESS] Katalog database lagu utama sukses tersinkronisasi!");
-                      }, 100);
-                    }
-                  } catch (errBlockB) { window.gembokScrollLive = false; }
-                }).getSemuaLagu();
-            } else {
-              try { window.cacheDataSevaLokal = JSON.parse(JSON.stringify(confTeranyar)); } catch(e) { window.cacheDataSevaLokal = confTeranyar; }
-              if (confTeranyar.memberFavorites) window.memberFavorites = confTeranyar.memberFavorites;
-              window.cacheDataSevaLokal.laguTerisiMingguIniLama = jumlahLaguSahServer;
-              master.laguTerisiMingguIniLama = jumlahLaguSahServer;
-              localStorage.setItem('saved_jumlahLaguSahLokal', jumlahLaguSahServer);
-              
-              suntikWarnaBintikLayarMulus();
+            setTimeout(function () { 
+              if (typeof fungsiScrollAsliBrowser === "function") window.__scrollToAsli.call(window, 0, koordinatScrollHP);
               window.gembokScrollLive = false;
-            }
+            }, 100);
 
           } catch (errInternal) { window.gembokScrollLive = false; }
-        }).getDataLengkapSeva(bypassAwan);
+        }).cekDanAmbilAdminPolling(vAdminLokal, savedIdUserCekPoll);
+
+      // ============================================================================
+      // 🚀 JALUR SINKRONISASI DATABASE LAGU BERBASIS HALAMAN AKTIF
+      // ============================================================================
+      var vLaguTerupdateSaatIni = "0";
+      try {
+        var localBundledDataCek = localStorage.getItem('lastBundledData');
+        if (localBundledDataCek) {
+          var parsedCek = JSON.parse(localBundledDataCek);
+          vLaguTerupdateSaatIni = parsedCek.versiDbLagu || (parsedCek.seva && parsedCek.seva.versiDbLagu) || "0";
+        }
+      } catch(e) {}
+
+      google.script.run
+        .withSuccessHandler(function(responLagu) {
+          try {
+            if (!responLagu || responLagu.tidakAdaPerubahan === true || responLagu.error) return;
+
+            if (responLagu.songs && Array.isArray(responLagu.songs)) {
+              window.db = responLagu.songs;
+              
+              var localBundledData = localStorage.getItem('lastBundledData');
+              if (localBundledData) {
+                var parsed = JSON.parse(localBundledData);
+                if (parsed) {
+                  parsed.songs = responLagu.songs;
+                  parsed.versiDbLagu = responLagu.versiDbLagu || "0";
+                  if (!parsed.seva) parsed.seva = {};
+                  parsed.seva.versiDbLagu = responLagu.versiDbLagu || "0";
+                  localStorage.setItem('lastBundledData', JSON.stringify(parsed));
+                }
+              }
+
+              if (cacheLokal) cacheLokal.versiDbLagu = responLagu.versiDbLagu;
+
+              // [SATPAM PENYARING JALUR LAGU]: Rerender lirik & cari lagu hanya di halaman yang berkepentingan
+              if (document.getElementById('view-daftar').style.display !== "none") {
+                if (typeof filterLagu === "function") filterLagu();
+                try { suntikWarnaBintikLayarMulus(); } catch(eB) {}
+              } else if (document.getElementById('view-detail').style.display !== "none") {
+                if (typeof bukaLagu === "function" && window.currentId) {
+                  var sumberAsli = typeof sumberDetailLaguAktif !== "undefined" ? sumberDetailLaguAktif : "daftar";
+                  bukaLagu(window.currentId, sumberAsli);
+                }
+              } else if (document.getElementById('view-latihan').style.display !== "none") {
+                if (typeof gambarDaftarUmatDanGrupVisual === "function") gambarDaftarUmatDanGrupVisual();
+                try { suntikWarnaBintikLayarMulus(); } catch(eB) {}
+              }
+              
+              console.log("🎵 [SMART LAGU POLL] Database diperbarui senyap. Layar aktif sukses disegarkan!");
+            }
+          } catch(errLaguInternal) {}
+        })
+        .cekDanAmbilLaguPolling(vLaguTerupdateSaatIni);
+
     } catch (errLoop) {}
   }, 10000);
+} // 🔒 Penutup Mutlak Fungsi Polling Anda
+
+
+
+
+
+
+// 🔄 FUNGSI GLOBAL CEK VERSI (Versi Ringkas & Instan)
+function jalankanCekUpdate() {
+  google.script.run.withSuccessHandler(function(versiTerbaruServer) {
+    var elemenVersi = document.getElementById('nomor-versi-sistem');
+    var versiSaatIniDiBrowser = elemenVersi ? elemenVersi.value : "";
+    
+    // KUNCI AMAN 1: Paksa kedua nilai menjadi teks string dan bersihkan spasi di ujungnya (.trim())
+    var versiServerBersih = String(versiTerbaruServer).trim();
+    var versiBrowserBersih = String(versiSaatIniDiBrowser).trim();
+    
+    console.log("🔍 Cek Sinkronisasi -> Server: [" + versiServerBersih + "] | HP: [" + versiBrowserBersih + "]");
+    
+    // KUNCI AMAN 2: Pastikan versi browser TIDAK KOSONG sebelum membandingkan.
+    // Jika karena suatu alasan versi browser terbaca kosong, jangan langsung di-refresh agar lagu tidak putus.
+    if (versiBrowserBersih !== "" && versiServerBersih !== versiBrowserBersih) {
+      console.log("🔄 Versi baru terdeteksi resmi! Menyegarkan sistem ke versi " + versiServerBersih);
+      window.location.reload();
+    } else {
+      console.log("✅ Versi sinkron dan aman. Tidak ada refresh, pemutar musik lanjut berputar.");
+    }
+  }).ambilVersiTerbaruServer();
 }
+
 
 
 
@@ -5489,6 +5453,11 @@ function aktifkanLivePollingSenyapAntarHP() {
 (function() {
   function evaluasiDanSakelarPoling() {
     if (document.visibilityState === "visible") {
+      
+      // ====== UTAMA: JALANKAN CEK VERSI SETIAP KEMBALI KE APLIKASI ======
+      jalankanCekUpdate(); 
+      // ===================================================================
+
       if (!window.intervalLivePollingSenyapGlobal) aktifkanLivePollingSenyapAntarHP();
     } else {
       if (window.intervalLivePollingSenyapGlobal) {
@@ -5501,8 +5470,9 @@ function aktifkanLivePollingSenyapAntarHP() {
   window.satpamHalamanGlobal = null;
   document.removeEventListener("visibilitychange", evaluasiDanSakelarPoling);
   document.addEventListener("visibilitychange", evaluasiDanSakelarPoling);
-  evaluasiDanSakelarPoling();
+  evaluasiDanSakelarPoling(); // Ini otomatis memicu pengecekan pertama saat halaman dimuat
 })();
+
 
 
 
@@ -5829,7 +5799,7 @@ var CONFIG_LACI = {
   tinggiTertutup: "0px",
   jarakAtasTerbuka: "95px",
   jarakAtasTertutup: "68px",
-  durasiAutoTutup: 5000, // 5 detik
+  durasiAutoTutup: 10000, // 10 detik
   durasiKunciRam: 4000     // Kunci visual 4 detik pasca-sukses cloud
 };
 
@@ -5888,10 +5858,10 @@ function pemicuAktivitasLaciTerbaru() {
 function saatCentanganBerubah(tipe) {
   var savedIdUser = (localStorage.getItem('savedIdUser') || "").toLowerCase().trim();
   if (!savedIdUser || savedIdUser === "anonim") {
-    ["centang-kunci-favorit", "centang-default-kategori"].forEach(function(id) {
-      var el = document.getElementById(id);
-      if (el) el.checked = false;
-    });
+    var elK = document.getElementById("centang-kunci-favorit");
+    if (elK) elK.checked = false;
+    var elD = document.getElementById("centang-default-kategori");
+    if (elD) elD.value = "NONE";
     return;
   }
 
@@ -5903,9 +5873,15 @@ function saatCentanganBerubah(tipe) {
   var cbKunci = document.getElementById('centang-kunci-favorit');
   var cbDefault = document.getElementById('centang-default-kategori');
   
-  // Ambil nilai boolean asli dari elemen DOM saat ini
+  // 🎯 SINKRONISASI VALUE (LANGKAH 4): Ambil nilai dari DOM fisik saat ini
   var statusKunciSekarang = cbKunci ? cbKunci.checked : false;
-  var statusKategoriSekarang = cbDefault ? cbDefault.checked : false;
+  
+  // Membaca string teks kaku dari dropdown menu baru ("NONE", "FAVORIT_SAYA", atau "SEVA_FAVORIT")
+  var statusKategoriSekarang = "NONE";
+  if (cbDefault) {
+    statusKategoriSekarang = cbDefault.value.toString().toUpperCase().trim();
+  }
+  
   var nilaiCentangTerbaru = (tipe === "KUNCI") ? statusKunciSekarang : statusKategoriSekarang;
 
   // 1. Amankan ke struktur RAM Kontrol Polling Engine
@@ -5930,6 +5906,16 @@ function saatCentanganBerubah(tipe) {
   window.memberSettings[savedIdUser].kunciFavorit = statusKunciSekarang;
   window.memberSettings[savedIdUser].defaultKategori = statusKategoriSekarang;
 
+  // ====================================================================
+  // 💾 SUNTIKAN TAMBAHAN: SIMPAN DI LOKAL FISIK HP (MANDIRI)
+  // ====================================================================
+  if (tipe === "KUNCI") {
+    localStorage.setItem('saved_kunciFavoritLokal_' + savedIdUser, statusKunciSekarang ? "true" : "false");
+  } else {
+    // Simpan string teks murni ("NONE", "FAVORIT_SAYA", atau "SEVA_FAVORIT") ke lokal storage
+    localStorage.setItem('saved_defaultKategoriLokal_' + savedIdUser, statusKategoriSekarang);
+  }
+
   // 2.5 🔥 SUNTIKAN SAKTI LOKAL: Kunci dengan struktur berlapis agar anti-crash saat restart
   try {
     var localBundledDataCek = localStorage.getItem('lastBundledData');
@@ -5953,21 +5939,23 @@ function saatCentanganBerubah(tipe) {
 
   // 3. Pastikan visual layar fisik tetap sinkron secara instan
   if (tipe === "KUNCI" && cbKunci) cbKunci.checked = nilaiCentangTerbaru;
-  if (tipe === "KATEGORI" && cbDefault) cbDefault.checked = nilaiCentangTerbaru;
+  if (tipe === "KATEGORI" && cbDefault) cbDefault.value = nilaiCentangTerbaru;
 
   // 4. Kirim data senyap ke Google Sheets Cloud
   google.script.run
     .withSuccessHandler(function(res) { 
       console.log("☁️ Sheets Sukses Terbuka Terkunci: " + res);
-      // OPTIONAL: Buka kunci RAM lebih cepat karena server sudah selesai merespon
       if (window.ramSetelanLokalJemaat) window.ramSetelanLokalJemaat.waktuKunciHingga = 0;
     })
     .withFailureHandler(function(err) { 
       console.log("⚠ Gagal Sinkronisasi Cloud: " + err.message); 
-      if (window.ramSetelanLokalJemaat) window.ramSetelanLokalJemaat.waktuKunciHingga = 0; // Lepas kunci jika internet mati
+      if (window.ramSetelanLokalJemaat) window.ramSetelanLokalJemaat.waktuKunciHingga = 0; 
     })
+    // Mengirimkan parameter string teks murni terbaru ke server cloud Spreadsheet
     .perbaruiOpsiDataSeva(savedIdUser, tipe, nilaiCentangTerbaru);
 }
+
+
 
 
 
@@ -6133,15 +6121,574 @@ bukaRekapTahunan = function() {
   if (typeof fungsiBukaRekapAsli === "function") fungsiBukaRekapAsli.apply(this, arguments);
 };
 
+
+
+// ============================================================================
+// 🎛️ FUNGSI ROBOT PENGGERAK KOTAK DIALOG PINTAR UNIVERSAL (ANTI-CRASH)
+// ============================================================================
+function tampilkanPesanDialogPintar(pesan, tipe, callbackYa, callbackBatal, opsiInput) {
+  var elModal = document.getElementById('dialogPintar');
+  var elJudul = document.getElementById('dpJudul');
+  var elPesan = document.getElementById('dpPesan');
+  var elInput = document.getElementById('dpInput');
+  var elBtnYa = document.getElementById('dpBtnYa');
+  var elBtnBatal = document.getElementById('dpBtnBatal');
+
+  // 🛡️ Pelindung Darurat: Jika elemen HTML tidak sengaja terhapus, gunakan alert bawaan browser
+  if (!elModal || !elPesan || !elBtnYa) {
+    if (pesan) alert(pesan);
+    if (typeof callbackYa === "function") callbackYa();
+    return;
+  }
+
+  // 1. Tentukan Judul Visual & Warna Berdasarkan Tipe Dialog
+  var tipeUpper = String(tipe || "INFO").toUpperCase();
+  if (tipeUpper === "SUKSES") {
+    elJudul.innerText = "🎉 SUKSES";
+    elJudul.style.color = "#4caf50";
+  } else if (tipeUpper === "PERINGATAN" || tipeUpper === "ERROR" || tipeUpper === "GAGAL") {
+    elJudul.innerText = "⚠️ PERINGATAN";
+    elJudul.style.color = "#f44336";
+  } else if (tipeUpper === "KONFIRMASI") {
+    elJudul.innerText = "❓ KONFIRMASI";
+    elJudul.style.color = "#ff9800";
+  } else {
+    elJudul.innerText = "🔔 INFORMASI";
+    elJudul.style.color = "#e65100";
+  }
+
+  // 2. Suntik Teks Pesan Utama ke Layar
+  elPesan.innerText = pesan || "";
+
+  // 3. Atur Visibilitas Kolom Input (Untuk Kebutuhan Prompt Data)
+  if (opsiInput && opsiInput.tampilkan === true) {
+    if (elInput) {
+      elInput.style.display = "block";
+      elInput.value = opsiInput.nilaiBawaan || "";
+      elInput.placeholder = opsiInput.petunjuk || "";
+    }
+  } else {
+    if (elInput) elInput.style.display = "none";
+  }
+
+  // 4. Atur Visibilitas Tombol Batal (Hanya muncul jika tipe KONFIRMASI atau ada callbackBatal)
+  if (tipeUpper === "KONFIRMASI" || typeof callbackBatal === "function") {
+    if (elBtnBatal) elBtnBatal.style.display = "block";
+  } else {
+    if (elBtnBatal) elBtnBatal.style.display = "none";
+  }
+
+  // 5. Bersihkan sisa Event Listener lama dengan metode kloning DOM Node
+  var cloneYa = elBtnYa.cloneNode(true);
+  if (elBtnYa.parentNode) elBtnYa.parentNode.replaceChild(cloneYa, elBtnYa);
+  elBtnYa = cloneYa;
+
+  if (elBtnBatal) {
+    var cloneBatal = elBtnBatal.cloneNode(true);
+    if (elBtnBatal.parentNode) elBtnBatal.parentNode.replaceChild(cloneBatal, elBtnBatal);
+    elBtnBatal = cloneBatal;
+  }
+
+  // 6. Pasang Fungsi Klik untuk Tombol "YA"
+  elBtnYa.addEventListener('click', function() {
+    var nilaiInputDiLayar = elInput ? elInput.value : "";
+    elModal.style.display = "none"; // Tutup dialog visual
+    if (typeof callbackYa === "function") {
+      callbackYa(nilaiInputDiLayar);
+    }
+  });
+
+  // 7. Pasang Fungsi Klik untuk Tombol "BATAL"
+  if (elBtnBatal) {
+    elBtnBatal.addEventListener('click', function() {
+      elModal.style.display = "none"; // Tutup dialog visual
+      if (typeof callbackBatal === "function") {
+        callbackBatal();
+      }
+    });
+  }
+
+  // 8. Tampilkan Dialog secara Fleksibel (Menggunakan Flexbox agar posisi kotak pas di tengah layar HP)
+  elModal.style.display = "flex";
+}
+
+
+
 // 🚀 KODE STARTER TUNGGAL DAN ULTRA AMAN
 document.addEventListener("DOMContentLoaded", function() {
   console.log("🛡️ Satpam tombol back diaktifkan di awal.");
   window.history.replaceState({ view: "daftar" }, "");
 
-  console.log("📱 Layar HTML jemaat sudah siap sepenuhnya. Menyalakan starter init()...");
+  console.log("📱 Layar HTML sudah siap sepenuhnya. Menyalakan starter init()...");
   init(); 
 });
 </script>
+
+
+
+
+<script>
+  // --- INTRALINK GLOBAL VARIABLES TANK ENGINE + CONTROL SAKELAR ---
+  window.bhjPlayerQueue = window.bhjPlayerQueue || [];
+  window.bhjActiveIndex = window.bhjActiveIndex !== undefined ? window.bhjActiveIndex : -1;
+  window.bhjRetryCount = window.bhjRetryCount || {};
+  
+  if (window.bhj_pitch_shifter_aktif === undefined) window.bhj_pitch_shifter_aktif = true;
+  if (window.bhj_auto_buka_lirik_aktif === undefined) window.bhj_auto_buka_lirik_aktif = true;
+
+  // INISIALISASI AUDIO TUNGGAL (Dengan Sensor Auto-Next Murni)
+  if (!window.bhjAudioMandiri) {
+    window.bhjAudioMandiri = new Audio();
+    window.bhjAudioMandiri.crossOrigin = "anonymous";
+    
+    window.bhjAudioMandiri.addEventListener('play', function() {
+      perbaruiTombolPlayVisual(true);
+      perbaruiVisualDaftarPlayer();
+      eksekusiPenerapanPitchShifterCore();
+      localStorage.setItem('bhj_interupsi_audio', 'latihan-' + Date.now());
+    });
+
+    window.bhjAudioMandiri.addEventListener('pause', function() {
+      perbaruiTombolPlayVisual(false);
+    });
+
+    // 🔄 AUTOMATION ENDED: Lagu selesai langsung otomatis melompat ke nomor berikutnya
+    window.bhjAudioMandiri.addEventListener('ended', function() {
+      console.log("Lagu selesai. Otomatis memicu antrean berikutnya...");
+      if (typeof aksiTombolNextPlayer === "function") {
+        aksiTombolNextPlayer();
+      }
+    });
+
+    window.bhjAudioMandiri.addEventListener('error', function() {
+      var urlGagal = window.bhjAudioMandiri.src;
+      if (!window.bhjRetryCount[urlGagal]) window.bhjRetryCount[urlGagal] = 0;
+      window.bhjRetryCount[urlGagal]++;
+      
+      if (window.bhjRetryCount[urlGagal] <= 2) {
+        window.bhjAudioMandiri.load();
+        window.bhjAudioMandiri.play().catch(function(e) { console.log(e.message); });
+      } else {
+        perbaruiTombolPlayVisual(false);
+      }
+    });
+  }
+
+// 🛠️ PENYELAMAT SUARA GITHUB (VERSI MODEREN & AMAN)
+document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'visible') {
+        console.log("Layar bangun! Memeriksa status MP3 GitHub...");
+        
+        if (window.bhjAudioMandiri && window.bhjActiveIndex !== -1) {
+            var audio = window.bhjAudioMandiri;
+            var sedangMuterSebelumLayarMati = !audio.paused;
+            
+            // 🚨 FIX UTAMA: Jika koneksi GitHub putus (readyState 0 atau error)
+            if (audio.readyState === 0 || audio.error) {
+                console.log("Koneksi GitHub terputus. Mengambil detik terakhir dari sesi...");
+                
+                // 1. Intip data detik terakhir dari localStorage buatanmu
+                var detikDipulihkan = 0;
+                var dataSesiMentah = localStorage.getItem('bhj_player_last_session');
+                if (dataSesiMentah) {
+                    try {
+                        var sesi = JSON.parse(dataSesiMentah);
+                        detikDipulihkan = sesi.detikTerakhir || 0;
+                    } catch(e) { console.log("Gagal membaca file sesi."); }
+                }
+                
+                // 2. Refresh koneksi audio agar tombol player TIDAK MACET/MEMBEKU
+                var srcLama = audio.src;
+                audio.src = ''; // Kosongkan dulu untuk reset internal browser
+                audio.src = srcLama; // Isi kembali dengan URL MP3 GitHub yang sama
+                audio.load(); // Paksa browser muat ulang koneksi yang putus
+                
+                // 3. Masukkan kembali detiknya agar TIDAK mulai dari nol
+                if (detikDipulihkan > 0) {
+                    audio.currentTime = detikDipulihkan;
+                    console.log("Posisi lagu berhasil dikembalikan ke detik: " + detikDipulihkan);
+                }
+            }
+
+            // 4. Lanjutkan putar otomatis jika sebelum layar mati lagunya sedang jalan
+            if (sedangMuterSebelumLayarMati) {
+                audio.play().catch(function(e) {
+                    console.log("Browser memblokir autoplay. Menunggu klik tombol manual dari user.");
+                });
+            }
+        }
+    }
+});
+
+
+
+
+  // SENSOR INTERUPSI SILANG
+  window.removeEventListener('storage', window.bhjSinyalAudioListener);
+  window.bhjSinyalAudioListener = function(e) {
+    if (e.key === 'bhj-lirik-putar-sing-id') {
+      if (window.bhjAudioMandiri && !window.bhjAudioMandiri.paused) {
+        window.bhjAudioMandiri.pause();
+      }
+    }
+  };
+  window.addEventListener('storage', window.bhjSinyalAudioListener);
+  // ============================================================================
+  // PILAR 1: EKSTRAKSI DATA SPREADSHEET & SERAGAMISASI TEKS NADA
+  // ============================================================================
+    function muatDataLaguKePlayer() {
+    var uiList = document.getElementById('bhj-ui-list');
+    if (!uiList) return;
+
+    window.bhjPlayerQueue = [];
+    var t = window.cacheDataSevaLokal;
+    var dbLokal = (typeof databaseLaguHP !== "undefined" && databaseLaguHP) ? databaseLaguHP : ((typeof db !== "undefined" && db) ? db : []);
+
+    if (!t || !t.daftarLatihan || t.daftarLatihan.length === 0) {
+      uiList.innerHTML = '<li class="bhj-player-item"><p class="bhj-item-title" style="text-align:center;">Daftar Latihan Kosong</p></li>';
+      // 🛡️ SUNTIKAN PENGAMAN: Jika daftar latihan kosong, netralkan status mesin player
+      window.bhjActiveIndex = -1;
+      if (window.bhjAudioMandiri && window.bhjAudioMandiri.paused) {
+        window.bhjAudioMandiri.src = "";
+      }
+      return;
+    }
+
+    var htmlBarisLagu = "";
+    var nomorAntreanInternal = 0;
+
+    for (var idxS = 0; idxS < t.daftarLatihan.length; idxS++) {
+      var barisSlot = t.daftarLatihan[idxS];
+      if (!barisSlot) continue;
+
+      var idLaguDiSlot = barisSlot['4'] ? barisSlot['4'].toString().trim() : "";
+      var namaPenyanyiDiSlot = barisSlot['2'] ? barisSlot['2'].toString().trim() : "";
+      var nomorSlotUrut = barisSlot['0'] ? barisSlot['0'].toString().trim() : (idxS + 1).toString();
+
+      if (idLaguDiSlot === "" || idLaguDiSlot === "0" || namaPenyanyiDiSlot === "ID Tidak Terdaftar" || namaPenyanyiDiSlot === "") {
+        continue; 
+      }
+
+      var nilaiNadaKolomG = parseInt(barisSlot['6']);
+      if (isNaN(nilaiNadaKolomG)) nilaiNadaKolomG = 0;
+
+      var judulAsliLagu = "Judul Tidak Diketahui";
+      for (var d = 0; d < dbLokal.length; d++) {
+        if (dbLokal[d] && dbLokal[d].id && dbLokal[d].id.toString().trim() === idLaguDiSlot) {
+          judulAsliLagu = dbLokal[d].judul || dbLokal[d].Judul || "Tanpa Judul";
+          break;
+        }
+      }
+
+      window.bhjPlayerQueue.push({
+        index: nomorAntreanInternal,
+        id: idLaguDiSlot,
+        judul: judulAsliLagu,
+        penyanyi: namaPenyanyiDiSlot,
+        nomorSlot: nomorSlotUrut,
+        nadaAsliPenyanyi: nilaiNadaKolomG
+      });
+
+      var teksSignNada = nilaiNadaKolomG > 0 ? "+" + nilaiNadaKolomG : nilaiNadaKolomG.toString();
+      var labelInformasiNada = " (🎵 " + teksSignNada + ")";
+
+      htmlBarisLagu += 
+        '<li class="bhj-player-item' + (nomorAntreanInternal === window.bhjActiveIndex ? ' bhj-active' : '') + '" data-index="' + nomorAntreanInternal + '" onclick="eksekusiKlikLaguPlayer(' + nomorAntreanInternal + ')">' +
+          '<p class="bhj-item-title">' + nomorSlotUrut + '. ' + judulAsliLagu + '</p>' +
+          '<p class="bhj-item-singer">🎤 ' + namaPenyanyiDiSlot + labelInformasiNada + '</p>' +
+        '</li>';
+
+      nomorAntreanInternal++;
+    }
+
+    if (window.bhjPlayerQueue.length === 0) {
+      uiList.innerHTML = '<li class="bhj-player-item"><p class="bhj-item-title" style="text-align:center;">Tidak Ada Lagu Valid</p></li>';
+      // 🛡️ SUNTIKAN PENGAMAN: Netralkan status mesin player jika antrean kosong
+      window.bhjActiveIndex = -1;
+      if (window.bhjAudioMandiri && window.bhjAudioMandiri.paused) {
+        window.bhjAudioMandiri.src = "";
+      }
+      return;
+    }
+
+    uiList.innerHTML = htmlBarisLagu;
+
+    // ====================================================================
+    // 🛡️ START SUNTIKAN PENGAMAN LOGIKA INDEKS AKTIF USANG
+    // ====================================================================
+    if (window.bhjActiveIndex !== -1) {
+      // Periksa apakah lagu yang sedang aktif saat ini masih ada di dalam antrean baru
+      var masihAdaDiDaftarBaru = window.bhjPlayerQueue.some(function(item) {
+        return item.index === window.bhjActiveIndex;
+      });
+
+      // Jika lagu yang dipegang player sudah hilang dari daftar baru, reset indeksnya
+      if (!masihAdaDiDaftarBaru) {
+        console.log("⚠️ Lagu aktif player sudah tidak ada di daftar latihan baru. Menetralkan player.");
+        window.bhjActiveIndex = -1;
+        if (window.bhjAudioMandiri && window.bhjAudioMandiri.paused) {
+          window.bhjAudioMandiri.src = "";
+        }
+      }
+    }
+    // ====================================================================
+    // 🛡️ END SUNTIKAN PENGAMAN LOGIKA INDEKS AKTIF USANG
+    // ====================================================================
+
+    perbaruiTombolPlayVisual(!window.bhjAudioMandiri.paused);
+
+    if (typeof pulihkanSesiTerakhirPlayerJikaAda === "function") {
+      pulihkanSesiTerakhirPlayerJikaAda();
+    }
+  }
+
+
+  // ============================================================================
+  // PILAR 2: KONTROL NAVIGASI TOMBOL FISIK (ANTI-ERROR & INSTAN)
+  // ============================================================================
+  function aksiTombolNextPlayer() {
+    if (window.bhjPlayerQueue.length === 0) return;
+    var targetIndex = window.bhjActiveIndex + 1;
+    if (targetIndex >= window.bhjPlayerQueue.length) targetIndex = 0; 
+    eksekusiKlikLaguPlayer(targetIndex);
+  }
+
+  function aksiTombolBeforePlayer() {
+    if (window.bhjPlayerQueue.length === 0 || window.bhjActiveIndex === -1) return;
+    if (window.bhjAudioMandiri.currentTime > 3) {
+      window.bhjAudioMandiri.currentTime = 0;
+    } else {
+      var targetIndex = window.bhjActiveIndex - 1;
+      if (targetIndex < 0) targetIndex = window.bhjPlayerQueue.length - 1; 
+      eksekusiKlikLaguPlayer(targetIndex);
+    }
+  }
+
+  function aksiTombolPlayPlayer() {
+    if (window.bhjActiveIndex === -1) {
+      if (window.bhjPlayerQueue.length > 0) eksekusiKlikLaguPlayer(0);
+      return;
+    }
+    
+    if (window.bhjAudioMandiri.paused) {
+      localStorage.setItem('bhj_interupsi_audio', 'latihan-' + Date.now());
+      
+      window.bhjAudioMandiri.play().then(function() {
+        perbaruiTombolPlayVisual(true);
+        if (window.bhj_auto_buka_lirik_aktif && window.bhjPlayerQueue[window.bhjActiveIndex]) {
+          var laguSesiIni = window.bhjPlayerQueue[window.bhjActiveIndex];
+          if (typeof bukaLagu === "function") bukaLagu(laguSesiIni.id, 'latihan');
+        }
+      }).catch(function() { 
+        eksekusiKlikLaguPlayer(window.bhjActiveIndex); 
+      });
+    } else {
+      window.bhjAudioMandiri.pause();
+      perbaruiTombolPlayVisual(false);
+    }
+  }
+
+  function perbaruiTombolPlayVisual(sedangMuter) {
+    var btnPlay = document.getElementById('bhj-toggle-play');
+    if (btnPlay) btnPlay.innerText = sedangMuter ? "⏸" : "▶";
+  }
+
+  function perbaruiVisualDaftarPlayer(bolehScroll) {
+    if (bolehScroll === undefined) bolehScroll = true;
+    var semuaItem = document.querySelectorAll('.bhj-player-item');
+    semuaItem.forEach(function(el) { el.classList.remove('bhj-active'); });
+
+    var itemAktif = document.querySelector('.bhj-player-item[data-index="' + window.bhjActiveIndex + '"]');
+    if (itemAktif) {
+      itemAktif.classList.add('bhj-active');
+      if (bolehScroll) {
+        var jendelaList = document.querySelector('.bhj-player-window');
+        if (jendelaList) {
+          var posisiTopBaris = itemAktif.getBoundingClientRect().top - jendelaList.getBoundingClientRect().top + jendelaList.scrollTop;
+          var tinggiBaris = itemAktif.offsetHeight || 45;
+          var tinggiJendela = jendelaList.clientHeight || 135;
+          jendelaList.scrollTop = posisiTopBaris - (tinggiJendela / 2) + (tinggiBaris / 2);
+        }
+      }
+    }
+  }
+  // ============================================================================
+  // PILAR 4: JANTUNG UTAMA AUDIO CONTROLLER DENGAN INTEGRASI ANTIDOTE DEBUG
+  // ============================================================================
+  async function eksekusiKlikLaguPlayer(indexAntrean) {
+    if (window.bhjPlayerQueue.length === 0) return;
+    
+    window.bhjActiveIndex = indexAntrean;
+    var laguTerpilih = window.bhjPlayerQueue[indexAntrean];
+    if (!laguTerpilih) return;
+
+    if (window.bhj_auto_buka_lirik_aktif && typeof bukaLagu === "function") {
+      bukaLagu(laguTerpilih.id, 'latihan');
+    }
+
+    if (typeof window.simpanSesiKeLocalStorage === "function") {
+      window.simpanSesiKeLocalStorage();
+    }
+
+    var t = window.cacheDataSevaLokal;
+    var barisSlotMentah = (t && t.daftarLatihan) ? t.daftarLatihan.find(function(r) { return r && r['4'] === laguTerpilih.id; }) : null;
+    
+    var userDnm = (t && t.githubUser) ? t.githubUser.toString().trim() : "";
+    var repoDnm = (t && t.githubRepo) ? t.githubRepo.toString().trim() : "";
+    var urlCadangan = "https://" + userDnm + ".github.io/" + repoDnm + "/" + laguTerpilih.id + ".mp3";
+    
+    var urlAsliInternet = (barisSlotMentah && barisSlotMentah['7']) ? barisSlotMentah['7'].toString().trim() : urlCadangan;
+
+    console.log("🔗 Mengalirkan URL Standar Mandiri: " + urlAsliInternet);
+    window.bhjRetryCount[urlAsliInternet] = 0;
+
+    if (window.bhjAudioMandiri.src !== urlAsliInternet) {
+      window.bhjAudioMandiri.src = urlAsliInternet;
+    }
+
+    perbaruiVisualDaftarPlayer();
+
+    window.bhjAudioMandiri.play().catch(function(err) {
+      console.log("Menunggu sentuhan fisik user: " + err.message);
+      perbaruiTombolPlayVisual(false);
+    });
+  }
+
+  function eksekusiPenerapanPitchShifterCore() {
+    try {
+      var audioCore = window.bhjAudioMandiri;
+      if (!audioCore || window.bhjPlayerQueue.length === 0 || window.bhjActiveIndex === -1) return;
+
+      var laguAktif = window.bhjPlayerQueue[window.bhjActiveIndex];
+      if (!laguAktif) return;
+
+      if (window.bhj_pitch_shifter_aktif) {
+        var shiftSemitone = laguAktif.nadaAsliPenyanyi;
+        if (shiftSemitone === 0) {
+          audioCore.playbackRate = 1.0;
+          if ('preservesPitch' in audioCore) audioCore.preservesPitch = true;
+        } else {
+          var rasioPitchMatematis = Math.pow(2, shiftSemitone / 12);
+          if ('preservesPitch' in audioCore) {
+            audioCore.preservesPitch = false;
+            audioCore.playbackRate = rasioPitchMatematis;
+          }
+        }
+      } else {
+        audioCore.playbackRate = 1.0;
+        if ('preservesPitch' in audioCore) audioCore.preservesPitch = true;
+      }
+    } catch (e) { console.log("Gagal memproses pergeseran nada RAM: " + e.message); }
+  }
+  // ============================================================================
+  // MEMORI PENYELAMAT SAKELAR & PEMULIHAN SESI
+  // ============================================================================
+  window.simpanSesiKeLocalStorage = function() {
+    if (window.bhjActiveIndex === -1 || window.bhjPlayerQueue.length === 0) return;
+    var dataStatus = {
+      indexAktif: window.bhjActiveIndex,
+      idLagu: window.bhjPlayerQueue[window.bhjActiveIndex].id,
+      detikTerakhir: window.bhjAudioMandiri.currentTime || 0
+    };
+    localStorage.setItem('bhj_player_last_session', JSON.stringify(dataStatus));
+  };
+
+  if (!window.bhjIntervalSesi) {
+    window.bhjIntervalSesi = setInterval(function() {
+      if (window.bhjAudioMandiri && !window.bhjAudioMandiri.paused) window.simpanSesiKeLocalStorage();
+    }, 2000);
+  }
+
+    function pulihkanSesiTerakhirPlayerJikaAda() {
+    var dataSesiMentah = localStorage.getItem('bhj_player_last_session');
+    if (!dataSesiMentah) return;
+
+    try {
+      var sesi = JSON.parse(dataSesiMentah);
+      var indexCocok = -1;
+      
+      // Cari apakah lagu dari sesi lama masih ada di antrean player yang aktif saat ini
+      for (var i = 0; i < window.bhjPlayerQueue.length; i++) {
+        if (window.bhjPlayerQueue[i].id.toString().trim() === sesi.idLagu.toString().trim()) {
+          indexCocok = i;
+          break;
+        }
+      }
+
+      // 🛡️ JIKA COCOK (Lagu masih ada di daftar aktif baru): Pulihkan sesi seperti biasa
+      if (indexCocok !== -1) {
+        window.bhjActiveIndex = indexCocok;
+        setTimeout(function() { perbaruiVisualDaftarPlayer(false); }, 100);
+
+        var t = window.cacheDataSevaLokal;
+        var slotSesiMentah = (t && t.daftarLatihan) ? t.daftarLatihan.find(function(r) { return r && r['4'] === sesi.idLagu; }) : null;
+        
+        // Pastikan hanya mengambil URL jika slot latihan tersebut benar-to-benar ada
+        if (slotSesiMentah) {
+          var urlLokalSesi = slotSesiMentah['7'] ? slotSesiMentah['7'].toString().trim() : "";
+          if (urlLokalSesi !== "" && window.bhjAudioMandiri.src !== urlLokalSesi) {
+            window.bhjAudioMandiri.src = urlLokalSesi;
+            window.bhjAudioMandiri.currentTime = sesi.detikTerakhir || 0;
+            console.log("🛡️ RECOVERY OK: Sesi dipulihkan aman pada URL: " + urlLokalSesi);
+          }
+        }
+      } 
+      // 🚨 JIKA TIDAK COCOK (Lagu sudah hilang/data seva direset): Bersihkan memori usang
+      else {
+        console.log("🧹 Mendeteksi data seva direset/berubah. Menghapus sesi player lama.");
+        localStorage.removeItem('bhj_player_last_session');
+        window.bhjActiveIndex = -1;
+        if (window.bhjAudioMandiri) {
+          window.bhjAudioMandiri.src = ""; // Kosongkan player agar tidak memutar lagu salah
+        }
+      }
+    } catch (e) { localStorage.removeItem('bhj_player_last_session'); }
+  }
+
+
+  // ============================================================================
+  // PILAR 6: PENGUAT EVENT TOMBOL FISIK, SAKELAR KEMBAR EMAS, & APP INITIALIZATION
+  // ============================================================================
+  setTimeout(function() {
+    var btnPlay = document.getElementById('bhj-toggle-play');
+    var btnNext = document.getElementById('bhj-next-btn');
+    var btnPrev = document.getElementById('bhj-prev-btn');
+    var btnPitch = document.getElementById('bhj-toggle-pitch');
+    var btnBukaLirik = document.getElementById('bhj-btn-buka-lirik');
+
+    if (btnPlay) btnPlay.onclick = aksiTombolPlayPlayer;
+    if (btnNext) btnNext.onclick = aksiTombolNextPlayer;
+    if (btnPrev) btnPrev.onclick = aksiTombolBeforePlayer;
+
+    if (btnBukaLirik) {
+      btnBukaLirik.classList.toggle('lirik-aktif', window.bhj_auto_buka_lirik_aktif);
+      btnBukaLirik.onclick = function() {
+        window.bhj_auto_buka_lirik_aktif = !window.bhj_auto_buka_lirik_aktif;
+        this.classList.toggle('lirik-aktif', window.bhj_auto_buka_lirik_aktif);
+        if (window.bhj_auto_buka_lirik_aktif && window.bhjActiveIndex !== -1 && window.bhjPlayerQueue[window.bhjActiveIndex]) {
+          var idLaguMuter = window.bhjPlayerQueue[window.bhjActiveIndex].id;
+          if (typeof bukaLagu === "function") bukaLagu(idLaguMuter, 'latihan');
+        }
+      };
+    }
+
+    if (btnPitch) {
+      btnPitch.classList.toggle('pitch-aktif', window.bhj_pitch_shifter_aktif);
+      btnPitch.onclick = function() {
+        window.bhj_pitch_shifter_aktif = !window.bhj_pitch_shifter_aktif;
+        this.classList.toggle('pitch-aktif', window.bhj_pitch_shifter_aktif);
+        eksekusiPenerapanPitchShifterCore();
+      };
+    }
+    perbaruiTombolPlayVisual(!window.bhjAudioMandiri.paused);
+  }, 400);
+
+  setTimeout(function() {
+    pulihkanSesiTerakhirPlayerJikaAda();
+  }, 300);
+</script>
+
+
 
 <!-- Penanda versi halaman saat ini (Jangan diubah) -->
 <input type="hidden" id="nomor-versi-sistem" value="<?= nomorVersiResmiSistem ?>">
